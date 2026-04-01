@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compra de Jogo</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="desktop.css" media="(min-width:1024px)" />
+  </head>
+  <body>
+    <header>
+      <h1>Finalizar compra</h1>
+
+      <nav class="navsec">
+        <ul>
+          <li><a href="index.html">Voltar para a página inicial</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="container">
+      <section class="formcompra">
+        <h2 id="formcompra">Formulário de compra</h2>
+
+        <form action="obrigado.html" method="get">
+          <fieldset>
+            <legend>Dados pessoais</legend>
+
+            <p>
+              <label for="nome">Nome completo:</label><br />
+              <input type="text" id="nome" name="nome" required />
+            </p>
+
+            <p>
+              <label for="email">Email:</label><br />
+              <input type="email" id="email" name="email" required />
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Dados do pedido</legend>
+
+            <p>
+              <label for="jogo">Escolha o jogo:</label><br />
+              <select id="jogo" name="jogo">
+                <option>GTA6</option>
+                <option>The Last Of Us</option>
+                <option>Fortnite</option>
+              </select>
+            </p>
+
+            <p>
+              <label for="quantidade">Quantidade:</label><br />
+              <input
+                type="number"
+                id="quantidade"
+                name="quantidade"
+                min="1"
+                value="1"
+              />
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Pagamento</legend>
+
+            <p>
+              <label for="cartao">Número do cartão:</label><br />
+              <input type="text" id="cartao" name="cartao" required />
+            </p>
+          </fieldset>
+
+          <a class="btn-compra" href="obrigado.html">Comprar agora</a>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Happy Games</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,345 @@
+:root {
+  --primary: #667eea;
+  --primary-dark: #764ba2;
+  --accent: #ff9f43;
+  --text-dark: #2d3436;
+  --text-light: #3c4a4f;
+  --bg-light: #f5f6fa;
+  --white: #ffffff;
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --radius: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+header {
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-dark) 100%
+  );
+  color: var(--white);
+  padding: 4rem 0;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+header > * {
+  width: 90%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+header nav a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+header nav a:hover {
+  background: var(--white);
+  color: var(--primary-dark);
+}
+
+main {
+  flex: 1;
+  padding: 3rem 0;
+}
+
+#jogos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.5rem;
+  margin-top: 2rem;
+  padding: 0.5rem 0;
+}
+
+aside[aria-labelledby="novidades"] {
+  margin-top: 2rem;
+}
+
+main > .container > section[aria-labelledby="apresentacao"] {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+main > .container > section[aria-labelledby="apresentacao"] h2 {
+  font-size: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+main > .container > section[aria-labelledby="apresentacao"] p {
+  margin: 0.4rem auto;
+  max-width: 90%;
+  color: var(--text-light);
+}
+
+#jogos h2,
+.titulo-secao {
+  grid-column: 1 / -1;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--primary-dark);
+}
+
+.navsec ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+.navsec a {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+article {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+article:hover {
+  transform: translateY(-10px);
+}
+
+article h3 {
+  padding: 1.5rem 1.5rem 0.5rem;
+  color: var(--primary-dark);
+}
+article p {
+  padding: 0 1.5rem;
+  color: var(--text-light);
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+article a,
+.btn-compra {
+  display: block;
+  margin: 0 1.5rem 1.5rem 1.5rem;
+  background: var(--primary);
+  color: var(--white);
+  text-align: center;
+  padding: 0.8rem;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.formcompra {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 700px;
+  margin: 2rem auto;
+}
+
+.formcompra button[type="submit"] {
+  width: auto !important;
+  display: block;
+  margin: 1.25rem auto 0;
+  padding: 0.85rem 2rem;
+  min-width: 220px;
+  box-shadow: var(--shadow);
+}
+
+fieldset {
+  border: 1px solid #eee;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+}
+
+legend {
+  font-weight: bold;
+  padding: 0 10px;
+  color: var(--primary);
+}
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+button[type="submit"] {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button[type="submit"]:hover {
+  background: var(--primary-dark);
+}
+
+footer {
+  background: #2d3436;
+  color: var(--white);
+  text-align: center;
+  padding: 3rem 0;
+  margin-top: 2rem;
+}
+
+@media (min-width: 1800px) {
+  html {
+    font-size: 120%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  header {
+    padding: 2rem 0;
+  }
+  header h1 {
+    font-size: 1.8rem;
+  }
+  .formcompra {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  #jogos {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+    padding: 0.5rem 0;
+  }
+
+  main > .container > section[aria-labelledby="apresentacao"] {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  main > .container > section[aria-labelledby="apresentacao"] h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.6rem;
+  }
+
+  main > .container > section[aria-labelledby="apresentacao"] p {
+    margin: 0.4rem auto;
+    max-width: 90%;
+    color: var(--text-light);
+  }
+
+  article {
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .formcompra button[type="submit"] {
+    width: 100% !important;
+    min-width: 0;
+  }
+}
+
+.sobre-projeto,
+.nossamissao,
+.oquefazemos,
+.nossovalores {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.sobre-projeto:hover,
+.nossamissao:hover,
+.oquefazemos:hover,
+.nossovalores:hover {
+  transform: translateY(-5px);
+}
+
+main section h2 {
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.sobre-projeto p,
+.nossamissao p,
+.oquefazemos p,
+.nossovalores p {
+  color: var(--text-dark);
+  font-size: 1.1rem;
+}
+
+.imagemdocard {
+  width: 250px!important;
+  height: 180px!important;
+  border-radius: 5% ;
+
+}
