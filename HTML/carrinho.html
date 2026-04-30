@@ -383,28 +383,38 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
+      function validarIdentificacaoCheckout() {
+        const nome = document.getElementById("cNome");
+        const email = document.getElementById("cEmail");
+        const user = getUsuarioLogado();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        nome.classList.remove("is-invalid");
+        email.classList.remove("is-invalid");
+
+        // Se há sessão válida, considera identificação concluída
+        if (user && user.nome && emailRegex.test(user.email || "")) {
+          return true;
+        }
+
+        // Convidado: precisa informar nome + e-mail válido
+        let ok = true;
+        if (nome.value.trim().length < 3) {
+          nome.classList.add("is-invalid");
+          nome.nextElementSibling.textContent = "Nome precisa ter pelo menos 3 caracteres.";
+          ok = false;
+        }
+        if (!emailRegex.test(email.value.trim())) {
+          email.classList.add("is-invalid");
+          email.nextElementSibling.textContent = "Informe um e-mail válido para continuar (ou faça login).";
+          ok = false;
+        }
+        return ok;
+      }
+
       function irParaCheckout(step) {
         if (step === 2) {
-          // Valida dados pessoais
-          const nome = document.getElementById("cNome");
-          const email = document.getElementById("cEmail");
-          let ok = true;
-
-          nome.classList.remove("is-invalid");
-          email.classList.remove("is-invalid");
-
-          if (nome.value.trim().length < 3) {
-            nome.classList.add("is-invalid");
-            nome.nextElementSibling.textContent = "Nome precisa ter pelo menos 3 caracteres.";
-            ok = false;
-          }
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(email.value.trim())) {
-            email.classList.add("is-invalid");
-            email.nextElementSibling.textContent = "Informe um e-mail válido para continuar (ou faça login).";
-            ok = false;
-          }
-          if (!ok) return;
+          if (!validarIdentificacaoCheckout()) return;
         }
 
         document.getElementById("cstep" + cartStep).classList.remove("active");
@@ -441,6 +451,12 @@
 
       // Botão Revisar pedido
       document.getElementById("cBtnRevisar").addEventListener("click", function() {
+        if (!validarIdentificacaoCheckout()) {
+          alert("Para concluir, faça login ou informe nome e e-mail válidos.");
+          irParaCheckout(1);
+          return;
+        }
+
         const metodo = document.querySelector('input[name="cPagamento"]:checked').value;
 
         if (metodo === "cartao") {
@@ -507,6 +523,15 @@
 
       // Confirmar compra
       document.getElementById("cBtnConfirmar").addEventListener("click", function() {
+        if (!validarIdentificacaoCheckout()) {
+          alert("Não foi possível concluir: identificação inválida. Faça login ou informe e-mail válido.");
+          const modalEl = document.getElementById("modalCarrinho");
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          if (modal) modal.hide();
+          irParaCheckout(1);
+          return;
+        }
+
         limparCarrinho();
         window.location.href = "obrigado.html";
       });
