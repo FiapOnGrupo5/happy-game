@@ -333,12 +333,19 @@
       function iniciarCheckout() {
         const user = getUsuarioLogado();
         const checkoutEl = document.getElementById("checkoutArea");
+        const nomeEl = document.getElementById("cNome");
+        const emailEl = document.getElementById("cEmail");
         checkoutEl.style.display = "block";
 
         // Pré-preenche se logado
         if (user) {
-          document.getElementById("cNome").value = user.nome;
-          document.getElementById("cEmail").value = user.email;
+          nomeEl.value = user.nome;
+          emailEl.value = user.email;
+          nomeEl.readOnly = true;
+          emailEl.readOnly = true;
+        } else {
+          nomeEl.readOnly = false;
+          emailEl.readOnly = false;
         }
 
         checkoutEl.scrollIntoView({ behavior: "smooth" });
@@ -350,17 +357,22 @@
               '<div class="alert alert-success d-flex align-items-center gap-2 py-2 mb-0">' +
                 '<i class="bi bi-person-check-fill fs-5 flex-shrink-0"></i>' +
                 '<span>Comprando como <strong>' + user.nome + '</strong> (' + user.email + '). ' +
-                  '<a href="#" class="alert-link" onclick="fazerLogout();return false;">Sair</a>' +
+                  '<a href="#" class="alert-link" onclick="fazerLogout();return false;">Trocar conta</a>' +
                 '</span>' +
               '</div>';
           } else {
             notice.innerHTML =
-              '<div class="alert alert-info d-flex align-items-center gap-2 py-2 mb-0">' +
-                '<i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>' +
-                '<span>Preencha um <strong>e-mail válido</strong> para continuar como convidado, ou ' +
-                  '<a href="login.html?next=carrinho.html" class="alert-link">entre na sua conta</a> ' +
-                  'para comprar mais rápido.' +
-                '</span>' +
+              '<div class="alert alert-info py-2 mb-0">' +
+                '<div class="d-flex align-items-start gap-2">' +
+                  '<i class="bi bi-info-circle-fill fs-5 flex-shrink-0 mt-1"></i>' +
+                  '<div>' +
+                    '<div class="mb-2">Para concluir o pedido, <strong>entre na sua conta</strong> ou continue como convidado informando nome e e-mail válidos.</div>' +
+                    '<div class="d-flex gap-2 flex-wrap">' +
+                      '<a href="login.html?next=carrinho.html" class="btn btn-sm btn-primary">Entrar e continuar</a>' +
+                      '<button type="button" class="btn btn-sm btn-outline-primary" onclick="document.getElementById(\'cNome\').focus()">Continuar como convidado</button>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
               '</div>';
           }
         }
@@ -459,12 +471,14 @@
 
         // Monta modal
         const itens = getCarrinho();
-        const total = totalCarrinho();
+        const usuarioSessao = getUsuarioLogado();
+        const nomeFinal = document.getElementById("cNome").value.trim() || (usuarioSessao ? usuarioSessao.nome : "");
+        const emailFinal = document.getElementById("cEmail").value.trim() || (usuarioSessao ? usuarioSessao.email : "");
         const metodoTexto = { cartao: "Cartão de crédito", pix: "PIX", boleto: "Boleto bancário" }[metodo];
 
         let modalHtml =
-          '<div class="resumo-item"><span>Nome</span><span>' + document.getElementById("cNome").value + '</span></div>' +
-          '<div class="resumo-item"><span>E-mail</span><span>' + document.getElementById("cEmail").value + '</span></div>' +
+          '<div class="resumo-item"><span>Nome</span><span>' + (nomeFinal || '—') + '</span></div>' +
+          '<div class="resumo-item"><span>E-mail</span><span>' + (emailFinal || '—') + '</span></div>' +
           '<div class="resumo-item"><span>Pagamento</span><span>' + metodoTexto + '</span></div>' +
           '<hr/><strong>Itens:</strong>';
 

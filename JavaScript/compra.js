@@ -273,15 +273,19 @@ function irPara(step) {
 // =============================================
 
 function atualizarResumo() {
+  const user = getUsuarioLogado();
   const jogoSelect = document.getElementById("jogo");
   const quantidade = parseInt(document.getElementById("quantidade").value, 10) || 1;
   const preco = getPrecoByNome(jogoSelect.value);
   const r = calcularPedido(preco, quantidade);
 
+  const nomeFinal = document.getElementById("nome").value.trim() || (user ? user.nome : "");
+  const emailFinal = document.getElementById("email").value.trim() || (user ? user.email : "");
+
   document.getElementById("rNome").textContent =
-    document.getElementById("nome").value || "\u2014";
+    nomeFinal || "\u2014";
   document.getElementById("rEmail").textContent =
-    document.getElementById("email").value || "\u2014";
+    emailFinal || "\u2014";
   document.getElementById("rJogo").textContent = jogoSelect.value;
   document.getElementById("rQtd").textContent = quantidade;
 
@@ -532,12 +536,17 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       // Convidado: instrução de preencher e-mail válido ou fazer login
       notice.innerHTML =
-        '<div class="alert alert-info d-flex align-items-center gap-2 py-2 mb-0">' +
-          '<i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>' +
-          '<span>Preencha um <strong>e-mail válido</strong> para continuar como convidado, ou ' +
-            '<a href="login.html?next=compra.html" class="alert-link">entre na sua conta</a> ' +
-            'para comprar mais rápido.' +
-          '</span>' +
+        '<div class="alert alert-info py-2 mb-0">' +
+          '<div class="d-flex align-items-start gap-2">' +
+            '<i class="bi bi-info-circle-fill fs-5 flex-shrink-0 mt-1"></i>' +
+            '<div>' +
+              '<div class="mb-2">Para concluir o pedido, <strong>entre na sua conta</strong> ou continue como convidado informando nome e e-mail válidos.</div>' +
+              '<div class="d-flex gap-2 flex-wrap">' +
+                '<a href="login.html?next=compra.html" class="btn btn-sm btn-primary">Entrar e continuar</a>' +
+                '<button type="button" class="btn btn-sm btn-outline-primary" onclick="document.getElementById(\'nome\').focus()">Continuar como convidado</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
         '</div>';
     }
   })();
