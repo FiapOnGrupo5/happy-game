@@ -1,4 +1,83 @@
+"use strict";
+
 let currentStep = 1;
+
+// =============================================
+// FUNÇÕES MATEMÁTICAS – CÁLCULO DE PREÇO
+// =============================================
+
+/**
+ * Função de 1º grau (linear): calcula o subtotal sem desconto.
+ * f(q) = preco * q
+ * Domínio: q ∈ [1, 10]
+ */
+function calcularSubtotal(preco, quantidade) {
+  return preco * quantidade;
+}
+
+/**
+ * Função de 2º grau (quadrática): calcula a taxa de desconto por volume.
+ * f(q) = 0.005 * (q - 1)²  →  taxa cresce quadraticamente com a quantidade
+ * Exemplos: q=1 → 0%,  q=2 → 0,5%,  q=5 → 8%,  q=10 → 20,25% (cap: 20%)
+ * @returns {number} taxa entre 0 e 0.20
+ */
+function calcularTaxaDesconto(quantidade) {
+  const taxa = 0.005 * Math.pow(quantidade - 1, 2);
+  return Math.min(taxa, 0.20); // teto de 20%
+}
+
+/**
+ * Combina as duas funções e retorna os valores do pedido.
+ * @returns {{ subtotal, taxa, desconto, total }}
+ */
+function calcularPedido(preco, quantidade) {
+  const subtotal = calcularSubtotal(preco, quantidade);
+  const taxa = calcularTaxaDesconto(quantidade);
+  const desconto = subtotal * taxa;
+  const total = subtotal - desconto;
+  return { subtotal, taxa, desconto, total };
+}
+
+/** Formata número para moeda brasileira. */
+function formatarReais(valor) {
+  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+/**
+ * Atualiza o painel de resumo de preço (boxPreco) no step 2.
+ * Chamado toda vez que o usuário muda o jogo ou a quantidade.
+ */
+function atualizarBoxPreco() {
+  const boxPreco = document.getElementById("boxPreco");
+  if (!boxPreco) return;
+
+  const jogoSelect = document.getElementById("jogo");
+  const quantidade = Math.max(1, parseInt(document.getElementById("quantidade").value, 10) || 1);
+  const preco = getPrecoByNome(jogoSelect.value); // função de dados.js
+
+  const r = calcularPedido(preco, quantidade);
+
+  let descontoHTML = "";
+  if (r.desconto > 0) {
+    descontoHTML = `
+      <div class="resumo-item text-success">
+        <span><i class="bi bi-tag-fill me-1"></i>Desconto (${(r.taxa * 100).toFixed(1)}%)</span>
+        <span>- ${formatarReais(r.desconto)}</span>
+      </div>`;
+  }
+
+  boxPreco.innerHTML = `
+    <div class="resumo-item">
+      <span>Preço unitário</span><span>${formatarReais(preco)}</span>
+    </div>
+    <div class="resumo-item">
+      <span>Subtotal (${quantidade}x)</span><span>${formatarReais(r.subtotal)}</span>
+    </div>
+    ${descontoHTML}
+    <div class="resumo-item fw-bold total-row">
+      <span>Total</span><span>${formatarReais(r.total)}</span>
+    </div>`;
+}
 
 // =============================================
 // FUNCOES AUXILIARES DE VALIDACAO
@@ -159,17 +238,23 @@ function irPara(step) {
 
 function atualizarResumo() {
   const jogoSelect = document.getElementById("jogo");
-  const preco =
-    jogoSelect.options[jogoSelect.selectedIndex].dataset.preco || "\u2014";
+  const quantidade = parseInt(document.getElementById("quantidade").value, 10) || 1;
+  const preco = getPrecoByNome(jogoSelect.value);
+  const r = calcularPedido(preco, quantidade);
 
   document.getElementById("rNome").textContent =
     document.getElementById("nome").value || "\u2014";
   document.getElementById("rEmail").textContent =
     document.getElementById("email").value || "\u2014";
   document.getElementById("rJogo").textContent = jogoSelect.value;
-  document.getElementById("rQtd").textContent =
-    document.getElementById("quantidade").value;
-  document.getElementById("rPreco").textContent = preco;
+  document.getElementById("rQtd").textContent = quantidade;
+
+  // Mostra total calculado (com possível desconto) no modal
+  let precoTexto = formatarReais(r.total);
+  if (r.desconto > 0) {
+    precoTexto += ` (desconto de ${(r.taxa * 100).toFixed(1)}% aplicado)`;
+  }
+  document.getElementById("rPreco").textContent = precoTexto;
 }
 
 // =============================================
@@ -344,7 +429,14 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       mostrarSucesso(this);
     }
+    atualizarBoxPreco(); // atualiza preço em tempo real
   });
+
+  // Atualiza preço ao mudar o jogo selecionado
+  document.getElementById("jogo").addEventListener("change", atualizarBoxPreco);
+
+  // Inicializa o box de preço com os valores padrão
+  atualizarBoxPreco();
 
   // Limpar estilos ao digitar
   document
