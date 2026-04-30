@@ -615,6 +615,51 @@ const validadeRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
 
 ---
 
+### `inicializarFormularioCompra()` — IIFE de autenticação no checkout
+
+```javascript
+(function inicializarFormularioCompra() {
+  const user = getUsuarioLogado();
+  const authNotice = document.getElementById("authNotice");
+  if (user) {
+    document.getElementById("nome").value = user.nome;
+    document.getElementById("email").value = user.email;
+    authNotice.innerHTML = `...alert verde: "Comprando como ${user.nome}"`;
+  } else {
+    authNotice.innerHTML = `...alert azul com dois CTAs: "Entrar" e "Continuar como convidado"`;
+  }
+})();
+```
+
+**Por que IIFE aqui:**  
+Igual à lógica de `login.html` — o código precisa rodar uma única vez, logo que a página carrega, sem expor variáveis locais no escopo global.
+
+**Por que dois caminhos distintos (logado vs. convidado):**  
+Se o usuário já está logado, preencher os campos automaticamente evita erros de digitação e agiliza o checkout. Para o convidado, o aviso azul cumpre dois papéis: informa que um login tornaria o processo mais fácil, e deixa claro que continuar sem conta é uma opção válida.
+
+**Por que o CTA "Entrar e continuar" aponta para `login.html?next=compra.html`:**  
+Utiliza o mesmo mecanismo de redirect-after-login documentado na seção 7 — ao logar, o usuário retorna exatamente à página de compra em vez de ir para a home.
+
+---
+
+### Fallback de sessão em `atualizarResumo()`
+
+```javascript
+const usuarioSessao = getUsuarioLogado();
+const nomeFinal = document.getElementById("nome").value.trim()
+  || (usuarioSessao ? usuarioSessao.nome : "");
+const emailFinal = document.getElementById("email").value.trim()
+  || (usuarioSessao ? usuarioSessao.email : "");
+```
+
+**Por que `campo.value || user.nome`:**  
+Quando o usuário está logado e os campos foram preenchidos automaticamente, mas ele não os tocou, `.value` pode estar vazio em alguns cenários de re-renderização. O fallback garante que o modal de confirmação sempre exiba o dado correto, seja do campo ou direto da sessão.
+
+**Por que não exigir que o campo esteja preenchido para abrir o modal:**  
+A validação de identidade (`validarIdentificacaoCheckout`) já garante que o modal só abre com dados válidos. Portanto, no momento de montar o resumo, o dado sempre está disponível em pelo menos uma das duas fontes.
+
+---
+
 ## 7. login.html — Tela de login e cadastro
 
 ### Sistema de abas Bootstrap
@@ -726,6 +771,72 @@ Cada estado (vazio / com itens / checkout) tem layout completamente diferente. U
 
 ---
 
+### `iniciarCheckout()` — Pre-preenchimento e aviso de autenticação
+
+```javascript
+function iniciarCheckout() {
+  const user = getUsuarioLogado();
+  const nomeEl  = document.getElementById("cNome");
+  const emailEl = document.getElementById("cEmail");
+  if (user) {
+    nomeEl.value    = user.nome;
+    emailEl.value   = user.email;
+    nomeEl.readOnly  = true;
+    emailEl.readOnly = true;
+    // mostra aviso verde
+  } else {
+    nomeEl.readOnly  = false;
+    emailEl.readOnly = false;
+    // mostra aviso azul com CTAs
+  }
+}
+```
+
+**Por que `readOnly = true` nos campos quando logado:**  
+Se o usuário está logado e pode editar os campos, ele pode sobrescrever o nome/e-mail correto por engano. Marcar como `readOnly` preserva os dados da sessão e ainda permite copiá-los. Os campos continuam visíveis para transparência — o usuário sabe exatamente com qual conta está comprando.
+
+**Por que `readOnly = false` para convidado:**  
+O convidado precisa digitar seus dados. Garantir o `false` explícito evita bug onde um usuário logado faz logout, volta para a página sem recarregar, e os campos continuam bloqueados.
+
+---
+
+### `validarIdentificacaoCheckout()` — Portão de identidade
+
+```javascript
+function validarIdentificacaoCheckout() {
+  const user = getUsuarioLogado();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (user && user.nome && emailRegex.test(user.email || "")) return true;
+  // guest: valida cNome (>= 3 chars) e cEmail (regex válido)
+  let ok = true;
+  if (cNome.value.trim().length < 3) { cNome.classList.add("is-invalid"); ok = false; }
+  if (!emailRegex.test(cEmail.value.trim())) { cEmail.classList.add("is-invalid"); ok = false; }
+  return ok;
+}
+```
+
+**Por que um portão centralizado em vez de validação inline:**  
+A mesma verificação precisa ocorrer em três pontos distintos do fluxo:
+1. Ao tentar avançar do Step 1 para o Step 2 (`irParaCheckout(2)`)
+2. Ao clicar em "Revisar pedido" (antes de abrir o modal)
+3. Ao clicar em "Confirmar" dentro do modal
+
+Centralizar em uma função evita que a lógica fique duplicada e que uma alteração futura (ex.: adicionar CPF obrigatório) precise ser replicada em três lugares.
+
+**Por que verificar o usuário da sessão primeiro:**  
+Se existe sessão válida, não há necessidade de validar os campos — os dados já foram verificados no momento do cadastro/login. Isso também evita falsos negativos quando os campos estão com `readOnly` e o conteúdo foi preenchido programaticamente.
+
+**Fallback de sessão no modal de confirmação:**  
+```javascript
+const nomeFinal  = document.getElementById("cNome").value.trim()
+  || (usuarioSessao ? usuarioSessao.nome  : "");
+const emailFinal = document.getElementById("cEmail").value.trim()
+  || (usuarioSessao ? usuarioSessao.email : "");
+```
+Mesmo padrão de `compra.js` — garante que o resumo sempre exibe o dado correto independentemente de como o campo foi preenchido.
+
+---
+
 ### Renderização dinâmica dos itens
 
 ```javascript
@@ -767,6 +878,26 @@ Construímos a string HTML completa com um laço e depois atribuímos de uma vez
 
 **Por que variáveis CSS:**  
 Se precisarmos mudar a cor principal do site, alteramos `--primary` em um lugar e todas as referências são atualizadas automaticamente. Sem variáveis, precisaríamos buscar e substituir o hexadecimal em dezenas de lugares.
+
+**Por que `.resumo-item` precisa estar em `carrinho.css`:**
+
+```css
+.resumo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+}
+.resumo-item span:last-child { text-align: right; white-space: nowrap; }
+.total-row { font-weight: 700; color: var(--primary-dark); }
+```
+
+O modal de confirmação do carrinho usa `<div class="resumo-item">` para cada linha do resumo (nome, e-mail, total, pontos). Sem essa classe definida, os dois `<span>` dentro de cada div ficam inline, com o texto do rótulo e o valor colados — ex.: `"Nomejoão"`. O `display: flex` com `justify-content: space-between` é o que posiciona rótulo à esquerda e valor à direita. O `white-space: nowrap` no último span evita que valores monetários quebrem linha.
+
+---
 
 **Por que separar em múltiplos arquivos CSS:**
 
