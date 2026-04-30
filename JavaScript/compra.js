@@ -1,0 +1,381 @@
+let currentStep = 1;
+
+// =============================================
+// FUNCOES AUXILIARES DE VALIDACAO
+// =============================================
+
+function mostrarErro(campo, mensagem) {
+  campo.classList.add("is-invalid");
+  campo.classList.remove("is-valid");
+  let feedback = campo.parentElement.querySelector(".invalid-feedback");
+  if (!feedback) {
+    feedback = document.createElement("div");
+    feedback.className = "invalid-feedback";
+    campo.parentElement.appendChild(feedback);
+  }
+  feedback.textContent = mensagem;
+}
+
+function mostrarSucesso(campo) {
+  campo.classList.remove("is-invalid");
+  campo.classList.add("is-valid");
+  const feedback = campo.parentElement.querySelector(".invalid-feedback");
+  if (feedback) feedback.textContent = "";
+}
+
+function limparValidacao(campo) {
+  campo.classList.remove("is-invalid", "is-valid");
+}
+
+// =============================================
+// VALIDACAO ETAPA 1 - DADOS PESSOAIS
+// =============================================
+
+function validarEtapa1() {
+  const nome = document.getElementById("nome");
+  const email = document.getElementById("email");
+  let valido = true;
+
+  if (nome.value.trim() === "") {
+    mostrarErro(nome, "Por favor, digite seu nome completo.");
+    valido = false;
+  } else if (nome.value.trim().length < 3) {
+    mostrarErro(nome, "O nome precisa ter pelo menos 3 caracteres.");
+    valido = false;
+  } else {
+    mostrarSucesso(nome);
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (email.value.trim() === "") {
+    mostrarErro(email, "Por favor, digite seu e-mail.");
+    valido = false;
+  } else if (!emailRegex.test(email.value.trim())) {
+    mostrarErro(email, "Digite um e-mail valido. Ex: nome@email.com");
+    valido = false;
+  } else {
+    mostrarSucesso(email);
+  }
+
+  if (!valido) {
+    alert(
+      "Preencha todos os campos de dados pessoais corretamente antes de continuar.",
+    );
+  }
+  return valido;
+}
+
+// =============================================
+// VALIDACAO ETAPA 2 - PEDIDO
+// =============================================
+
+function validarEtapa2() {
+  const quantidade = document.getElementById("quantidade");
+  let valido = true;
+
+  const qtd = parseInt(quantidade.value, 10);
+  if (isNaN(qtd) || qtd < 1) {
+    mostrarErro(quantidade, "A quantidade minima e 1.");
+    valido = false;
+  } else if (qtd > 10) {
+    mostrarErro(quantidade, "A quantidade maxima e 10 por compra.");
+    valido = false;
+  } else {
+    mostrarSucesso(quantidade);
+  }
+
+  if (!valido) {
+    alert("Verifique a quantidade antes de continuar.");
+  }
+  return valido;
+}
+
+// =============================================
+// VALIDACAO ETAPA 3 - PAGAMENTO
+// =============================================
+
+function validarEtapa3() {
+  const cartao = document.getElementById("cartao");
+  const validade = document.getElementById("validade");
+  const cvv = document.getElementById("cvv");
+  let valido = true;
+
+  const cartaoNumeros = cartao.value.replace(/\D/g, "");
+  if (cartaoNumeros.length < 16) {
+    mostrarErro(cartao, "O numero do cartao precisa ter 16 digitos.");
+    valido = false;
+  } else {
+    mostrarSucesso(cartao);
+  }
+
+  const validadeRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+  if (!validadeRegex.test(validade.value)) {
+    mostrarErro(validade, "Digite a validade no formato MM/AA.");
+    valido = false;
+  } else {
+    mostrarSucesso(validade);
+  }
+
+  const cvvNumeros = cvv.value.replace(/\D/g, "");
+  if (cvvNumeros.length < 3) {
+    mostrarErro(cvv, "O CVV precisa ter 3 digitos.");
+    valido = false;
+  } else {
+    mostrarSucesso(cvv);
+  }
+
+  if (!valido) {
+    alert(
+      "Preencha todos os dados de pagamento corretamente para revisar o pedido.",
+    );
+  }
+  return valido;
+}
+
+// =============================================
+// NAVEGACAO ENTRE ETAPAS (COM VALIDACAO)
+// =============================================
+
+function irPara(step) {
+  if (step > currentStep) {
+    if (currentStep === 1 && !validarEtapa1()) return;
+    if (currentStep === 2 && !validarEtapa2()) return;
+  }
+
+  document.getElementById("step" + currentStep).classList.remove("active");
+  document.getElementById("label" + currentStep).classList.remove("active");
+  currentStep = step;
+  document.getElementById("step" + currentStep).classList.add("active");
+  document.getElementById("label" + currentStep).classList.add("active");
+
+  const pct = step === 1 ? 33 : step === 2 ? 66 : 100;
+  document.getElementById("progressBar").style.width = pct + "%";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================
+// RESUMO DO PEDIDO NO MODAL
+// =============================================
+
+function atualizarResumo() {
+  const jogoSelect = document.getElementById("jogo");
+  const preco =
+    jogoSelect.options[jogoSelect.selectedIndex].dataset.preco || "\u2014";
+
+  document.getElementById("rNome").textContent =
+    document.getElementById("nome").value || "\u2014";
+  document.getElementById("rEmail").textContent =
+    document.getElementById("email").value || "\u2014";
+  document.getElementById("rJogo").textContent = jogoSelect.value;
+  document.getElementById("rQtd").textContent =
+    document.getElementById("quantidade").value;
+  document.getElementById("rPreco").textContent = preco;
+}
+
+// =============================================
+// VALIDACAO COMPLETA (TODAS AS ETAPAS)
+// =============================================
+
+function validarTudo() {
+  const nome = document.getElementById("nome");
+  const email = document.getElementById("email");
+  const quantidade = document.getElementById("quantidade");
+  const cartao = document.getElementById("cartao");
+  const validade = document.getElementById("validade");
+  const cvv = document.getElementById("cvv");
+  let valido = true;
+  let primeiroErro = null;
+
+  // --- Etapa 1: nome ---
+  if (nome.value.trim() === "") {
+    mostrarErro(nome, "Por favor, digite seu nome completo.");
+    valido = false;
+    if (!primeiroErro) primeiroErro = 1;
+  } else if (nome.value.trim().length < 3) {
+    mostrarErro(nome, "O nome precisa ter pelo menos 3 caracteres.");
+    valido = false;
+    if (!primeiroErro) primeiroErro = 1;
+  } else {
+    mostrarSucesso(nome);
+  }
+
+  // --- Etapa 1: email ---
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (email.value.trim() === "") {
+    mostrarErro(email, "Por favor, digite seu e-mail.");
+    valido = false;
+    if (!primeiroErro) primeiroErro = 1;
+  } else if (!emailRegex.test(email.value.trim())) {
+    mostrarErro(email, "Digite um e-mail valido. Ex: nome@email.com");
+    valido = false;
+    if (!primeiroErro) primeiroErro = 1;
+  } else {
+    mostrarSucesso(email);
+  }
+
+  // --- Etapa 2: quantidade ---
+  const qtd = parseInt(quantidade.value, 10);
+  if (isNaN(qtd) || qtd < 1) {
+    mostrarErro(quantidade, "A quantidade minima e 1.");
+    valido = false;
+    if (!primeiroErro) primeiroErro = 2;
+  } else if (qtd > 10) {
+    mostrarErro(quantidade, "A quantidade maxima e 10 por compra.");
+    valido = false;
+    if (!primeiroErro) primeiroErro = 2;
+  } else {
+    mostrarSucesso(quantidade);
+  }
+
+  // --- Etapa 3: cartao ---
+  const cartaoNumeros = cartao.value.replace(/\D/g, "");
+  if (cartaoNumeros.length < 16) {
+    mostrarErro(cartao, "O numero do cartao precisa ter 16 digitos.");
+    valido = false;
+    if (!primeiroErro) primeiroErro = 3;
+  } else {
+    mostrarSucesso(cartao);
+  }
+
+  // --- Etapa 3: validade ---
+  const validadeRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+  if (!validadeRegex.test(validade.value)) {
+    mostrarErro(validade, "Digite a validade no formato MM/AA.");
+    valido = false;
+    if (!primeiroErro) primeiroErro = 3;
+  } else {
+    mostrarSucesso(validade);
+  }
+
+  // --- Etapa 3: cvv ---
+  const cvvNumeros = cvv.value.replace(/\D/g, "");
+  if (cvvNumeros.length < 3) {
+    mostrarErro(cvv, "O CVV precisa ter 3 digitos.");
+    valido = false;
+    if (!primeiroErro) primeiroErro = 3;
+  } else {
+    mostrarSucesso(cvv);
+  }
+
+  // Se invalido, mostra alert e volta para a etapa com erro
+  if (!valido) {
+    if (primeiroErro === 1) {
+      alert("Preencha seus dados pessoais (nome e e-mail) corretamente.");
+      irParaSemValidar(1);
+    } else if (primeiroErro === 2) {
+      alert("Verifique a quantidade do pedido.");
+      irParaSemValidar(2);
+    } else {
+      alert("Preencha todos os dados de pagamento (cartao, validade e CVV).");
+    }
+  }
+
+  return valido;
+}
+
+// Navegar para etapa sem validar (usado internamente para voltar ao erro)
+function irParaSemValidar(step) {
+  document.getElementById("step" + currentStep).classList.remove("active");
+  document.getElementById("label" + currentStep).classList.remove("active");
+  currentStep = step;
+  document.getElementById("step" + currentStep).classList.add("active");
+  document.getElementById("label" + currentStep).classList.add("active");
+
+  const pct = step === 1 ? 33 : step === 2 ? 66 : 100;
+  document.getElementById("progressBar").style.width = pct + "%";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================
+// EVENT LISTENERS
+// =============================================
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Mascara do cartao
+  document.getElementById("cartao").addEventListener("input", function () {
+    let valor = this.value.replace(/\D/g, "").substring(0, 16);
+    this.value = valor.replace(/(.{4})/g, "$1 ").trim();
+  });
+
+  // Mascara da validade
+  document.getElementById("validade").addEventListener("input", function () {
+    let valor = this.value.replace(/\D/g, "").substring(0, 4);
+    if (valor.length >= 2) {
+      valor = valor.substring(0, 2) + "/" + valor.substring(2);
+    }
+    this.value = valor;
+  });
+
+  // Mascara do CVV
+  document.getElementById("cvv").addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "").substring(0, 3);
+  });
+
+  // Validacao em tempo real - Nome (blur)
+  document.getElementById("nome").addEventListener("blur", function () {
+    if (this.value.trim() === "") {
+      mostrarErro(this, "Por favor, digite seu nome completo.");
+    } else if (this.value.trim().length < 3) {
+      mostrarErro(this, "O nome precisa ter pelo menos 3 caracteres.");
+    } else {
+      mostrarSucesso(this);
+    }
+  });
+
+  // Validacao em tempo real - Email (blur)
+  document.getElementById("email").addEventListener("blur", function () {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (this.value.trim() === "") {
+      mostrarErro(this, "Por favor, digite seu e-mail.");
+    } else if (!emailRegex.test(this.value.trim())) {
+      mostrarErro(this, "Digite um e-mail valido. Ex: nome@email.com");
+    } else {
+      mostrarSucesso(this);
+    }
+  });
+
+  // Validacao em tempo real - Quantidade (change)
+  document.getElementById("quantidade").addEventListener("change", function () {
+    const qtd = parseInt(this.value, 10);
+    if (isNaN(qtd) || qtd < 1) {
+      mostrarErro(this, "A quantidade minima e 1.");
+    } else if (qtd > 10) {
+      mostrarErro(this, "A quantidade maxima e 10 por compra.");
+    } else {
+      mostrarSucesso(this);
+    }
+  });
+
+  // Limpar estilos ao digitar
+  document
+    .querySelectorAll("#nome, #email, #cartao, #validade, #cvv")
+    .forEach(function (campo) {
+      campo.addEventListener("input", function () {
+        limparValidacao(this);
+      });
+    });
+
+  // =============================================
+  // BOTAO REVISAR PEDIDO - abre modal SOMENTE se tudo valido
+  // =============================================
+  document.getElementById("btnRevisar").addEventListener("click", function () {
+    if (validarTudo()) {
+      atualizarResumo();
+      const modal = new bootstrap.Modal(
+        document.getElementById("modalConfirmacao"),
+      );
+      modal.show();
+    }
+  });
+
+  // =============================================
+  // BOTAO CONFIRMAR COMPRA - redireciona SOMENTE se tudo valido
+  // =============================================
+  document
+    .getElementById("btnConfirmar")
+    .addEventListener("click", function () {
+      if (validarTudo()) {
+        window.location.href = "obrigado.html";
+      }
+    });
+});
