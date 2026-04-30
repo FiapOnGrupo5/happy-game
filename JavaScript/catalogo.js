@@ -17,7 +17,7 @@ function formatarPreco(preco) {
   return preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
-/** Exibe o toast de confirmação. */
+/** Exibe o toast de confirmação ao adicionar ao carrinho. */
 function showToast(gameName) {
   document.getElementById("toastMsg").textContent =
     gameName + " adicionado ao carrinho!";
@@ -25,6 +25,13 @@ function showToast(gameName) {
     delay: 3000,
   });
   toast.show();
+}
+
+/** Adiciona jogo ao carrinho e mostra toast. */
+function addToCart(jogoId) {
+  const ok = adicionarAoCarrinho(jogoId, 1); // função de carrinho.js
+  const jogo = getJogoPorId(jogoId);         // função de dados.js
+  if (ok && jogo) showToast(jogo.nome);
 }
 
 // ---- RENDERIZAÇÃO DOS CARDS -------------------------------------
@@ -61,10 +68,15 @@ function buildCardHTML(jogo) {
           <div class="d-flex align-items-center justify-content-between mb-2 px-1">
             <span class="preco-tag">${formatarPreco(jogo.preco)}</span>
           </div>
-          <a href="compra.html" class="btn btn-comprar w-100"
-             onclick="showToast('${jogo.nome.replace(/'/g, "\\'")}')">
-            <i class="bi bi-cart-plus me-1"></i>Comprar este jogo
-          </a>
+          <div class="d-flex gap-2">
+            <button class="btn btn-cart flex-grow-1"
+                    onclick="addToCart(${jogo.id})">
+              <i class="bi bi-cart-plus me-1"></i>Carrinho
+            </button>
+            <a href="compra.html" class="btn btn-comprar flex-grow-1">
+              <i class="bi bi-bag me-1"></i>Comprar
+            </a>
+          </div>
         </div>
       </div>
     </div>`;
