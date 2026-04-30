@@ -67,15 +67,30 @@ function limparCarrinho() {
 // CÁLCULOS DO CARRINHO
 // =============================================
 
-function totalCarrinho() {
-  // usa calcularPedido() de dados.js
-  return getCarrinho().reduce(function (acc, item) {
-    return acc + calcularPedido(item.preco, item.quantidade).total;
-  }, 0);
-}
-
 function contarItensCarrinho() {
   return getCarrinho().reduce(function (acc, item) { return acc + item.quantidade; }, 0);
+}
+
+/**
+ * Calcula o resumo financeiro do carrinho aplicando o desconto
+ * com base no TOTAL de itens (de todos os produtos), não por produto.
+ *
+ * Retorna: { subtotalBruto, taxa, desconto, total }
+ */
+function calcularResumoCarrinho() {
+  const carrinho = getCarrinho();
+  const subtotalBruto = carrinho.reduce(function (a, it) {
+    return a + it.preco * it.quantidade;
+  }, 0);
+  const totalQtd = contarItensCarrinho();
+  const taxa = calcularTaxaDesconto(totalQtd);   // dados.js — f(q) = 0.005*(q-1)²
+  const desconto = subtotalBruto * taxa;
+  const total = subtotalBruto - desconto;
+  return { subtotalBruto, taxa, desconto, total };
+}
+
+function totalCarrinho() {
+  return calcularResumoCarrinho().total;
 }
 
 // =============================================
