@@ -288,6 +288,15 @@
           resumoHtml += '<div class="resumo-item text-success"><span><i class="bi bi-tag-fill me-1"></i>Desconto (' + (resumo.taxa * 100).toFixed(0) + '% sobre ' + qtdTotal + ' itens)</span><span>- ' + formatarReais(resumo.desconto) + '</span></div>';
         }
         resumoHtml += '<div class="resumo-item fw-bold total-row"><span>Total</span><span>' + formatarReais(resumo.total) + '</span></div>';
+
+        // Pontos de fidelidade — função quadrática (2º grau)
+        const pontos = calcularPontosFidelidade(resumo.total, qtdTotal);
+        let pontosLabel = pontos.total + ' pts';
+        if (pontos.bonus > 0) {
+          pontosLabel += ' (' + pontos.pontosBase + ' base + ' + pontos.bonus + ' bônus)';
+        }
+        resumoHtml += '<div class="resumo-item text-success small mt-1"><span><i class="bi bi-star-fill me-1"></i>Pontos que você vai ganhar</span><span>' + pontosLabel + '</span></div>';
+
         resumoEl.innerHTML = resumoHtml;
       }
 
@@ -442,6 +451,15 @@
           modalHtml += '<div class="resumo-item text-success"><span><i class="bi bi-tag-fill me-1"></i>Desconto (' + (resumoModal.taxa * 100).toFixed(0) + '%)</span><span>- ' + formatarReais(resumoModal.desconto) + '</span></div>';
         }
         modalHtml += '<div class="resumo-item fw-bold total-row"><span>Total</span><span>' + formatarReais(resumoModal.total) + '</span></div>';
+
+        // Pontos de fidelidade — função quadrática (2º grau)
+        const qtdTotalModal = contarItensCarrinho();
+        const pontosModal = calcularPontosFidelidade(resumoModal.total, qtdTotalModal);
+        let pontosLabelModal = pontosModal.total + ' pts';
+        if (pontosModal.bonus > 0) {
+          pontosLabelModal += ' (' + pontosModal.pontosBase + ' base + ' + pontosModal.bonus + ' bônus)';
+        }
+        modalHtml += '<div class="resumo-item text-success small"><span><i class="bi bi-star-fill me-1"></i>Pontos ganhos nesta compra</span><span>' + pontosLabelModal + '</span></div>';
 
         document.getElementById("resumoModalCarrinho").innerHTML = modalHtml;
         new bootstrap.Modal(document.getElementById("modalCarrinho")).show();

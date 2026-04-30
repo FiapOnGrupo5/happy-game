@@ -828,44 +828,104 @@ O comportamento esperado de "login" é que ao fechar o navegador, o usuário sej
 
 ### Por que usar funções matemáticas formais
 
-O projeto usa explicitamente funções de 1º e 2º grau, conforme requisito acadêmico da Fase 3.
+O projeto usa explicitamente funções de 1º e 2º grau, conforme requisito acadêmico da Fase 3, aplicadas em **quatro situações reais** do fluxo de compra.
 
-### Função linear (1º grau) — Subtotal
+---
+
+### Função 1 — Subtotal (1º grau) `calcularSubtotal`
 
 $$f(q) = p \cdot q$$
 
 Onde `p` = preço unitário, `q` = quantidade.
 
+**Contexto:** Exibido no Step 2 de `compra.html` para cada produto selecionado.
+
 Características:
 - Cresce de forma **constante** (linha reta no gráfico)
 - Para cada unidade a mais, o subtotal aumenta exatamente `p`
 
-### Função quadrática (2º grau) — Taxa de desconto
+---
 
-$$f(q) = 0{,}005 \cdot (q - 1)^2$$
+### Função 2 — Taxa de desconto por volume (2º grau) `calcularTaxaDesconto`
 
-Com limite: $f(q) = \min(f(q),\ 0{,}20)$
+$$f(q) = 0{,}005 \cdot (q - 1)^2, \quad \text{cap: } 20\%$$
 
-Características:
-- Cresce de forma **acelerada** (parábola no gráfico)
-- Para cada unidade a mais, o desconto cresce cada vez mais rápido
-- Incentiva comprar em maior quantidade
-- O deslocamento `(q-1)` garante `f(1) = 0` (sem desconto para 1 item)
-- O cap de 20% garante que o desconto nunca torne a venda inviável
+**Contexto:** Aplicada sobre o **total de itens do carrinho inteiro** em `calcularResumoCarrinho()`.
 
-### Aplicação ao carrinho
+**Justificativa do 2º grau:** O desconto cresce aceleradamente com a quantidade — incentiva comprar mais títulos. O deslocamento `(q−1)` garante desconto zero para 1 item. O cap de 20% protege a margem da loja.
 
-O desconto é aplicado ao **total de itens do carrinho inteiro**, não por produto:
+| Qtd | Taxa | Desconto sobre R$ 500 |
+|-----|------|-----------------------|
+| 1 | 0% | R$ 0 |
+| 3 | 2% | R$ 10 |
+| 5 | 8% | R$ 40 |
+| 7 | 18% | R$ 90 |
+| ≥10 | 20% (cap) | R$ 100 |
 
-```
-Carrinho:  TLOU (1 un.) + Minecraft (2 un.) = 3 itens no total
-Subtotal:  R$ 199,90 + R$ 199,80 = R$ 399,70
-Taxa:      f(3) = 0,005 × (3-1)² = 0,005 × 4 = 0,02 = 2%
-Desconto:  R$ 399,70 × 0,02 = R$ 7,99
-Total:     R$ 391,71
-```
+---
 
-Esse comportamento recompensa quem compra mais itens (independente de serem do mesmo produto), alinhado com a estratégia comercial da loja.
+### Função 3 — Parcelamento (1º grau) `calcularParcelas`
+
+Regra de negócio: até 3x sem juros; de 4x a 12x com juros simples de 1,99%/mês.
+
+**Sem juros** (linear no número de parcelas `n`):
+
+$$\text{parcela}(n) = \frac{\text{total}}{n}$$
+
+**Com juros simples** (linear no total `C` para `n` fixo):
+
+$$\text{parcela}(C, n) = \frac{C \cdot (1 + 0{,}0199 \cdot n)}{n}$$
+
+**Contexto:** Exibido no seletor de parcelamento em `compra.html` Step 3 (cartão de crédito).
+
+**Justificativa:** O parcelamento é uma das principais expectativas do consumidor brasileiro em e-commerce. A função linear `f(C) = C × k / n` mostra claramente a proporcionalidade entre o valor total e o valor de cada parcela — aumentar o total aumenta a parcela na mesma proporção.
+
+Tabela de exemplo para R$ 300,00:
+
+| Parcelas | Tipo | Parcela | Total final |
+|----------|------|---------|-------------|
+| 1x | sem juros | R$ 300,00 | R$ 300,00 |
+| 3x | sem juros | R$ 100,00 | R$ 300,00 |
+| 6x | 1,99%/mês | R$ 55,85 | R$ 335,10 |
+| 12x | 1,99%/mês | R$ 34,93 | R$ 419,10 |
+
+---
+
+### Função 4 — Pontos de fidelidade (2º grau) `calcularPontosFidelidade`
+
+$$\text{pontosBase}(V) = \left\lfloor \frac{V}{10} \right\rfloor \quad \text{(1º grau — linear)}$$
+
+$$\text{bonus}(q) = \left\lfloor 0{,}5 \cdot (q - 1)^2 \right\rfloor \quad \text{(2º grau — quadrático)}$$
+
+$$\text{total} = \text{pontosBase} + \text{bonus}$$
+
+**Contexto:** Exibido no resumo do carrinho (`carrinho.html`), no box de preço do Step 2 (`compra.html`) e no modal de confirmação de ambas as páginas.
+
+**Justificativa do 2º grau no bônus:**
+A loja quer incentivar não apenas gastar mais dinheiro (o que a função linear de pontos base já cobre), mas também **diversificar** o carrinho com diferentes títulos. A curva quadrática faz com que o bônus cresça desproporcionalmente para quem compra muitos itens — mais do que seria possível com uma função linear.
+
+Exemplos:
+
+| Total (R$) | Qtd itens | Pts base | Bônus | Total pts |
+|------------|-----------|----------|-------|-----------|
+| R$ 200 | 1 | 20 | 0 | **20** |
+| R$ 400 | 2 | 40 | 0 | **40** |
+| R$ 600 | 3 | 60 | 2 | **62** |
+| R$ 800 | 5 | 80 | 8 | **88** |
+| R$ 1.000 | 10 | 100 | 40 | **140** |
+
+Com 10 itens e R$ 1.000, o bônus quadrático representa +40% de pontos extras sobre o linear — clara vantagem competitiva para carrinho diversificado.
+
+---
+
+### Resumo das funções matemáticas no projeto
+
+| Função | Grau | Onde aparece | Por que esse grau |
+|--------|------|--------------|-------------------|
+| `calcularSubtotal` | 1º | Step 2 compra | Proporcionalidade direta entre qtd e preço |
+| `calcularTaxaDesconto` | 2º | Carrinho + compra | Desconto que acelera — incentiva volume |
+| `calcularParcelas` | 1º | Step 3 compra (cartão) | Parcela proporcional ao total e ao nº de vezes |
+| `calcularPontosFidelidade` | 2º (bônus) | Carrinho + compra | Bônus que acelera — incentiva diversificação |
 
 ---
 

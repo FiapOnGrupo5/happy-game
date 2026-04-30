@@ -137,3 +137,73 @@ function calcularPedido(preco, quantidade) {
 function formatarReais(valor) {
   return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
+
+// =============================================
+// PARCELAMENTO — FUNÇÃO LINEAR (1º GRAU)
+// =============================================
+
+/**
+ * Calcula o valor de cada parcela no cartão de crédito.
+ *
+ * Regra de negócio da Happy Games:
+ *   • Até 3x → sem juros:          parcela = total / n
+ *   • De 4x a 12x → juros simples de 1,99% ao mês:
+ *       totalFinal = total × (1 + 0,0199 × n)
+ *       parcela    = totalFinal / n
+ *
+ * Ambas as fórmulas são funções lineares em relação ao total:
+ *   f(total) = total / n              (sem juros)
+ *   f(total) = total × (1 + 0,0199 × n) / n  (com juros)
+ *
+ * @param {number} total      - Valor total da compra (R$)
+ * @param {number} nParcelas  - Número de parcelas escolhido (1–12)
+ * @returns {{ parcela: number, totalFinal: number, juros: number, temJuros: boolean }}
+ */
+function calcularParcelas(total, nParcelas) {
+  const TAXA_JUROS    = 0.0199; // 1,99% ao mês
+  const SEM_JUROS_ATE = 3;      // parcelas sem juros
+
+  let totalFinal, juros;
+
+  if (nParcelas <= SEM_JUROS_ATE) {
+    totalFinal = total;
+    juros      = 0;
+  } else {
+    // Juros simples: J = C × i × n
+    juros      = total * TAXA_JUROS * nParcelas;
+    totalFinal = total + juros;
+  }
+
+  const parcela = totalFinal / nParcelas;
+  return { parcela, totalFinal, juros, temJuros: juros > 0 };
+}
+
+// =============================================
+// PONTOS DE FIDELIDADE — FUNÇÃO QUADRÁTICA (2º GRAU)
+// =============================================
+
+/**
+ * Calcula os pontos de fidelidade ganhos em uma compra.
+ *
+ * Regra de negócio da Happy Games:
+ *   • Pontos base (1º grau):    pontosBase = Math.floor(totalGasto / 10)
+ *       → 1 ponto a cada R$ 10 gastos (proporcional linear ao valor)
+ *   • Bônus por volume (2º grau): bonus = Math.floor(0.5 × (totalItens − 1)²)
+ *       → Quem compra mais itens recebe bônus crescente de forma quadrática
+ *       → Com 1 item: bônus = 0; com 5 itens: bônus = 8; com 10 itens: bônus = 40
+ *   • total = pontosBase + bonus
+ *
+ * Justificativa do 2º grau no bônus:
+ *   A curva quadrática recompensa desproporcionalmente quem diversifica
+ *   o carrinho, incentivando a compra de títulos variados em vez de
+ *   muitas unidades do mesmo jogo.
+ *
+ * @param {number} totalGasto  - Valor total pago após descontos (R$)
+ * @param {number} totalItens  - Número total de itens no pedido
+ * @returns {{ pontosBase: number, bonus: number, total: number }}
+ */
+function calcularPontosFidelidade(totalGasto, totalItens) {
+  const pontosBase = Math.floor(totalGasto / 10);                        // linear
+  const bonus      = Math.floor(0.5 * Math.pow(totalItens - 1, 2));     // quadrático
+  return { pontosBase, bonus, total: pontosBase + bonus };
+}

@@ -29,6 +29,12 @@ function atualizarBoxPreco() {
       </div>`;
   }
 
+  // Pontos de fidelidade — função quadrática (2º grau)
+  const pontos = calcularPontosFidelidade(r.total, quantidade);
+  const pontosTexto = pontos.bonus > 0
+    ? `${pontos.total} pts <span class="text-muted small">(${pontos.pontosBase} base + ${pontos.bonus} bônus volume)</span>`
+    : `${pontos.total} pts`;
+
   boxPreco.innerHTML = `
     <div class="resumo-item">
       <span>Preço unitário</span><span>${formatarReais(preco)}</span>
@@ -39,6 +45,10 @@ function atualizarBoxPreco() {
     ${descontoHTML}
     <div class="resumo-item fw-bold total-row">
       <span>Total</span><span>${formatarReais(r.total)}</span>
+    </div>
+    <div class="resumo-item text-success small mt-1">
+      <span><i class="bi bi-star-fill me-1"></i>Pontos que você vai ganhar</span>
+      <span>${pontosTexto}</span>
     </div>`;
 }
 
@@ -185,6 +195,55 @@ function validarEtapa3() {
 }
 
 // =============================================
+// PARCELAMENTO — FUNÇÃO LINEAR (1º GRAU)
+// =============================================
+
+/**
+ * Preenche o <select id="parcelas"> com as opções de 1x a 12x
+ * e exibe o valor da parcela calculado por calcularParcelas().
+ * Aplicando a fórmula linear: parcela = total / n (sem juros)
+ * ou parcela = total × (1 + 0,0199 × n) / n (com juros).
+ */
+function atualizarParcelamento() {
+  const select = document.getElementById("parcelas");
+  const info   = document.getElementById("parcelamentoInfo");
+  if (!select) return;
+
+  const jogoSelect = document.getElementById("jogo");
+  const quantidade = Math.max(1, parseInt(document.getElementById("quantidade").value, 10) || 1);
+  const preco      = getPrecoByNome(jogoSelect.value);
+  const r          = calcularPedido(preco, quantidade);
+  const total      = r.total;
+
+  const nAtual = parseInt(select.value, 10) || 1;
+
+  // Rebuilds options preserving the chosen value
+  select.innerHTML = "";
+  for (let n = 1; n <= 12; n++) {
+    const p = calcularParcelas(total, n);
+    const label = p.temJuros
+      ? `${n}x de ${formatarReais(p.parcela)} (total ${formatarReais(p.totalFinal)})`
+      : `${n}x de ${formatarReais(p.parcela)} sem juros`;
+    const opt = document.createElement("option");
+    opt.value = n;
+    opt.textContent = label;
+    if (n === nAtual) opt.selected = true;
+    select.appendChild(opt);
+  }
+
+  // Info text below the select
+  const nSel = parseInt(select.value, 10);
+  const pSel = calcularParcelas(total, nSel);
+  if (pSel.temJuros) {
+    info.className = "form-text text-warning";
+    info.textContent = `Juros de 1,99%/mês — total final: ${formatarReais(pSel.totalFinal)}`;
+  } else {
+    info.className = "form-text text-success";
+    info.textContent = `Sem acréscimo — total: ${formatarReais(total)}`;
+  }
+}
+
+// =============================================
 // NAVEGACAO ENTRE ETAPAS (COM VALIDACAO)
 // =============================================
 
@@ -202,6 +261,10 @@ function irPara(step) {
 
   const pct = step === 1 ? 33 : step === 2 ? 66 : 100;
   document.getElementById("progressBar").style.width = pct + "%";
+
+  // Ao entrar no step 3, inicializa o parcelamento com o total atual
+  if (step === 3) atualizarParcelamento();
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -233,6 +296,27 @@ function atualizarResumo() {
   const metodo = getMetodoPagamento();
   const metodoTextos = { cartao: "Cartão de crédito", pix: "PIX", boleto: "Boleto bancário" };
   document.getElementById("rPagamento").textContent = metodoTextos[metodo] || metodo;
+
+  // Parcelamento — função linear: mostra apenas quando cartão
+  const rParcelasRow = document.getElementById("rParcelasRow");
+  if (metodo === "cartao" && rParcelasRow) {
+    const nParcelas = parseInt(document.getElementById("parcelas").value, 10) || 1;
+    const p = calcularParcelas(r.total, nParcelas);
+    const labelParcela = p.temJuros
+      ? `${nParcelas}x de ${formatarReais(p.parcela)} (total ${formatarReais(p.totalFinal)})`
+      : `${nParcelas}x de ${formatarReais(p.parcela)} sem juros`;
+    document.getElementById("rParcelas").textContent = labelParcela;
+    rParcelasRow.style.display = "";
+  } else if (rParcelasRow) {
+    rParcelasRow.style.display = "none";
+  }
+
+  // Pontos de fidelidade — função quadrática
+  const pontos = calcularPontosFidelidade(r.total, quantidade);
+  document.getElementById("rPontos").textContent =
+    pontos.bonus > 0
+      ? `${pontos.total} pts (${pontos.pontosBase} base + ${pontos.bonus} bônus)`
+      : `${pontos.total} pts`;
 }
 
 // =============================================

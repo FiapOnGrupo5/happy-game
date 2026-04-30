@@ -201,6 +201,14 @@
 
             <!-- Campos cartão -->
             <div id="secCartao">
+              <!-- Parcelamento — função linear (1º grau): parcela = total / n (sem juros até 3x) -->
+              <div class="mb-3">
+                <label class="form-label" for="parcelas">Parcelamento</label>
+                <select class="form-select" id="parcelas" onchange="atualizarParcelamento()">
+                  <!-- preenchido dinamicamente por atualizarParcelamento() em compra.js -->
+                </select>
+                <div id="parcelamentoInfo" class="form-text"></div>
+              </div>
               <div class="mb-3">
                 <label class="form-label" for="cartao">Número do cartão</label>
                 <input
@@ -312,6 +320,13 @@
               </div>
               <div class="resumo-item">
                 <span>Pagamento</span><span id="rPagamento">—</span>
+              </div>
+              <div class="resumo-item" id="rParcelasRow" style="display:none;">
+                <span>Parcelamento</span><span id="rParcelas">—</span>
+              </div>
+              <div class="resumo-item text-success">
+                <span><i class="bi bi-star-fill me-1"></i>Pontos ganhos</span>
+                <span id="rPontos">—</span>
               </div>
             </div>
           </div>
