@@ -23,7 +23,7 @@
       font-weight: 700;
       font-size: 0.88rem;
       padding: 0.55rem 0.9rem;
-      transition: background 0.2s, border-color 0.2s;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
     }
 
     .btn-cart:hover {
@@ -32,13 +32,16 @@
       color: #fff;
     }
 
-    .game-card .btn-cart {
-      background: #f0eeff;
+    /* Botão "Carrinho" dentro dos cards do catálogo — outline roxo */
+    .game-card .btn.btn-cart {
+      background: transparent;
       color: var(--primary-dark);
-      border-color: #d0cbf0;
+      border: 1.5px solid var(--primary);
     }
 
-    .game-card .btn-cart:hover {
+    .game-card .btn.btn-cart:hover,
+    .game-card .btn.btn-cart:focus,
+    .game-card .btn.btn-cart:active {
       background: var(--primary);
       color: #fff;
       border-color: var(--primary);
