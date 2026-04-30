@@ -102,6 +102,10 @@
             <!-- STEP C1: Dados pessoais -->
             <div class="step-card active" id="cstep1">
               <h4><i class="bi bi-person-circle me-2"></i>Seus dados</h4>
+
+              <!-- Aviso de autenticação — preenchido por iniciarCheckout() -->
+              <div id="cAuthNotice" class="mb-4"></div>
+
               <div class="mb-3">
                 <label class="form-label" for="cNome">Nome completo</label>
                 <input type="text" class="form-control" id="cNome" placeholder="Seu nome completo" />
@@ -338,6 +342,28 @@
         }
 
         checkoutEl.scrollIntoView({ behavior: "smooth" });
+        // Exibe aviso de autenticação no Step C1
+        const notice = document.getElementById("cAuthNotice");
+        if (notice) {
+          if (user) {
+            notice.innerHTML =
+              '<div class="alert alert-success d-flex align-items-center gap-2 py-2 mb-0">' +
+                '<i class="bi bi-person-check-fill fs-5 flex-shrink-0"></i>' +
+                '<span>Comprando como <strong>' + user.nome + '</strong> (' + user.email + '). ' +
+                  '<a href="#" class="alert-link" onclick="fazerLogout();return false;">Sair</a>' +
+                '</span>' +
+              '</div>';
+          } else {
+            notice.innerHTML =
+              '<div class="alert alert-info d-flex align-items-center gap-2 py-2 mb-0">' +
+                '<i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>' +
+                '<span>Preencha um <strong>e-mail válido</strong> para continuar como convidado, ou ' +
+                  '<a href="login.html?next=carrinho.html" class="alert-link">entre na sua conta</a> ' +
+                  'para comprar mais rápido.' +
+                '</span>' +
+              '</div>';
+          }
+        }
       }
 
       function fecharCheckout() {
@@ -363,7 +389,7 @@
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(email.value.trim())) {
             email.classList.add("is-invalid");
-            email.nextElementSibling.textContent = "Digite um e-mail válido.";
+            email.nextElementSibling.textContent = "Informe um e-mail válido para continuar (ou faça login).";
             ok = false;
           }
           if (!ok) return;

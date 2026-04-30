@@ -510,6 +510,38 @@ document.addEventListener("DOMContentLoaded", function () {
   atualizarBoxPreco();
 
   // Limpar estilos ao digitar
+  // Pré-preenche dados do usuário logado e exibe aviso de autenticação
+  (function inicializarFormularioCompra() {
+    const user = getUsuarioLogado();
+    const nomeEl  = document.getElementById("nome");
+    const emailEl = document.getElementById("email");
+    const notice  = document.getElementById("authNotice");
+    if (!notice) return;
+
+    if (user) {
+      // Usuário logado: pré-preenche e mostra aviso verde
+      if (nomeEl)  nomeEl.value  = user.nome;
+      if (emailEl) emailEl.value = user.email;
+      notice.innerHTML =
+        '<div class="alert alert-success d-flex align-items-center gap-2 py-2 mb-0">' +
+          '<i class="bi bi-person-check-fill fs-5 flex-shrink-0"></i>' +
+          '<span>Comprando como <strong>' + user.nome + '</strong> (' + user.email + '). ' +
+            '<a href="#" class="alert-link" onclick="fazerLogout();return false;">Sair</a>' +
+          '</span>' +
+        '</div>';
+    } else {
+      // Convidado: instrução de preencher e-mail válido ou fazer login
+      notice.innerHTML =
+        '<div class="alert alert-info d-flex align-items-center gap-2 py-2 mb-0">' +
+          '<i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>' +
+          '<span>Preencha um <strong>e-mail válido</strong> para continuar como convidado, ou ' +
+            '<a href="login.html?next=compra.html" class="alert-link">entre na sua conta</a> ' +
+            'para comprar mais rápido.' +
+          '</span>' +
+        '</div>';
+    }
+  })();
+
   document
     .querySelectorAll("#nome, #email, #cartao, #validade, #cvv")
     .forEach(function (campo) {
