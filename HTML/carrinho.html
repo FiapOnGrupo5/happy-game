@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/style.css" />
+    <link rel="stylesheet" href="../CSS/desktop.css" media="(min-width:1024px)" />
+    <link rel="stylesheet" href="../CSS/carrinho.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <title>Carrinho - Happy Games</title>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <div class="container">
+        <a class="navbar-brand text-white navbar-brand-custom" href="index.html">
+          <i class="bi bi-controller me-2"></i>Happy Games
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+          <ul class="navbar-nav gap-1">
+            <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house me-1"></i>Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="catalogo.html"><i class="bi bi-grid me-1"></i>Catálogo</a></li>
+            <li class="nav-item">
+              <a class="nav-link active" href="carrinho.html" id="cartLink">
+                <i class="bi bi-cart3 me-1"></i>Carrinho
+                <span class="badge cart-badge" id="cartBadge" style="display:none;">0</span>
+              </a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="sobre.html"><i class="bi bi-info-circle me-1"></i>Sobre</a></li>
+            <ul id="navbarAuth" class="navbar-nav gap-1"></ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="py-4">
+      <div class="container">
+        <h2 class="section-title mb-4">
+          <i class="bi bi-cart3 me-2"></i>Meu Carrinho
+        </h2>
+
+        <!-- ========== SEÇÃO: CARRINHO VAZIO ========== -->
+        <div id="carrinhoVazio" class="cart-empty text-center py-5" style="display:none;">
+          <i class="bi bi-cart-x" style="font-size:4rem; color:#ccc;"></i>
+          <h4 class="mt-3 text-muted">Seu carrinho está vazio</h4>
+          <p class="text-muted">Adicione jogos do catálogo para começar!</p>
+          <a href="catalogo.html" class="btn btn-comprar px-4 mt-2">
+            <i class="bi bi-grid me-2"></i>Ver catálogo
+          </a>
+        </div>
+
+        <!-- ========== SEÇÃO: CARRINHO COM ITENS ========== -->
+        <div id="carrinhoComItens">
+          <div class="row g-4">
+            <!-- Coluna: lista de itens -->
+            <div class="col-lg-8">
+              <div id="listaItens" class="cart-items-list"></div>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <a href="catalogo.html" class="btn btn-outline-secondary btn-sm">
+                  <i class="bi bi-arrow-left me-1"></i>Continuar comprando
+                </a>
+                <button class="btn btn-outline-danger btn-sm" onclick="confirmarLimpar()">
+                  <i class="bi bi-trash me-1"></i>Limpar carrinho
+                </button>
+              </div>
+            </div>
+
+            <!-- Coluna: resumo e checkout -->
+            <div class="col-lg-4">
+              <div class="cart-summary">
+                <h5 class="fw-bold mb-3"><i class="bi bi-receipt me-2"></i>Resumo do pedido</h5>
+                <div id="resumoCarrinho" class="price-summary mb-3"></div>
+                <button class="btn btn-login w-100 py-2" onclick="iniciarCheckout()">
+                  <i class="bi bi-bag-check me-2"></i>Finalizar compra
+                </button>
+                <p class="text-muted small text-center mt-2">
+                  <i class="bi bi-shield-check me-1"></i>Compra 100% segura
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========== CHECKOUT EMBUTIDO ========== -->
+          <div id="checkoutArea" class="mt-5" style="display:none;">
+            <hr />
+            <h4 class="section-title mb-4"><i class="bi bi-bag-check me-2"></i>Finalizar pedido</h4>
+
+            <!-- Progress bar -->
+            <div class="progress-stepper mb-2">
+              <div class="progress-bar" id="cartProgressBar" style="width: 50%"></div>
+            </div>
+            <div class="step-labels mb-4">
+              <span id="clabel1" class="active"><i class="bi bi-person me-1"></i>Dados pessoais</span>
+              <span id="clabel2"><i class="bi bi-credit-card me-1"></i>Pagamento</span>
+            </div>
+
+            <!-- STEP C1: Dados pessoais -->
+            <div class="step-card active" id="cstep1">
+              <h4><i class="bi bi-person-circle me-2"></i>Seus dados</h4>
+              <div class="mb-3">
+                <label class="form-label" for="cNome">Nome completo</label>
+                <input type="text" class="form-control" id="cNome" placeholder="Seu nome completo" />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label" for="cEmail">E-mail</label>
+                <input type="email" class="form-control" id="cEmail" placeholder="seu@email.com" />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="d-flex justify-content-between gap-2">
+                <button class="btn btn-step btn-prev" onclick="fecharCheckout()">
+                  <i class="bi bi-arrow-left me-1"></i>Voltar ao carrinho
+                </button>
+                <button class="btn btn-step btn-next" onclick="irParaCheckout(2)">
+                  Próximo <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP C2: Pagamento -->
+            <div class="step-card" id="cstep2">
+              <h4><i class="bi bi-credit-card me-2"></i>Pagamento</h4>
+
+              <!-- Seletor de método -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold">Método de pagamento</label>
+                <div class="d-flex gap-2 flex-wrap">
+                  <input type="radio" class="btn-check" name="cPagamento" id="cPagCartao" value="cartao" checked />
+                  <label class="btn btn-outline-primary payment-btn" for="cPagCartao">
+                    <i class="bi bi-credit-card me-1"></i>Cartão
+                  </label>
+                  <input type="radio" class="btn-check" name="cPagamento" id="cPagPix" value="pix" />
+                  <label class="btn btn-outline-success payment-btn" for="cPagPix">
+                    <i class="bi bi-qr-code me-1"></i>PIX
+                  </label>
+                  <input type="radio" class="btn-check" name="cPagamento" id="cPagBoleto" value="boleto" />
+                  <label class="btn btn-outline-secondary payment-btn" for="cPagBoleto">
+                    <i class="bi bi-upc me-1"></i>Boleto
+                  </label>
+                </div>
+              </div>
+
+              <!-- Cartão -->
+              <div id="cSecCartao">
+                <div class="mb-3">
+                  <label class="form-label" for="cCartao">Número do cartão</label>
+                  <input type="text" class="form-control" id="cCartao" placeholder="0000 0000 0000 0000" maxlength="19" />
+                  <div class="invalid-feedback"></div>
+                </div>
+                <div class="row mb-4">
+                  <div class="col">
+                    <label class="form-label" for="cValidade">Validade</label>
+                    <input type="text" class="form-control" id="cValidade" placeholder="MM/AA" maxlength="5" />
+                    <div class="invalid-feedback"></div>
+                  </div>
+                  <div class="col">
+                    <label class="form-label" for="cCvv">CVV</label>
+                    <input type="text" class="form-control" id="cCvv" placeholder="123" maxlength="3" />
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PIX -->
+              <div id="cSecPix" class="pix-section text-center py-3" style="display:none;">
+                <i class="bi bi-qr-code pix-icon d-block mx-auto mb-3"></i>
+                <p class="fw-semibold mb-1">Chave PIX: <span class="text-success">happygames@pix.com.br</span></p>
+                <p class="text-muted small mb-1">Escaneie o QR code ou copie a chave com o app do seu banco.</p>
+                <p class="text-muted small">Confirmação em até <strong>1 minuto</strong> após a transferência.</p>
+              </div>
+
+              <!-- Boleto -->
+              <div id="cSecBoleto" class="boleto-section text-center py-3" style="display:none;">
+                <i class="bi bi-upc boleto-icon d-block mx-auto mb-3"></i>
+                <p class="fw-semibold small mb-2">Linha digitável:</p>
+                <code class="boleto-code d-block p-2 rounded mb-3">23790.00010 00000.000007 00000.000000 1 00000000000000</code>
+                <p class="text-muted small">Vencimento: <strong>3 dias úteis</strong>. Pague em qualquer banco, lotérica ou app bancário.</p>
+              </div>
+
+              <div class="d-flex justify-content-between gap-2">
+                <button class="btn btn-step btn-prev" onclick="irParaCheckout(1)">
+                  <i class="bi bi-arrow-left me-1"></i>Voltar
+                </button>
+                <button class="btn btn-step btn-next" id="cBtnRevisar" type="button">
+                  <i class="bi bi-bag-check me-1"></i>Revisar pedido
+                </button>
+              </div>
+            </div>
+
+          </div><!-- /checkoutArea -->
+        </div><!-- /carrinhoComItens -->
+      </div>
+    </main>
+
+    <!-- MODAL DE CONFIRMAÇÃO -->
+    <div class="modal fade" id="modalCarrinho" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><i class="bi bi-bag-check me-2"></i>Confirmar pedido</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p class="text-muted mb-3">Confira os detalhes antes de finalizar:</p>
+            <div id="resumoModalCarrinho"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              <i class="bi bi-pencil me-1"></i>Editar
+            </button>
+            <button type="button" class="btn btn-next btn-step" id="cBtnConfirmar">
+              <i class="bi bi-check-circle me-1"></i>Confirmar compra
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer><p>&copy; 2026 Happy Games</p></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../JavaScript/dados.js"></script>
+    <script src="../JavaScript/auth.js"></script>
+    <script src="../JavaScript/carrinho.js"></script>
+    <script>
+      "use strict";
+
+      let cartStep = 1;
+
+      // ============================================================
+      // RENDERIZAÇÃO DO CARRINHO
+      // ============================================================
+
+      function renderizarCarrinho() {
+        const itens = getCarrinho();
+        const listaEl = document.getElementById("listaItens");
+        const vazioEl = document.getElementById("carrinhoVazio");
+        const comItensEl = document.getElementById("carrinhoComItens");
+        const resumoEl = document.getElementById("resumoCarrinho");
+
+        if (itens.length === 0) {
+          vazioEl.style.display = "block";
+          comItensEl.style.display = "none";
+          return;
+        }
+
+        vazioEl.style.display = "none";
+        comItensEl.style.display = "block";
+
+        // Renderiza lista de itens
+        let html = "";
+        for (let i = 0; i < itens.length; i++) {
+          const item = itens[i];
+          const r = calcularPedido(item.preco, item.quantidade);
+          html +=
+            '<div class="cart-item" data-id="' + item.id + '">' +
+              '<img src="' + item.imagem + '" alt="' + item.nome + '" class="cart-item-img" />' +
+              '<div class="cart-item-info">' +
+                '<h6 class="cart-item-nome">' + item.nome + '</h6>' +
+                '<span class="cart-item-preco">' + formatarReais(item.preco) + ' /un.</span>' +
+              '</div>' +
+              '<div class="cart-item-controls">' +
+                '<button class="btn-qty" onclick="mudarQtd(' + item.id + ', -1)"><i class="bi bi-dash"></i></button>' +
+                '<span class="qty-display">' + item.quantidade + '</span>' +
+                '<button class="btn-qty" onclick="mudarQtd(' + item.id + ', 1)"><i class="bi bi-plus"></i></button>' +
+              '</div>' +
+              '<div class="cart-item-total">' +
+                '<span>' + formatarReais(r.total) + '</span>' +
+                (r.desconto > 0 ? '<small class="text-success d-block">-' + (r.taxa * 100).toFixed(0) + '% desc.</small>' : '') +
+              '</div>' +
+              '<button class="btn-remove" onclick="confirmarRemover(' + item.id + ', \'' + item.nome.replace(/'/g, "\\'") + '\')" title="Remover">' +
+                '<i class="bi bi-x-lg"></i>' +
+              '</button>' +
+            '</div>';
+        }
+        listaEl.innerHTML = html;
+
+        // Renderiza resumo
+        const total = totalCarrinho();
+        const qtdTotal = contarItensCarrinho();
+        let resumoHtml =
+          '<div class="resumo-item"><span>Itens (' + qtdTotal + ')</span><span>' + formatarReais(getCarrinho().reduce(function(a, it){ return a + it.preco * it.quantidade; }, 0)) + '</span></div>';
+        const economia = getCarrinho().reduce(function(a, it){ return a + (calcularPedido(it.preco, it.quantidade).desconto); }, 0);
+        if (economia > 0) {
+          resumoHtml += '<div class="resumo-item text-success"><span><i class="bi bi-tag-fill me-1"></i>Descontos</span><span>- ' + formatarReais(economia) + '</span></div>';
+        }
+        resumoHtml += '<div class="resumo-item fw-bold total-row"><span>Total</span><span>' + formatarReais(total) + '</span></div>';
+        resumoEl.innerHTML = resumoHtml;
+      }
+
+      function mudarQtd(id, delta) {
+        const itens = getCarrinho();
+        const item = itens.find(function(it){ return it.id === id; });
+        if (!item) return;
+        atualizarQuantidadeCarrinho(id, item.quantidade + delta);
+        renderizarCarrinho();
+      }
+
+      function confirmarRemover(id, nome) {
+        if (confirm('Remover "' + nome + '" do carrinho?')) {
+          removerDoCarrinho(id);
+          renderizarCarrinho();
+        }
+      }
+
+      function confirmarLimpar() {
+        if (confirm("Deseja limpar todo o carrinho?")) {
+          limparCarrinho();
+          renderizarCarrinho();
+        }
+      }
+
+      // ============================================================
+      // CHECKOUT
+      // ============================================================
+
+      function iniciarCheckout() {
+        const user = getUsuarioLogado();
+        const checkoutEl = document.getElementById("checkoutArea");
+        checkoutEl.style.display = "block";
+
+        // Pré-preenche se logado
+        if (user) {
+          document.getElementById("cNome").value = user.nome;
+          document.getElementById("cEmail").value = user.email;
+        }
+
+        checkoutEl.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function fecharCheckout() {
+        document.getElementById("checkoutArea").style.display = "none";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function irParaCheckout(step) {
+        if (step === 2) {
+          // Valida dados pessoais
+          const nome = document.getElementById("cNome");
+          const email = document.getElementById("cEmail");
+          let ok = true;
+
+          nome.classList.remove("is-invalid");
+          email.classList.remove("is-invalid");
+
+          if (nome.value.trim().length < 3) {
+            nome.classList.add("is-invalid");
+            nome.nextElementSibling.textContent = "Nome precisa ter pelo menos 3 caracteres.";
+            ok = false;
+          }
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email.value.trim())) {
+            email.classList.add("is-invalid");
+            email.nextElementSibling.textContent = "Digite um e-mail válido.";
+            ok = false;
+          }
+          if (!ok) return;
+        }
+
+        document.getElementById("cstep" + cartStep).classList.remove("active");
+        document.getElementById("clabel" + cartStep).classList.remove("active");
+        cartStep = step;
+        document.getElementById("cstep" + cartStep).classList.add("active");
+        document.getElementById("clabel" + cartStep).classList.add("active");
+        document.getElementById("cartProgressBar").style.width = (step === 1 ? "50" : "100") + "%";
+        document.getElementById("checkoutArea").scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Troca visual do método de pagamento
+      document.querySelectorAll('input[name="cPagamento"]').forEach(function(radio) {
+        radio.addEventListener("change", function() {
+          document.getElementById("cSecCartao").style.display = this.value === "cartao" ? "block" : "none";
+          document.getElementById("cSecPix").style.display = this.value === "pix" ? "block" : "none";
+          document.getElementById("cSecBoleto").style.display = this.value === "boleto" ? "block" : "none";
+        });
+      });
+
+      // Máscara do cartão
+      document.getElementById("cCartao").addEventListener("input", function() {
+        let v = this.value.replace(/\D/g, "").substring(0, 16);
+        this.value = v.replace(/(.{4})/g, "$1 ").trim();
+      });
+      document.getElementById("cValidade").addEventListener("input", function() {
+        let v = this.value.replace(/\D/g, "").substring(0, 4);
+        if (v.length > 2) v = v.substring(0, 2) + "/" + v.substring(2);
+        this.value = v;
+      });
+      document.getElementById("cCvv").addEventListener("input", function() {
+        this.value = this.value.replace(/\D/g, "").substring(0, 3);
+      });
+
+      // Botão Revisar pedido
+      document.getElementById("cBtnRevisar").addEventListener("click", function() {
+        const metodo = document.querySelector('input[name="cPagamento"]:checked').value;
+
+        if (metodo === "cartao") {
+          const cartao = document.getElementById("cCartao");
+          const validade = document.getElementById("cValidade");
+          const cvv = document.getElementById("cCvv");
+          let ok = true;
+
+          [cartao, validade, cvv].forEach(function(el){ el.classList.remove("is-invalid"); });
+
+          if (cartao.value.replace(/\D/g, "").length < 16) {
+            cartao.classList.add("is-invalid");
+            cartao.nextElementSibling.textContent = "Número do cartão precisa ter 16 dígitos.";
+            ok = false;
+          }
+          if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(validade.value)) {
+            validade.classList.add("is-invalid");
+            validade.nextElementSibling.textContent = "Formato: MM/AA.";
+            ok = false;
+          }
+          if (cvv.value.replace(/\D/g, "").length < 3) {
+            cvv.classList.add("is-invalid");
+            cvv.nextElementSibling.textContent = "CVV precisa ter 3 dígitos.";
+            ok = false;
+          }
+          if (!ok) return;
+        }
+
+        // Monta modal
+        const itens = getCarrinho();
+        const total = totalCarrinho();
+        const metodoTexto = { cartao: "Cartão de crédito", pix: "PIX", boleto: "Boleto bancário" }[metodo];
+
+        let modalHtml =
+          '<div class="resumo-item"><span>Nome</span><span>' + document.getElementById("cNome").value + '</span></div>' +
+          '<div class="resumo-item"><span>E-mail</span><span>' + document.getElementById("cEmail").value + '</span></div>' +
+          '<div class="resumo-item"><span>Pagamento</span><span>' + metodoTexto + '</span></div>' +
+          '<hr/><strong>Itens:</strong>';
+
+        for (let i = 0; i < itens.length; i++) {
+          const r = calcularPedido(itens[i].preco, itens[i].quantidade);
+          modalHtml += '<div class="resumo-item"><span>' + itens[i].nome + ' x' + itens[i].quantidade + '</span><span>' + formatarReais(r.total) + '</span></div>';
+        }
+        modalHtml += '<div class="resumo-item fw-bold total-row"><span>Total</span><span>' + formatarReais(total) + '</span></div>';
+
+        document.getElementById("resumoModalCarrinho").innerHTML = modalHtml;
+        new bootstrap.Modal(document.getElementById("modalCarrinho")).show();
+      });
+
+      // Confirmar compra
+      document.getElementById("cBtnConfirmar").addEventListener("click", function() {
+        limparCarrinho();
+        window.location.href = "obrigado.html";
+      });
+
+      // ============================================================
+      // INIT
+      // ============================================================
+      document.addEventListener("DOMContentLoaded", function() {
+        renderizarCarrinho();
+      });
+    </script>
+  </body>
+</html>
