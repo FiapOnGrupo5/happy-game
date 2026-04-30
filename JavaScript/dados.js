@@ -98,3 +98,42 @@ function getPrecoByNome(nome) {
   }
   return 0;
 }
+
+// Exporta jogo pelo id (usado em carrinho.js)
+function getJogoPorId(id) {
+  for (let i = 0; i < JOGOS.length; i++) {
+    if (JOGOS[i].id === id) return JOGOS[i];
+  }
+  return null;
+}
+
+// =============================================
+// FUNÇÕES MATEMÁTICAS DE PREÇO
+// (utilizadas em compra.js e carrinho.js)
+// =============================================
+
+/** Função linear (1º grau): subtotal sem desconto. f(q) = preco * q */
+function calcularSubtotal(preco, quantidade) {
+  return preco * quantidade;
+}
+
+/** Função quadrática (2º grau): taxa de desconto por volume.
+ *  f(q) = 0.005 * (q-1)²  — cresce quadraticamente; cap: 20% */
+function calcularTaxaDesconto(quantidade) {
+  const taxa = 0.005 * Math.pow(quantidade - 1, 2);
+  return Math.min(taxa, 0.20);
+}
+
+/** Combina as duas funções e retorna { subtotal, taxa, desconto, total }. */
+function calcularPedido(preco, quantidade) {
+  const subtotal = calcularSubtotal(preco, quantidade);
+  const taxa = calcularTaxaDesconto(quantidade);
+  const desconto = subtotal * taxa;
+  const total = subtotal - desconto;
+  return { subtotal, taxa, desconto, total };
+}
+
+/** Formata número para moeda brasileira (R$). */
+function formatarReais(valor) {
+  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
