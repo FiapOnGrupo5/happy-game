@@ -3,45 +3,8 @@
 let currentStep = 1;
 
 // =============================================
-// FUNÇÕES MATEMÁTICAS – CÁLCULO DE PREÇO
+// PAINEL DE PREÇO – STEP 2
 // =============================================
-
-/**
- * Função de 1º grau (linear): calcula o subtotal sem desconto.
- * f(q) = preco * q
- * Domínio: q ∈ [1, 10]
- */
-function calcularSubtotal(preco, quantidade) {
-  return preco * quantidade;
-}
-
-/**
- * Função de 2º grau (quadrática): calcula a taxa de desconto por volume.
- * f(q) = 0.005 * (q - 1)²  →  taxa cresce quadraticamente com a quantidade
- * Exemplos: q=1 → 0%,  q=2 → 0,5%,  q=5 → 8%,  q=10 → 20,25% (cap: 20%)
- * @returns {number} taxa entre 0 e 0.20
- */
-function calcularTaxaDesconto(quantidade) {
-  const taxa = 0.005 * Math.pow(quantidade - 1, 2);
-  return Math.min(taxa, 0.20); // teto de 20%
-}
-
-/**
- * Combina as duas funções e retorna os valores do pedido.
- * @returns {{ subtotal, taxa, desconto, total }}
- */
-function calcularPedido(preco, quantidade) {
-  const subtotal = calcularSubtotal(preco, quantidade);
-  const taxa = calcularTaxaDesconto(quantidade);
-  const desconto = subtotal * taxa;
-  const total = subtotal - desconto;
-  return { subtotal, taxa, desconto, total };
-}
-
-/** Formata número para moeda brasileira. */
-function formatarReais(valor) {
-  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
 
 /**
  * Atualiza o painel de resumo de preço (boxPreco) no step 2.
@@ -173,7 +136,17 @@ function validarEtapa2() {
 // VALIDACAO ETAPA 3 - PAGAMENTO
 // =============================================
 
+function getMetodoPagamento() {
+  const radio = document.querySelector('input[name="pagamento"]:checked');
+  return radio ? radio.value : "cartao";
+}
+
 function validarEtapa3() {
+  const metodo = getMetodoPagamento();
+
+  // PIX e Boleto não precisam de campos extras
+  if (metodo !== "cartao") return true;
+
   const cartao = document.getElementById("cartao");
   const validade = document.getElementById("validade");
   const cvv = document.getElementById("cvv");
@@ -205,7 +178,7 @@ function validarEtapa3() {
 
   if (!valido) {
     alert(
-      "Preencha todos os dados de pagamento corretamente para revisar o pedido.",
+      "Preencha todos os dados do cartão corretamente para revisar o pedido.",
     );
   }
   return valido;
@@ -255,6 +228,11 @@ function atualizarResumo() {
     precoTexto += ` (desconto de ${(r.taxa * 100).toFixed(1)}% aplicado)`;
   }
   document.getElementById("rPreco").textContent = precoTexto;
+
+  // Pagamento
+  const metodo = getMetodoPagamento();
+  const metodoTextos = { cartao: "Cartão de crédito", pix: "PIX", boleto: "Boleto bancário" };
+  document.getElementById("rPagamento").textContent = metodoTextos[metodo] || metodo;
 }
 
 // =============================================
@@ -312,34 +290,34 @@ function validarTudo() {
     mostrarSucesso(quantidade);
   }
 
-  // --- Etapa 3: cartao ---
-  const cartaoNumeros = cartao.value.replace(/\D/g, "");
-  if (cartaoNumeros.length < 16) {
-    mostrarErro(cartao, "O numero do cartao precisa ter 16 digitos.");
-    valido = false;
-    if (!primeiroErro) primeiroErro = 3;
-  } else {
-    mostrarSucesso(cartao);
-  }
+  // --- Etapa 3: campos do cartão (apenas quando método = cartão) ---
+  if (getMetodoPagamento() === "cartao") {
+    const cartaoNumeros = cartao.value.replace(/\D/g, "");
+    if (cartaoNumeros.length < 16) {
+      mostrarErro(cartao, "O numero do cartao precisa ter 16 digitos.");
+      valido = false;
+      if (!primeiroErro) primeiroErro = 3;
+    } else {
+      mostrarSucesso(cartao);
+    }
 
-  // --- Etapa 3: validade ---
-  const validadeRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-  if (!validadeRegex.test(validade.value)) {
-    mostrarErro(validade, "Digite a validade no formato MM/AA.");
-    valido = false;
-    if (!primeiroErro) primeiroErro = 3;
-  } else {
-    mostrarSucesso(validade);
-  }
+    const validadeRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    if (!validadeRegex.test(validade.value)) {
+      mostrarErro(validade, "Digite a validade no formato MM/AA.");
+      valido = false;
+      if (!primeiroErro) primeiroErro = 3;
+    } else {
+      mostrarSucesso(validade);
+    }
 
-  // --- Etapa 3: cvv ---
-  const cvvNumeros = cvv.value.replace(/\D/g, "");
-  if (cvvNumeros.length < 3) {
-    mostrarErro(cvv, "O CVV precisa ter 3 digitos.");
-    valido = false;
-    if (!primeiroErro) primeiroErro = 3;
-  } else {
-    mostrarSucesso(cvv);
+    const cvvNumeros = cvv.value.replace(/\D/g, "");
+    if (cvvNumeros.length < 3) {
+      mostrarErro(cvv, "O CVV precisa ter 3 digitos.");
+      valido = false;
+      if (!primeiroErro) primeiroErro = 3;
+    } else {
+      mostrarSucesso(cvv);
+    }
   }
 
   // Se invalido, mostra alert e volta para a etapa com erro
@@ -417,6 +395,15 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       mostrarSucesso(this);
     }
+  });
+
+  // Troca do método de pagamento: mostra/oculta seções
+  document.querySelectorAll('input[name="pagamento"]').forEach(function (radio) {
+    radio.addEventListener("change", function () {
+      document.getElementById("secCartao").style.display = this.value === "cartao" ? "block" : "none";
+      document.getElementById("secPix").style.display = this.value === "pix" ? "block" : "none";
+      document.getElementById("secBoleto").style.display = this.value === "boleto" ? "block" : "none";
+    });
   });
 
   // Validacao em tempo real - Quantidade (change)
