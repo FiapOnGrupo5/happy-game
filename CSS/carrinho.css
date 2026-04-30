@@ -119,6 +119,27 @@
   top: 80px;
 }
 
+/* ---- Linhas de resumo (modal e sidebar) ---- */
+.resumo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+}
+
+.resumo-item span:last-child {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.total-row {
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
 /* ---- Seções de pagamento ---- */
 .pix-icon {
   font-size: 5rem;
