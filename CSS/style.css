@@ -4,6 +4,45 @@
       letter-spacing: -0.5px;
     }
 
+    /* ============================================================
+       PREÇO – tag de preço nos cards e resumo de compra
+    ============================================================ */
+    .preco-tag {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: -0.3px;
+    }
+
+    .price-summary {
+      background: #f8f6ff;
+      border: 1.5px solid rgba(102, 126, 234, 0.25);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+    }
+
+    .price-summary .resumo-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #ede8ff;
+      font-size: 0.95rem;
+    }
+
+    .price-summary .resumo-item:last-child {
+      border-bottom: none;
+    }
+
+    .price-summary .total-row {
+      color: var(--primary-dark);
+      font-size: 1.05rem;
+      padding-top: 0.6rem;
+    }
+
+    /* ============================================================
+       CARD – melhorias visuais de hover e imagem
+    ============================================================ */
+
     .navbar-custom {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       box-shadow: var(--shadow);
