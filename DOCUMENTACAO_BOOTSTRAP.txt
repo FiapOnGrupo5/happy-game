@@ -1,0 +1,120 @@
+DOCUMENTACAO DO BOOTSTRAP - HAPPY GAMES
+
+Este arquivo registra as referencias usadas no projeto para os elementos de Bootstrap adicionados com ajuda do Claude Code, com os links oficiais e o motivo de uso em cada caso.
+
+1. Bootstrap - Introducao e CDN
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/getting-started/introduction/
+
+CDNs usados no projeto:
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js
+
+Por que foi usado:
+- Para carregar a base visual do Bootstrap.
+- Para habilitar componentes interativos com JavaScript.
+- O arquivo bundle foi usado porque ja traz os scripts necessarios para modal, toast, carousel e offcanvas.
+
+2. Bootstrap Icons
+Documentacao oficial:
+https://icons.getbootstrap.com/
+
+CDN usado no projeto:
+https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css
+
+Por que foi usado:
+- Para icones da navbar, botoes, titulos e confirmacoes visuais.
+- Mantem consistencia visual sem precisar importar imagens de icones separadas.
+
+3. Navbar
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/components/navbar/
+
+Por que foi usado:
+- Para criar o menu principal responsivo presente em todas as paginas.
+- Facilita a navegacao entre index, catalogo, compra, sobre e obrigado.
+
+4. Grid System
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/layout/grid/
+
+Por que foi usado:
+- Para organizar os cards de jogos em colunas responsivas.
+- Ajuda o layout a se adaptar melhor em celular, tablet e desktop.
+
+5. Cards
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/components/card/
+
+Por que foi usado:
+- Para exibir cada jogo com imagem, titulo, descricao e botao.
+- Padroniza a apresentacao dos produtos no index e no catalogo.
+
+6. Carousel
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/components/carousel/
+
+Por que foi usado:
+- Para destacar jogos na pagina inicial com rotacao automatica.
+- Permite mostrar varios destaques na mesma area da tela.
+
+7. Offcanvas
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/components/offcanvas/
+
+Por que foi usado:
+- Para abrir os filtros do catalogo em uma lateral.
+- Evita poluir a interface principal, especialmente em telas menores.
+
+8. Modal
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/components/modal/
+
+Por que foi usado:
+- Para revisar e confirmar o pedido na pagina de compra.
+- Mantem o usuario no fluxo sem trocar de pagina antes da confirmacao.
+
+9. Toasts
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/components/toasts/
+
+Por que foi usado:
+- Para mostrar feedback rapido quando o usuario clica em comprar.
+- Serve como confirmacao visual leve, sem interromper a navegacao.
+
+10. Forms
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/forms/overview/
+
+Por que foi usado:
+- Para estruturar campos de busca, filtros e dados da compra.
+- Tambem foi usado no formulario simples de cadastro da comunidade.
+
+11. Buttons
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/components/buttons/
+
+Por que foi usado:
+- Para os botoes de compra, navegacao, troca de conteudo e confirmacao.
+- Facilita combinar estilos prontos do Bootstrap com a identidade visual customizada.
+
+12. Alerts
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/components/alerts/
+
+Por que foi usado:
+- Para mostrar o feedback Cadastro realizado com sucesso.
+- Deixa a mensagem visualmente clara para o usuario.
+
+13. List Group
+Documentacao oficial:
+https://getbootstrap.com/docs/5.3/components/list-group/
+
+Por que foi usado:
+- Para exibir o ranking da semana de forma simples e responsiva.
+- Ajuda a organizar os itens do array de jogadores e scores.
+
+Observacoes:
+- Os links acima sao oficiais e correspondem ao Bootstrap 5.3.
+- O projeto usa Bootstrap 5.3.0 e Bootstrap Icons 1.11.0 via jsDelivr.
+- Nesta versao, o projeto tambem passou a ter exemplos simples de funcoes, arrays, validacao de formulario e troca de conteudo por clique.
