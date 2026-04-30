@@ -256,7 +256,7 @@
         let html = "";
         for (let i = 0; i < itens.length; i++) {
           const item = itens[i];
-          const r = calcularPedido(item.preco, item.quantidade);
+          const subtotalItem = item.preco * item.quantidade;
           html +=
             '<div class="cart-item" data-id="' + item.id + '">' +
               '<img src="' + item.imagem + '" alt="' + item.nome + '" class="cart-item-img" />' +
@@ -270,8 +270,7 @@
                 '<button class="btn-qty" onclick="mudarQtd(' + item.id + ', 1)"><i class="bi bi-plus"></i></button>' +
               '</div>' +
               '<div class="cart-item-total">' +
-                '<span>' + formatarReais(r.total) + '</span>' +
-                (r.desconto > 0 ? '<small class="text-success d-block">-' + (r.taxa * 100).toFixed(0) + '% desc.</small>' : '') +
+                '<span>' + formatarReais(subtotalItem) + '</span>' +
               '</div>' +
               '<button class="btn-remove" onclick="confirmarRemover(' + item.id + ', \'' + item.nome.replace(/'/g, "\\'") + '\')" title="Remover">' +
                 '<i class="bi bi-x-lg"></i>' +
@@ -280,16 +279,15 @@
         }
         listaEl.innerHTML = html;
 
-        // Renderiza resumo
-        const total = totalCarrinho();
+        // Renderiza resumo usando desconto sobre o total de itens do carrinho
+        const resumo = calcularResumoCarrinho();
         const qtdTotal = contarItensCarrinho();
         let resumoHtml =
-          '<div class="resumo-item"><span>Itens (' + qtdTotal + ')</span><span>' + formatarReais(getCarrinho().reduce(function(a, it){ return a + it.preco * it.quantidade; }, 0)) + '</span></div>';
-        const economia = getCarrinho().reduce(function(a, it){ return a + (calcularPedido(it.preco, it.quantidade).desconto); }, 0);
-        if (economia > 0) {
-          resumoHtml += '<div class="resumo-item text-success"><span><i class="bi bi-tag-fill me-1"></i>Descontos</span><span>- ' + formatarReais(economia) + '</span></div>';
+          '<div class="resumo-item"><span>Subtotal (' + qtdTotal + ' ' + (qtdTotal === 1 ? 'item' : 'itens') + ')</span><span>' + formatarReais(resumo.subtotalBruto) + '</span></div>';
+        if (resumo.desconto > 0) {
+          resumoHtml += '<div class="resumo-item text-success"><span><i class="bi bi-tag-fill me-1"></i>Desconto (' + (resumo.taxa * 100).toFixed(0) + '% sobre ' + qtdTotal + ' itens)</span><span>- ' + formatarReais(resumo.desconto) + '</span></div>';
         }
-        resumoHtml += '<div class="resumo-item fw-bold total-row"><span>Total</span><span>' + formatarReais(total) + '</span></div>';
+        resumoHtml += '<div class="resumo-item fw-bold total-row"><span>Total</span><span>' + formatarReais(resumo.total) + '</span></div>';
         resumoEl.innerHTML = resumoHtml;
       }
 
@@ -435,11 +433,15 @@
           '<div class="resumo-item"><span>Pagamento</span><span>' + metodoTexto + '</span></div>' +
           '<hr/><strong>Itens:</strong>';
 
+        const resumoModal = calcularResumoCarrinho();
         for (let i = 0; i < itens.length; i++) {
-          const r = calcularPedido(itens[i].preco, itens[i].quantidade);
-          modalHtml += '<div class="resumo-item"><span>' + itens[i].nome + ' x' + itens[i].quantidade + '</span><span>' + formatarReais(r.total) + '</span></div>';
+          const subtotalItem = itens[i].preco * itens[i].quantidade;
+          modalHtml += '<div class="resumo-item"><span>' + itens[i].nome + ' x' + itens[i].quantidade + '</span><span>' + formatarReais(subtotalItem) + '</span></div>';
         }
-        modalHtml += '<div class="resumo-item fw-bold total-row"><span>Total</span><span>' + formatarReais(total) + '</span></div>';
+        if (resumoModal.desconto > 0) {
+          modalHtml += '<div class="resumo-item text-success"><span><i class="bi bi-tag-fill me-1"></i>Desconto (' + (resumoModal.taxa * 100).toFixed(0) + '%)</span><span>- ' + formatarReais(resumoModal.desconto) + '</span></div>';
+        }
+        modalHtml += '<div class="resumo-item fw-bold total-row"><span>Total</span><span>' + formatarReais(resumoModal.total) + '</span></div>';
 
         document.getElementById("resumoModalCarrinho").innerHTML = modalHtml;
         new bootstrap.Modal(document.getElementById("modalCarrinho")).show();
