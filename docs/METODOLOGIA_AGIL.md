@@ -1,5 +1,7 @@
 # Metodologia Ágil – Happy Games
 
+Atualizado em: 05/05/2026
+
 ## Escolha da Metodologia: Scrum
 
 Para o desenvolvimento do Happy Games, a equipe optou pelo **Scrum** como
@@ -37,14 +39,14 @@ papéis (Product Owner, Scrum Master, Developers) e cerimônias formais
 
 ## Justificativa para escolha do Scrum no Happy Games
 
-| Critério | Análise | Decisão |
-|---|---|---|
-| Tamanho da equipe | 4 pessoas | Dentro da faixa ideal do Scrum (3–9 membros) |
-| Duração do projeto | Curto prazo (4 semanas) | Sprints de 1 semana permitem ajustes rápidos |
-| Clareza do escopo | Escopo definido (loja de jogos com 5 páginas) | Backlog priorizado facilita o planejamento |
-| Necessidade de feedback | Alta — feedback do avaliador ao fim de cada ciclo | Sprint Review se encaixa perfeitamente |
-| Complexidade técnica | Média (HTML, CSS, JS, Bootstrap) | Scrum ajuda a priorizar funcionalidades por valor |
-| Ritmo da equipe | Estudantes com agendas paralelas | Daily assíncrona mantém o alinhamento sem reuniões longas |
+| Critério                | Análise                                           | Decisão                                                   |
+| ----------------------- | ------------------------------------------------- | --------------------------------------------------------- |
+| Tamanho da equipe       | 4 pessoas                                         | Dentro da faixa ideal do Scrum (3–9 membros)              |
+| Duração do projeto      | Curto prazo (4 semanas)                           | Sprints de 1 semana permitem ajustes rápidos              |
+| Clareza do escopo       | Escopo definido (loja de jogos com 5 páginas)     | Backlog priorizado facilita o planejamento                |
+| Necessidade de feedback | Alta — feedback do avaliador ao fim de cada ciclo | Sprint Review se encaixa perfeitamente                    |
+| Complexidade técnica    | Média (HTML, CSS, JS, Bootstrap)                  | Scrum ajuda a priorizar funcionalidades por valor         |
+| Ritmo da equipe         | Estudantes com agendas paralelas                  | Daily assíncrona mantém o alinhamento sem reuniões longas |
 
 ### Por que Kanban seria inadequado aqui?
 
@@ -67,25 +69,25 @@ papéis (Product Owner, Scrum Master, Developers) e cerimônias formais
 
 ## Sprints do Projeto
 
-| Sprint | Duração | Foco | Entrega |
-|---|---|---|---|
-| Sprint 1 | 1 semana | Estrutura base | 5 páginas HTML com navbar, footer e estrutura Bootstrap |
+| Sprint   | Duração  | Foco                    | Entrega                                                          |
+| -------- | -------- | ----------------------- | ---------------------------------------------------------------- |
+| Sprint 1 | 1 semana | Estrutura base          | 5 páginas HTML com navbar, footer e estrutura Bootstrap          |
 | Sprint 2 | 1 semana | Visual e responsividade | CSS customizado, variáveis, responsividade mobile/tablet/desktop |
-| Sprint 3 | 1 semana | Interatividade | JavaScript: filtros, busca, stepper, modal, toast, validações |
-| Sprint 4 | 1 semana | Qualidade e entrega | Ajustes de UX, testes manuais, documentação e entrega final |
+| Sprint 3 | 1 semana | Interatividade          | JavaScript: filtros, busca, stepper, modal, toast, validações    |
+| Sprint 4 | 1 semana | Qualidade e entrega     | Ajustes de UX, testes manuais, documentação e entrega final      |
 
 ---
 
 ## Artefatos do Scrum Utilizados
 
-| Artefato | Como foi aplicado |
-|---|---|
-| **Product Backlog** | Lista de funcionalidades priorizadas: carousel, cards, filtros, formulário de compra, toast, modal |
-| **Sprint Backlog** | Tarefas distribuídas por sprint conforme tabela acima |
-| **Incremento** | Entrega ao fim de cada sprint: HTML → CSS → JS → Refinamento |
-| **Daily Standup** | Alinhamento rápido via chat da equipe (assíncrono, adaptado para estudantes) |
-| **Sprint Review** | Revisão das entregas com o grupo antes de cada nova fase |
-| **Retrospectiva** | Avaliação do que funcionou e o que melhorar — ex.: CSS duplicado identificado e planejado para correção |
+| Artefato            | Como foi aplicado                                                                                       |
+| ------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Product Backlog** | Lista de funcionalidades priorizadas: carousel, cards, filtros, formulário de compra, toast, modal      |
+| **Sprint Backlog**  | Tarefas distribuídas por sprint conforme tabela acima                                                   |
+| **Incremento**      | Entrega ao fim de cada sprint: HTML → CSS → JS → Refinamento                                            |
+| **Daily Standup**   | Alinhamento rápido via chat da equipe (assíncrono, adaptado para estudantes)                            |
+| **Sprint Review**   | Revisão das entregas com o grupo antes de cada nova fase                                                |
+| **Retrospectiva**   | Avaliação do que funcionou e o que melhorar — ex.: CSS duplicado identificado e planejado para correção |
 
 ---
 
@@ -96,3 +98,7 @@ sem burocracia excessiva**. Com 4 pessoas, escopo definido, prazo curto e
 necessidade de feedback constante, os pilares do Scrum — transparência,
 inspeção e adaptação — foram fundamentais para entregar um produto coeso dentro
 do prazo.
+
+Referencias complementares:
+- Evolucao tecnica da fase: `docs/FASE3_ATUALIZACOES.md`
+- Registro cronologico de mudancas: `CHANGELOG.md`
