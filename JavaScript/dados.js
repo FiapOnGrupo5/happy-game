@@ -16,7 +16,7 @@ const JOGOS = [
     nome: "The Last Of Us",
     genero: "sobrevivência",
     plataformas: ["PS5"],
-    preco: 199.90,
+    preco: 199.9,
     imagem: "../Imagens/TLOU.jpg",
     descricao:
       "Aventura e sobrevivência em um mundo pós-apocalíptico com uma narrativa emocionante.",
@@ -29,7 +29,7 @@ const JOGOS = [
     nome: "GTA 6",
     genero: "mundo aberto",
     plataformas: ["PS5", "Xbox"],
-    preco: 349.90,
+    preco: 349.9,
     imagem: "../Imagens/GTA.jpg",
     descricao:
       "Mundo aberto com missões, ação intensa e liberdade para explorar uma cidade cheia de possibilidades.",
@@ -42,7 +42,7 @@ const JOGOS = [
     nome: "Fortnite",
     genero: "battle royale",
     plataformas: ["PC", "Xbox"],
-    preco: 149.90,
+    preco: 149.9,
     imagem: "../Imagens/FORT.jpg",
     descricao:
       "Batalhas rápidas, construção estratégica e eventos sazonais com muito conteúdo competitivo.",
@@ -55,7 +55,7 @@ const JOGOS = [
     nome: "EA Sports FC 26",
     genero: "esporte",
     plataformas: ["PC", "Xbox"],
-    preco: 249.90,
+    preco: 249.9,
     imagem: "../Imagens/FC26.jpg",
     descricao:
       "Simulação de futebol com modos online e carreira para quem quer jogar com os maiores clubes do mundo.",
@@ -68,7 +68,7 @@ const JOGOS = [
     nome: "Minecraft",
     genero: "sandbox",
     plataformas: ["PC", "Xbox"],
-    preco: 99.90,
+    preco: 99.9,
     imagem: "../Imagens/MINE.jpg",
     descricao:
       "Crie, explore e sobreviva em um universo de blocos com infinitas possibilidades de construção.",
@@ -81,7 +81,7 @@ const JOGOS = [
     nome: "God of War Ragnarök",
     genero: "ação",
     plataformas: ["PS5", "PC"],
-    preco: 299.90,
+    preco: 299.9,
     imagem: "../Imagens/GOW.jpg",
     descricao:
       "Kratos e Atreus enfrentam os maiores guerreiros da mitologia nórdica em combates épicos.",
@@ -121,7 +121,7 @@ function calcularSubtotal(preco, quantidade) {
  *  f(q) = 0.005 * (q-1)²  — cresce quadraticamente; cap: 20% */
 function calcularTaxaDesconto(quantidade) {
   const taxa = 0.005 * Math.pow(quantidade - 1, 2);
-  return Math.min(taxa, 0.20);
+  return Math.min(taxa, 0.2);
 }
 
 /** Combina as duas funções e retorna { subtotal, taxa, desconto, total }. */
@@ -160,17 +160,17 @@ function formatarReais(valor) {
  * @returns {{ parcela: number, totalFinal: number, juros: number, temJuros: boolean }}
  */
 function calcularParcelas(total, nParcelas) {
-  const TAXA_JUROS    = 0.0199; // 1,99% ao mês
-  const SEM_JUROS_ATE = 3;      // parcelas sem juros
+  const TAXA_JUROS = 0.0199; // 1,99% ao mês
+  const SEM_JUROS_ATE = 3; // parcelas sem juros
 
   let totalFinal, juros;
 
   if (nParcelas <= SEM_JUROS_ATE) {
     totalFinal = total;
-    juros      = 0;
+    juros = 0;
   } else {
     // Juros simples: J = C × i × n
-    juros      = total * TAXA_JUROS * nParcelas;
+    juros = total * TAXA_JUROS * nParcelas;
     totalFinal = total + juros;
   }
 
@@ -203,7 +203,7 @@ function calcularParcelas(total, nParcelas) {
  * @returns {{ pontosBase: number, bonus: number, total: number }}
  */
 function calcularPontosFidelidade(totalGasto, totalItens) {
-  const pontosBase = Math.floor(totalGasto / 10);                        // linear
-  const bonus      = Math.floor(0.5 * Math.pow(totalItens - 1, 2));     // quadrático
+  const pontosBase = Math.floor(totalGasto / 10); // linear
+  const bonus = Math.floor(0.5 * Math.pow(totalItens - 1, 2)); // quadrático
   return { pontosBase, bonus, total: pontosBase + bonus };
 }
