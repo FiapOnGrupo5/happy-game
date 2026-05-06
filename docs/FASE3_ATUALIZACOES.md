@@ -1,19 +1,23 @@
 # Fase 3 — Atualizações do Projeto Happy Games
 
+Data de referencia da fase: 29/04/2026
+Ultima revisao documental: 05/05/2026
+
 ## Parte 1 — Melhorias de UX e Estética
 
 ### O que mudou em relação às fases anteriores?
 
-| Área | Fase 2 | Fase 3 |
-|---|---|---|
-| Cards de jogos | HTML estático (hardcoded) | Renderização dinâmica via JS |
-| Preço em cards | Ausente | `.preco-tag` estilizado com valor em BRL |
-| Cálculo de compra | Campo simples (`data-preco`) | Resumo com subtotal, desconto e total em tempo real |
-| CSS duplicado | Navbar/footer repetidos em 5 arquivos | Centralizado em `style.css`, removidos os duplicados |
-| Filtros do catálogo | Aplicados sobre HTML estático | Aplicados sobre DOM gerado por JS |
-| Feedback de preço | Estático no modal | Calculado dinamicamente com `calcularPedido()` |
+| Área                | Fase 2                                | Fase 3                                               |
+| ------------------- | ------------------------------------- | ---------------------------------------------------- |
+| Cards de jogos      | HTML estático (hardcoded)             | Renderização dinâmica via JS                         |
+| Preço em cards      | Ausente                               | `.preco-tag` estilizado com valor em BRL             |
+| Cálculo de compra   | Campo simples (`data-preco`)          | Resumo com subtotal, desconto e total em tempo real  |
+| CSS duplicado       | Navbar/footer repetidos em 5 arquivos | Centralizado em `style.css`, removidos os duplicados |
+| Filtros do catálogo | Aplicados sobre HTML estático         | Aplicados sobre DOM gerado por JS                    |
+| Feedback de preço   | Estático no modal                     | Calculado dinamicamente com `calcularPedido()`       |
 
 ### Decisões de usabilidade
+
 - O `#boxPreco` é atualizado em tempo real quando o usuário muda o jogo ou a quantidade (eventos `change` e `input`).
 - Um desconto progressivo de 2° grau é aplicado a partir de 2 unidades, tornando a compra de quantidade maior vantajosa — o usuário vê o desconto em verde.
 - O `#noResults` no catálogo fica oculto por padrão (`display:none`) e só aparece quando nenhum filtro produz resultado.
@@ -25,15 +29,17 @@
 ### 2.1 Arrays
 
 **JavaScript:**
+
 ```javascript
 const JOGOS = [
-  { id: 1, nome: "The Last Of Us", preco: 199.90, plataformas: ["PS5"] },
-  { id: 2, nome: "GTA 6", preco: 349.90, plataformas: ["PS5", "Xbox"] },
+  { id: 1, nome: "The Last Of Us", preco: 199.9, plataformas: ["PS5"] },
+  { id: 2, nome: "GTA 6", preco: 349.9, plataformas: ["PS5", "Xbox"] },
   // ...
 ];
 ```
 
 **Java equivalente:**
+
 ```java
 // Java usa listas tipadas (sem array de objetos literais como JS)
 List<Jogo> jogos = new ArrayList<>();
@@ -49,6 +55,7 @@ jogos.add(new Jogo(2, "GTA 6", 349.90, List.of("PS5", "Xbox")));
 ### 2.2 Laço `for` (tradicional)
 
 **JavaScript — em `catalogo.js`:**
+
 ```javascript
 for (let i = 0; i < JOGOS.length; i++) {
   html += buildCardHTML(JOGOS[i]);
@@ -56,6 +63,7 @@ for (let i = 0; i < JOGOS.length; i++) {
 ```
 
 **JavaScript — em `dados.js`:**
+
 ```javascript
 function getPrecoByNome(nome) {
   for (let i = 0; i < JOGOS.length; i++) {
@@ -66,6 +74,7 @@ function getPrecoByNome(nome) {
 ```
 
 **Java equivalente:**
+
 ```java
 for (int i = 0; i < jogos.size(); i++) {
   html += buildCardHTML(jogos.get(i));
@@ -79,13 +88,15 @@ for (int i = 0; i < jogos.size(); i++) {
 ### 2.3 `forEach` (iteração funcional)
 
 **JavaScript — em `catalogo.js`:**
+
 ```javascript
-document.querySelectorAll(".game-item").forEach(function(card) {
+document.querySelectorAll(".game-item").forEach(function (card) {
   card.style.display = visible ? "" : "none";
 });
 ```
 
 **Java equivalente (Stream API):**
+
 ```java
 cards.forEach(card -> card.setVisible(visible));
 ```
@@ -101,12 +112,13 @@ Em `compra.js`, o laço `while` é implicitamente útil para validar campos repe
 ```javascript
 // Padrão de re-validação (não avança sem validação)
 while (!validarEtapa1()) {
-  // usuário precisa corrigir antes de seguir — 
+  // usuário precisa corrigir antes de seguir —
   // na prática implementado por event listeners
 }
 ```
 
 **Java equivalente:**
+
 ```java
 while (!validarEtapa1()) {
   // aguarda interação do usuário (em aplicação gráfica)
@@ -122,15 +134,20 @@ Usada para mapear plataformas a classes Bootstrap em `catalogo.js`:
 ```javascript
 function getClassePlataforma(plat) {
   switch (plat.toLowerCase()) {
-    case "ps5":   return "bg-secondary";
-    case "xbox":  return "bg-success";
-    case "pc":    return "bg-primary";
-    default:      return "bg-dark";
+    case "ps5":
+      return "bg-secondary";
+    case "xbox":
+      return "bg-success";
+    case "pc":
+      return "bg-primary";
+    default:
+      return "bg-dark";
   }
 }
 ```
 
 **Java equivalente:**
+
 ```java
 String getClassePlataforma(String plat) {
   return switch (plat.toLowerCase()) {
@@ -164,7 +181,7 @@ Exemplo: `calcularSubtotal(199.90, 3)` → **R$ 599,70**
 ```javascript
 function calcularTaxaDesconto(quantidade) {
   const taxa = 0.005 * Math.pow(quantidade - 1, 2); // f(q) = 0,005 × (q-1)²
-  return Math.min(taxa, 0.20); // teto de 20%
+  return Math.min(taxa, 0.2); // teto de 20%
 }
 ```
 
@@ -172,13 +189,13 @@ Esta é uma função quadrática com vértice em `q = 1` (sem desconto na quanti
 O desconto cresce de forma acelerada:
 
 | Quantidade | Desconto aplicado |
-|-----------|------------------|
-| 1         | 0%               |
-| 2         | 0,5%             |
-| 3         | 2%               |
-| 5         | 8%               |
-| 7         | 18%              |
-| 8+        | ≥ 20% (limitado) |
+| ---------- | ----------------- |
+| 1          | 0%                |
+| 2          | 0,5%              |
+| 3          | 2%                |
+| 5          | 8%                |
+| 7          | 18%               |
+| 8+         | ≥ 20% (limitado)  |
 
 O uso de `Math.pow()` demonstra cálculo de potenciação nativa do JavaScript, equivalente a `Math.pow(x, 2)` em Java.
 
@@ -187,9 +204,9 @@ O uso de `Math.pow()` demonstra cálculo de potenciação nativa do JavaScript, 
 ```javascript
 function calcularPedido(preco, quantidade) {
   const subtotal = calcularSubtotal(preco, quantidade); // 1° grau
-  const taxa     = calcularTaxaDesconto(quantidade);    // 2° grau
+  const taxa = calcularTaxaDesconto(quantidade); // 2° grau
   const desconto = subtotal * taxa;
-  const total    = subtotal - desconto;
+  const total = subtotal - desconto;
   return { subtotal, taxa, desconto, total };
 }
 ```
