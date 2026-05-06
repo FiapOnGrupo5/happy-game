@@ -4,10 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/style.css" />
-    <link rel="stylesheet" href="../CSS/desktop.css" media="(min-width:1024px)" />
+    <link
+      rel="stylesheet"
+      href="../CSS/desktop.css"
+      media="(min-width:1024px)"
+    />
     <link rel="stylesheet" href="../CSS/login.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <title>Entrar - Happy Games</title>
   </head>
 
@@ -15,23 +25,48 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-custom">
       <div class="container">
-        <a class="navbar-brand text-white navbar-brand-custom" href="index.html">
+        <a
+          class="navbar-brand text-white navbar-brand-custom"
+          href="index.html"
+        >
           <i class="bi bi-controller me-2"></i>Happy Games
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navMenu"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navMenu">
           <ul class="navbar-nav gap-1">
-            <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house me-1"></i>Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="catalogo.html"><i class="bi bi-grid me-1"></i>Catálogo</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html"
+                ><i class="bi bi-house me-1"></i>Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="catalogo.html"
+                ><i class="bi bi-grid me-1"></i>Catálogo</a
+              >
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="carrinho.html" id="cartLink">
                 <i class="bi bi-cart3 me-1"></i>Carrinho
-                <span class="badge cart-badge" id="cartBadge" style="display:none;">0</span>
+                <span
+                  class="badge cart-badge"
+                  id="cartBadge"
+                  style="display: none"
+                  >0</span
+                >
               </a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="sobre.html"><i class="bi bi-info-circle me-1"></i>Sobre</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="sobre.html"
+                ><i class="bi bi-info-circle me-1"></i>Sobre</a
+              >
+            </li>
             <ul id="navbarAuth" class="navbar-nav gap-1"></ul>
           </ul>
         </div>
@@ -48,16 +83,32 @@
           </div>
 
           <!-- TABS -->
-          <ul class="nav nav-tabs login-tabs mb-4" id="loginTabs" role="tablist">
+          <ul
+            class="nav nav-tabs login-tabs mb-4"
+            id="loginTabs"
+            role="tablist"
+          >
             <li class="nav-item flex-fill" role="presentation">
-              <button class="nav-link active w-100" id="tab-entrar" data-bs-toggle="tab"
-                data-bs-target="#painel-entrar" type="button" role="tab">
+              <button
+                class="nav-link active w-100"
+                id="tab-entrar"
+                data-bs-toggle="tab"
+                data-bs-target="#painel-entrar"
+                type="button"
+                role="tab"
+              >
                 <i class="bi bi-box-arrow-in-right me-1"></i>Entrar
               </button>
             </li>
             <li class="nav-item flex-fill" role="presentation">
-              <button class="nav-link w-100" id="tab-cadastro" data-bs-toggle="tab"
-                data-bs-target="#painel-cadastro" type="button" role="tab">
+              <button
+                class="nav-link w-100"
+                id="tab-cadastro"
+                data-bs-toggle="tab"
+                data-bs-target="#painel-cadastro"
+                type="button"
+                role="tab"
+              >
                 <i class="bi bi-person-plus me-1"></i>Criar conta
               </button>
             </li>
@@ -65,32 +116,60 @@
 
           <div class="tab-content">
             <!-- PAINEL: ENTRAR -->
-            <div class="tab-pane fade show active" id="painel-entrar" role="tabpanel">
+            <div
+              class="tab-pane fade show active"
+              id="painel-entrar"
+              role="tabpanel"
+            >
               <form id="formLogin" novalidate>
                 <div class="mb-3">
                   <label class="form-label" for="loginEmail">E-mail</label>
-                  <input type="email" class="form-control" id="loginEmail" placeholder="seu@email.com" />
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="loginEmail"
+                    placeholder="seu@email.com"
+                  />
                   <div class="invalid-feedback"></div>
                 </div>
                 <div class="mb-4">
                   <label class="form-label" for="loginSenha">Senha</label>
                   <div class="input-group">
-                    <input type="password" class="form-control" id="loginSenha" placeholder="Sua senha" />
-                    <button class="btn btn-outline-secondary" type="button" id="btnVerSenhaLogin"
-                      onclick="toggleSenha('loginSenha', 'iconSenhaLogin')">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="loginSenha"
+                      placeholder="Sua senha"
+                    />
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      id="btnVerSenhaLogin"
+                      onclick="toggleSenha('loginSenha', 'iconSenhaLogin')"
+                    >
                       <i class="bi bi-eye" id="iconSenhaLogin"></i>
                     </button>
                   </div>
                   <div class="invalid-feedback" id="loginSenhaFeedback"></div>
                 </div>
-                <div id="loginErroGeral" class="alert alert-danger py-2 d-none" role="alert"></div>
+                <div
+                  id="loginErroGeral"
+                  class="alert alert-danger py-2 d-none"
+                  role="alert"
+                ></div>
                 <button type="submit" class="btn btn-login w-100">
                   <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
                 </button>
               </form>
               <p class="text-center mt-3 text-muted small">
                 Não tem conta?
-                <a href="#" onclick="document.getElementById('tab-cadastro').click(); return false;">
+                <a
+                  href="#"
+                  onclick="
+                    document.getElementById('tab-cadastro').click();
+                    return false;
+                  "
+                >
                   Crie uma agora
                 </a>
               </p>
@@ -101,49 +180,108 @@
               <form id="formCadastro" novalidate>
                 <div class="mb-3">
                   <label class="form-label" for="cadNome">Nome completo</label>
-                  <input type="text" class="form-control" id="cadNome" placeholder="Seu nome" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="cadNome"
+                    placeholder="Seu nome"
+                  />
                   <div class="invalid-feedback"></div>
                 </div>
                 <div class="mb-3">
                   <label class="form-label" for="cadEmail">E-mail</label>
-                  <input type="email" class="form-control" id="cadEmail" placeholder="seu@email.com" />
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="cadEmail"
+                    placeholder="seu@email.com"
+                  />
                   <div class="invalid-feedback"></div>
                 </div>
                 <div class="mb-3">
-                  <label class="form-label" for="cadEmailConf">Confirmar e-mail</label>
-                  <input type="email" class="form-control" id="cadEmailConf" placeholder="Repita o e-mail" />
+                  <label class="form-label" for="cadEmailConf"
+                    >Confirmar e-mail</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="cadEmailConf"
+                    placeholder="Repita o e-mail"
+                  />
                   <div class="invalid-feedback"></div>
                 </div>
                 <div class="mb-3">
                   <label class="form-label" for="cadSenha">Senha</label>
                   <div class="input-group">
-                    <input type="password" class="form-control" id="cadSenha" placeholder="Mínimo 8 caracteres" />
-                    <button class="btn btn-outline-secondary" type="button"
-                      onclick="toggleSenha('cadSenha', 'iconSenhaCad')">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="cadSenha"
+                      placeholder="Mínimo 8 caracteres"
+                    />
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="toggleSenha('cadSenha', 'iconSenhaCad')"
+                    >
                       <i class="bi bi-eye" id="iconSenhaCad"></i>
                     </button>
                   </div>
                   <div class="invalid-feedback" id="cadSenhaFeedback"></div>
                   <!-- Barra de força da senha -->
-                  <div id="senhaForcaWrap" style="display:none; margin-top:6px;">
-                    <div style="height:5px; background:#e9ecef; border-radius:4px; overflow:hidden;">
-                      <div id="senhaForcaBarra" style="height:100%; width:0; transition:width 0.3s, background 0.3s; border-radius:4px;"></div>
+                  <div
+                    id="senhaForcaWrap"
+                    style="display: none; margin-top: 6px"
+                  >
+                    <div
+                      style="
+                        height: 5px;
+                        background: #e9ecef;
+                        border-radius: 4px;
+                        overflow: hidden;
+                      "
+                    >
+                      <div
+                        id="senhaForcaBarra"
+                        style="
+                          height: 100%;
+                          width: 0;
+                          transition:
+                            width 0.3s,
+                            background 0.3s;
+                          border-radius: 4px;
+                        "
+                      ></div>
                     </div>
                     <small id="senhaForcaLabel" class="text-muted"></small>
                   </div>
                 </div>
                 <div class="mb-4">
-                  <label class="form-label" for="cadSenhaConf">Confirmar senha</label>
+                  <label class="form-label" for="cadSenhaConf"
+                    >Confirmar senha</label
+                  >
                   <div class="input-group">
-                    <input type="password" class="form-control" id="cadSenhaConf" placeholder="Repita a senha" />
-                    <button class="btn btn-outline-secondary" type="button"
-                      onclick="toggleSenha('cadSenhaConf', 'iconSenhaConf')">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="cadSenhaConf"
+                      placeholder="Repita a senha"
+                    />
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="toggleSenha('cadSenhaConf', 'iconSenhaConf')"
+                    >
                       <i class="bi bi-eye" id="iconSenhaConf"></i>
                     </button>
                   </div>
                   <div class="invalid-feedback"></div>
                 </div>
-                <div id="cadErroGeral" class="alert alert-danger py-2 d-none" role="alert"></div>
+                <div
+                  id="cadErroGeral"
+                  class="alert alert-danger py-2 d-none"
+                  role="alert"
+                ></div>
                 <button type="submit" class="btn btn-login w-100">
                   <i class="bi bi-person-check me-2"></i>Criar conta
                 </button>
@@ -167,7 +305,9 @@
       (function () {
         const user = getUsuarioLogado();
         if (user) {
-          const next = new URLSearchParams(window.location.search).get("next") || "index.html";
+          const next =
+            new URLSearchParams(window.location.search).get("next") ||
+            "index.html";
           window.location.href = next;
         }
       })();
@@ -187,138 +327,175 @@
       // Avalia força da senha (retorna 0=fraca, 1=média, 2=forte)
       function avaliarForcaSenha(senha) {
         let pontos = 0;
-        if (senha.length >= 8)       pontos++;
-        if (/[A-Z]/.test(senha))     pontos++;
-        if (/[a-z]/.test(senha))     pontos++;
-        if (/[0-9]/.test(senha))     pontos++;
+        if (senha.length >= 8) pontos++;
+        if (/[A-Z]/.test(senha)) pontos++;
+        if (/[a-z]/.test(senha)) pontos++;
+        if (/[0-9]/.test(senha)) pontos++;
         if (/[^A-Za-z0-9]/.test(senha)) pontos++;
         if (pontos <= 2) return 0;
         if (pontos <= 3) return 1;
         return 2;
       }
 
-      document.getElementById("cadSenha").addEventListener("input", function () {
-        const senha = this.value;
-        const wrap  = document.getElementById("senhaForcaWrap");
-        const barra = document.getElementById("senhaForcaBarra");
-        const label = document.getElementById("senhaForcaLabel");
-        if (senha.length === 0) { wrap.style.display = "none"; return; }
-        wrap.style.display = "block";
-        const nivel = avaliarForcaSenha(senha);
-        const config = [
-          { width: "33%",  bg: "#e74c3c", texto: "Fraca — use maiúsculas, números e símbolos" },
-          { width: "66%",  bg: "#f39c12", texto: "Média — adicione mais variedade" },
-          { width: "100%", bg: "#27ae60", texto: "Forte — ótima senha!" },
-        ];
-        barra.style.width      = config[nivel].width;
-        barra.style.background = config[nivel].bg;
-        label.textContent      = config[nivel].texto;
-        label.style.color      = config[nivel].bg;
-      });
+      document
+        .getElementById("cadSenha")
+        .addEventListener("input", function () {
+          const senha = this.value;
+          const wrap = document.getElementById("senhaForcaWrap");
+          const barra = document.getElementById("senhaForcaBarra");
+          const label = document.getElementById("senhaForcaLabel");
+          if (senha.length === 0) {
+            wrap.style.display = "none";
+            return;
+          }
+          wrap.style.display = "block";
+          const nivel = avaliarForcaSenha(senha);
+          const config = [
+            {
+              width: "33%",
+              bg: "#e74c3c",
+              texto: "Fraca — use maiúsculas, números e símbolos",
+            },
+            {
+              width: "66%",
+              bg: "#f39c12",
+              texto: "Média — adicione mais variedade",
+            },
+            { width: "100%", bg: "#27ae60", texto: "Forte — ótima senha!" },
+          ];
+          barra.style.width = config[nivel].width;
+          barra.style.background = config[nivel].bg;
+          label.textContent = config[nivel].texto;
+          label.style.color = config[nivel].bg;
+        });
 
       // --- Login ---
-      document.getElementById("formLogin").addEventListener("submit", function (e) {
-        e.preventDefault();
-        const email = document.getElementById("loginEmail");
-        const senha = document.getElementById("loginSenha");
-        const erroGeral = document.getElementById("loginErroGeral");
-        let valido = true;
+      document
+        .getElementById("formLogin")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = document.getElementById("loginEmail");
+          const senha = document.getElementById("loginSenha");
+          const erroGeral = document.getElementById("loginErroGeral");
+          let valido = true;
 
-        email.classList.remove("is-invalid");
-        senha.classList.remove("is-invalid");
-        erroGeral.classList.add("d-none");
+          email.classList.remove("is-invalid");
+          senha.classList.remove("is-invalid");
+          erroGeral.classList.add("d-none");
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email.value.trim())) {
-          email.classList.add("is-invalid");
-          email.nextElementSibling.textContent = "Digite um e-mail válido.";
-          valido = false;
-        }
-        if (senha.value.trim() === "") {
-          senha.parentElement.nextElementSibling.textContent = "Digite sua senha.";
-          document.getElementById("loginSenhaFeedback").style.display = "block";
-          valido = false;
-        }
-        if (!valido) return;
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email.value.trim())) {
+            email.classList.add("is-invalid");
+            email.nextElementSibling.textContent = "Digite um e-mail válido.";
+            valido = false;
+          }
+          if (senha.value.trim() === "") {
+            senha.parentElement.nextElementSibling.textContent =
+              "Digite sua senha.";
+            document.getElementById("loginSenhaFeedback").style.display =
+              "block";
+            valido = false;
+          }
+          if (!valido) return;
 
-        const resultado = fazerLogin(email.value.trim(), senha.value);
-        if (resultado.ok) {
-          const next = new URLSearchParams(window.location.search).get("next") || "index.html";
-          window.location.href = next;
-        } else {
-          erroGeral.textContent = resultado.erro;
-          erroGeral.classList.remove("d-none");
-        }
-      });
+          const resultado = fazerLogin(email.value.trim(), senha.value);
+          if (resultado.ok) {
+            const next =
+              new URLSearchParams(window.location.search).get("next") ||
+              "index.html";
+            window.location.href = next;
+          } else {
+            erroGeral.textContent = resultado.erro;
+            erroGeral.classList.remove("d-none");
+          }
+        });
 
       // --- Cadastro ---
-      document.getElementById("formCadastro").addEventListener("submit", function (e) {
-        e.preventDefault();
-        const nome       = document.getElementById("cadNome");
-        const email      = document.getElementById("cadEmail");
-        const emailConf  = document.getElementById("cadEmailConf");
-        const senha      = document.getElementById("cadSenha");
-        const senhaConf  = document.getElementById("cadSenhaConf");
-        const erroGeral  = document.getElementById("cadErroGeral");
-        let valido = true;
+      document
+        .getElementById("formCadastro")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const nome = document.getElementById("cadNome");
+          const email = document.getElementById("cadEmail");
+          const emailConf = document.getElementById("cadEmailConf");
+          const senha = document.getElementById("cadSenha");
+          const senhaConf = document.getElementById("cadSenhaConf");
+          const erroGeral = document.getElementById("cadErroGeral");
+          let valido = true;
 
-        [nome, email, emailConf, senha, senhaConf].forEach(function (el) { el.classList.remove("is-invalid"); });
-        erroGeral.classList.add("d-none");
+          [nome, email, emailConf, senha, senhaConf].forEach(function (el) {
+            el.classList.remove("is-invalid");
+          });
+          erroGeral.classList.add("d-none");
 
-        // Nome
-        if (nome.value.trim().length < 3) {
-          nome.classList.add("is-invalid");
-          nome.nextElementSibling.textContent = "Nome precisa ter pelo menos 3 caracteres.";
-          valido = false;
-        }
+          // Nome
+          if (nome.value.trim().length < 3) {
+            nome.classList.add("is-invalid");
+            nome.nextElementSibling.textContent =
+              "Nome precisa ter pelo menos 3 caracteres.";
+            valido = false;
+          }
 
-        // E-mail
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email.value.trim())) {
-          email.classList.add("is-invalid");
-          email.nextElementSibling.textContent = "Digite um e-mail válido.";
-          valido = false;
-        } else if (emailConf.value.trim().toLowerCase() !== email.value.trim().toLowerCase()) {
-          emailConf.classList.add("is-invalid");
-          emailConf.nextElementSibling.textContent = "Os e-mails não coincidem.";
-          valido = false;
-        }
+          // E-mail
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email.value.trim())) {
+            email.classList.add("is-invalid");
+            email.nextElementSibling.textContent = "Digite um e-mail válido.";
+            valido = false;
+          } else if (
+            emailConf.value.trim().toLowerCase() !==
+            email.value.trim().toLowerCase()
+          ) {
+            emailConf.classList.add("is-invalid");
+            emailConf.nextElementSibling.textContent =
+              "Os e-mails não coincidem.";
+            valido = false;
+          }
 
-        // Senha
-        const senhaVal = senha.value;
-        const feedbackEl = document.getElementById("cadSenhaFeedback");
-        if (senhaVal.length < 8) {
-          senha.classList.add("is-invalid");
-          feedbackEl.textContent = "Senha precisa ter pelo menos 8 caracteres.";
-          feedbackEl.style.display = "block";
-          valido = false;
-        } else if (avaliarForcaSenha(senhaVal) === 0) {
-          senha.classList.add("is-invalid");
-          feedbackEl.textContent = "Senha muito fraca. Inclua maiúsculas, números ou símbolos.";
-          feedbackEl.style.display = "block";
-          valido = false;
-        } else {
-          feedbackEl.style.display = "none";
-        }
+          // Senha
+          const senhaVal = senha.value;
+          const feedbackEl = document.getElementById("cadSenhaFeedback");
+          if (senhaVal.length < 8) {
+            senha.classList.add("is-invalid");
+            feedbackEl.textContent =
+              "Senha precisa ter pelo menos 8 caracteres.";
+            feedbackEl.style.display = "block";
+            valido = false;
+          } else if (avaliarForcaSenha(senhaVal) === 0) {
+            senha.classList.add("is-invalid");
+            feedbackEl.textContent =
+              "Senha muito fraca. Inclua maiúsculas, números ou símbolos.";
+            feedbackEl.style.display = "block";
+            valido = false;
+          } else {
+            feedbackEl.style.display = "none";
+          }
 
-        // Confirmar senha
-        if (senhaConf.value !== senhaVal) {
-          senhaConf.classList.add("is-invalid");
-          senhaConf.parentElement.nextElementSibling.textContent = "As senhas não coincidem.";
-          valido = false;
-        }
+          // Confirmar senha
+          if (senhaConf.value !== senhaVal) {
+            senhaConf.classList.add("is-invalid");
+            senhaConf.parentElement.nextElementSibling.textContent =
+              "As senhas não coincidem.";
+            valido = false;
+          }
 
-        if (!valido) return;
+          if (!valido) return;
 
-        const resultado = cadastrarUsuario(nome.value.trim(), email.value.trim(), senha.value);
-        if (resultado.ok) {
-          const next = new URLSearchParams(window.location.search).get("next") || "index.html";
-          window.location.href = next;
-        } else {
-          erroGeral.textContent = resultado.erro;
-          erroGeral.classList.remove("d-none");
-        }
-      });
+          const resultado = cadastrarUsuario(
+            nome.value.trim(),
+            email.value.trim(),
+            senha.value,
+          );
+          if (resultado.ok) {
+            const next =
+              new URLSearchParams(window.location.search).get("next") ||
+              "index.html";
+            window.location.href = next;
+          } else {
+            erroGeral.textContent = resultado.erro;
+            erroGeral.classList.remove("d-none");
+          }
+        });
     </script>
   </body>
 </html>
