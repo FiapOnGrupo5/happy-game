@@ -1,5 +1,7 @@
 # Design Thinking – Happy Games
 
+Atualizado em: 05/05/2026
+
 O processo de Design Thinking foi aplicado nas etapas iniciais do projeto para
 garantir que o produto fosse centrado no usuário. As três fases percorridas
 foram: **Imersão**, **Análise e Interpretação** e **Ideação**.
@@ -8,7 +10,7 @@ foram: **Imersão**, **Análise e Interpretação** e **Ideação**.
 
 ## Fase 1 – Imersão
 
-> *"Entender o problema antes de partir para a solução."*
+> _"Entender o problema antes de partir para a solução."_
 
 ### Contexto investigado
 
@@ -20,11 +22,11 @@ agradável para diferentes perfis de usuário?**
 
 Foram analisadas lojas de jogos existentes como referência:
 
-| Plataforma | O que foi observado |
-|---|---|
-| **Steam** | Destaque visual para jogos, filtros por gênero/preço/plataforma, reviews, sistema de wishlist |
-| **Nuuvem** | Checkout simplificado, preços com desconto em destaque, interface menos poluída |
-| **GOG** | Foco em jogos sem DRM, cartas do produto com screenshots e informações técnicas |
+| Plataforma | O que foi observado                                                                           |
+| ---------- | --------------------------------------------------------------------------------------------- |
+| **Steam**  | Destaque visual para jogos, filtros por gênero/preço/plataforma, reviews, sistema de wishlist |
+| **Nuuvem** | Checkout simplificado, preços com desconto em destaque, interface menos poluída               |
+| **GOG**    | Foco em jogos sem DRM, cartas do produto com screenshots e informações técnicas               |
 
 ### Problemas identificados em e-commerces de jogos
 
@@ -35,27 +37,27 @@ Foram analisadas lojas de jogos existentes como referência:
 
 ### Perfis de usuário (Personas)
 
-| Persona | Perfil | Comportamento | Necessidade principal |
-|---|---|---|---|
-| **Gamer casual** | 18–35 anos, compra por impulso | Navega rapidamente, decide em segundos | Processo de compra rápido, destaque visual |
-| **Gamer experiente** | Pesquisa antes de comprar | Usa filtros por gênero e plataforma | Busca eficiente, informações detalhadas |
-| **Compra de presente** | Compra esporádica, pouca familiaridade | Precisa de orientação clara | Interface simples, confirmação explícita |
+| Persona                | Perfil                                 | Comportamento                          | Necessidade principal                      |
+| ---------------------- | -------------------------------------- | -------------------------------------- | ------------------------------------------ |
+| **Gamer casual**       | 18–35 anos, compra por impulso         | Navega rapidamente, decide em segundos | Processo de compra rápido, destaque visual |
+| **Gamer experiente**   | Pesquisa antes de comprar              | Usa filtros por gênero e plataforma    | Busca eficiente, informações detalhadas    |
+| **Compra de presente** | Compra esporádica, pouca familiaridade | Precisa de orientação clara            | Interface simples, confirmação explícita   |
 
 ---
 
 ## Fase 2 – Análise e Interpretação
 
-> *"Transformar o que foi observado em oportunidades de design."*
+> _"Transformar o que foi observado em oportunidades de design."_
 
 ### Insights gerados
 
-| Observação (Imersão) | Interpretação | Decisão de design |
-|---|---|---|
-| Usuários abandonam carrinho com formulário longo | O processo de compra precisa parecer curto | Stepper de 3 passos na página de compra |
-| Usuários querem encontrar jogos rapidamente | Busca e filtragem são essenciais | Campo de busca + painel de filtros por gênero e plataforma |
-| Usuários confiam mais com confirmação visual | O feedback deve ser imediato e claro | Toast ao adicionar ao carrinho + modal de revisão + página de agradecimento |
-| Menus extensos afastam usuários mobile | Navegação precisa ser compacta em telas pequenas | Navbar responsiva com botão toggler no mobile |
-| Jogos em destaque geram mais cliques | Home deve ter área de destaque rotativo | Carousel com imagem, badge de gênero, título e CTA |
+| Observação (Imersão)                             | Interpretação                                    | Decisão de design                                                           |
+| ------------------------------------------------ | ------------------------------------------------ | --------------------------------------------------------------------------- |
+| Usuários abandonam carrinho com formulário longo | O processo de compra precisa parecer curto       | Stepper de 3 passos na página de compra                                     |
+| Usuários querem encontrar jogos rapidamente      | Busca e filtragem são essenciais                 | Campo de busca + painel de filtros por gênero e plataforma                  |
+| Usuários confiam mais com confirmação visual     | O feedback deve ser imediato e claro             | Toast ao adicionar ao carrinho + modal de revisão + página de agradecimento |
+| Menus extensos afastam usuários mobile           | Navegação precisa ser compacta em telas pequenas | Navbar responsiva com botão toggler no mobile                               |
+| Jogos em destaque geram mais cliques             | Home deve ter área de destaque rotativo          | Carousel com imagem, badge de gênero, título e CTA                          |
 
 ### Mapa de jornada do usuário (simplificado)
 
@@ -85,21 +87,21 @@ Foram analisadas lojas de jogos existentes como referência:
 
 ## Fase 3 – Ideação
 
-> *"Gerar soluções criativas a partir dos insights."*
+> _"Gerar soluções criativas a partir dos insights."_
 
 ### Soluções criadas
 
-| Solução | Onde | Motivação |
-|---|---|---|
-| **Carousel** na Home | index.html | Destaque rotativo para os principais jogos |
-| **Cards com badge de gênero** | index.html, catalogo.html | Identificação visual rápida do tipo de jogo |
-| **Filtro Offcanvas** | catalogo.html | Painel lateral que não ocupa espaço permanente |
-| **Toast de confirmação** | catalogo.html | Feedback imediato ao clicar em "Comprar" |
-| **Stepper de compra** | compra.html | Divide o formulário em 3 passos para parecer menor |
-| **Modal de revisão** | compra.html | Permite revisar o pedido antes de confirmar |
-| **Página de agradecimento** | obrigado.html | Confirmação visual clara do pedido finalizado |
-| **Formulário de comunidade** | sobre.html | Engajamento com validação em tempo real |
-| **Responsividade total** | Todas as páginas | Layout adaptado para mobile, tablet e desktop |
+| Solução                       | Onde                      | Motivação                                          |
+| ----------------------------- | ------------------------- | -------------------------------------------------- |
+| **Carousel** na Home          | index.html                | Destaque rotativo para os principais jogos         |
+| **Cards com badge de gênero** | index.html, catalogo.html | Identificação visual rápida do tipo de jogo        |
+| **Filtro Offcanvas**          | catalogo.html             | Painel lateral que não ocupa espaço permanente     |
+| **Toast de confirmação**      | catalogo.html             | Feedback imediato ao clicar em "Comprar"           |
+| **Stepper de compra**         | compra.html               | Divide o formulário em 3 passos para parecer menor |
+| **Modal de revisão**          | compra.html               | Permite revisar o pedido antes de confirmar        |
+| **Página de agradecimento**   | obrigado.html             | Confirmação visual clara do pedido finalizado      |
+| **Formulário de comunidade**  | sobre.html                | Engajamento com validação em tempo real            |
+| **Responsividade total**      | Todas as páginas          | Layout adaptado para mobile, tablet e desktop      |
 
 ### Decisões de identidade visual
 
@@ -118,40 +120,46 @@ Esta seção declara explicitamente o que **não foi implementado**, para
 contextualizar as decisões de desenvolvimento e evitar ambiguidades na
 avaliação.
 
-### O que está fora do escopo
+### O que esta fora do escopo
 
-| Funcionalidade | Status | Justificativa |
-|---|---|---|
-| Cadastro / login de usuário | ❌ Não implementado | Requer back-end e banco de dados — fora do escopo front-end |
-| Autenticação e sessão | ❌ Não implementado | Sem servidor, sem tokens, sem cookies de sessão |
-| Integração com pagamento real | ❌ Não implementado | Requer gateway (Stripe, PagSeguro etc.) — sem back-end |
-| Carrinho persistente entre sessões | ❌ Não implementado | Sem banco de dados ou localStorage persistente multi-sessão |
-| Banco de dados de jogos | ❌ Não implementado | Dados mockados em arrays JavaScript no front-end |
-| API de terceiros (jogos, preços) | ❌ Não implementado | Projeto puramente estático |
-| Sistema de avaliações / reviews | ❌ Não implementado | Fora do escopo inicial |
-| Painel administrativo | ❌ Não implementado | Sem back-end |
-| SEO avançado | ❌ Não implementado | Sem servidor, sem sitemap.xml, sem meta tags dinâmicas |
+| Funcionalidade                   | Status              | Justificativa                                                      |
+| -------------------------------- | ------------------- | ------------------------------------------------------------------ |
+| Integracao com pagamento real    | ❌ Não implementado | Requer gateway (Stripe, PagSeguro etc.) e backend                 |
+| Banco de dados de jogos real     | ❌ Não implementado | Dados ainda estao mockados em arrays JavaScript no frontend       |
+| API de terceiros (jogos/precos)  | ❌ Não implementado | MVP academico sem integracao externa                              |
+| Sistema de avaliacoes/reviews    | ❌ Não implementado | Fora do escopo inicial                                            |
+| Painel administrativo            | ❌ Não implementado | Fora do escopo desta fase                                         |
+| SEO avancado                     | ❌ Não implementado | Sem servidor SSR e sem trilha de SEO tecnico avancado             |
+| Autenticacao backend com tokens  | 📋 Planejado        | Login atual e frontend/local; backend de seguranca esta no roadmap |
 
 ### O que foi entregue (dentro do escopo)
 
-| Funcionalidade | Status |
-|---|---|
+| Funcionalidade                                                       | Status      |
+| -------------------------------------------------------------------- | ----------- |
 | 5 páginas HTML funcionais (index, catálogo, compra, sobre, obrigado) | ✅ Entregue |
-| Responsividade: mobile, tablet e desktop | ✅ Entregue |
-| Filtro por gênero e plataforma no catálogo | ✅ Entregue |
-| Busca por nome de jogo em tempo real | ✅ Entregue |
-| Stepper de compra em 3 etapas com validação | ✅ Entregue |
-| Modal de confirmação de pedido | ✅ Entregue |
-| Toast de feedback ao adicionar produto | ✅ Entregue |
-| Formulário de comunidade com validação | ✅ Entregue |
-| Identidade visual consistente com Bootstrap + CSS customizado | ✅ Entregue |
-| Documentação técnica (Bootstrap, metodologia, Design Thinking) | ✅ Entregue |
+| Cadastro e login de usuario (frontend)                               | ✅ Entregue |
+| Sessao local de usuario (sessionStorage)                             | ✅ Entregue |
+| Carrinho persistente local (localStorage)                            | ✅ Entregue |
+| Responsividade: mobile, tablet e desktop                             | ✅ Entregue |
+| Filtro por gênero e plataforma no catálogo                           | ✅ Entregue |
+| Busca por nome de jogo em tempo real                                 | ✅ Entregue |
+| Stepper de compra em 3 etapas com validação                          | ✅ Entregue |
+| Modal de confirmação de pedido                                       | ✅ Entregue |
+| Toast de feedback ao adicionar produto                               | ✅ Entregue |
+| Formulário de comunidade com validação                               | ✅ Entregue |
+| Identidade visual consistente com Bootstrap + CSS customizado        | ✅ Entregue |
+| Documentação técnica (Bootstrap, metodologia, Design Thinking)       | ✅ Entregue |
+
+### Evolucao por fase
+
+- Fases iniciais: foco em estrutura de navegacao, UX e fluxo de compra.
+- Fase 3: consolidacao de autenticacao frontend, carrinho persistente local e refatoracao de codigo.
+- Proxima fase: evolucao para backend de seguranca e IA incremental, mantendo o MVP atual como base.
 
 ---
 
 ## Referências
 
-- BROWN, Tim. *Design Thinking*. Harvard Business Review, 2008.
-- IDEO. *Design Thinking for Educators*. 2012.
-- VIANNA, Maurício et al. *Design Thinking: Inovação em Negócios*. MJV Press,
-  2012.
+- BROWN, Tim. _Design Thinking_. Harvard Business Review, 2008.
+- IDEO. _Design Thinking for Educators_. 2012.
+- VIANNA, Maurício et al. _Design Thinking: Inovação em Negócios_. MJV Press, 2012.
