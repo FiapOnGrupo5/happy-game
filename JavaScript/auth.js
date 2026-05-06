@@ -35,7 +35,7 @@ function fazerLogin(email, senha) {
   if (usuario) {
     sessionStorage.setItem(
       AUTH_SESSION_KEY,
-      JSON.stringify({ nome: usuario.nome, email: usuario.email })
+      JSON.stringify({ nome: usuario.nome, email: usuario.email }),
     );
     return { ok: true, usuario: usuario };
   }
@@ -44,14 +44,18 @@ function fazerLogin(email, senha) {
 
 function cadastrarUsuario(nome, email, senha) {
   const usuarios = getUsuarios();
-  if (usuarios.find(function (u) { return u.email === email; })) {
+  if (
+    usuarios.find(function (u) {
+      return u.email === email;
+    })
+  ) {
     return { ok: false, erro: "Já existe uma conta com este e-mail." };
   }
   usuarios.push({ nome: nome, email: email, senha: senha });
   salvarUsuarios(usuarios);
   sessionStorage.setItem(
     AUTH_SESSION_KEY,
-    JSON.stringify({ nome: nome, email: email })
+    JSON.stringify({ nome: nome, email: email }),
   );
   return { ok: true };
 }
@@ -74,25 +78,28 @@ function atualizarNavbarAuth() {
     const primeiroNome = user.nome.split(" ")[0];
     navbarAuth.innerHTML =
       '<li class="nav-item dropdown">' +
-        '<a class="nav-link dropdown-toggle d-flex align-items-center gap-1" href="#" ' +
-           'id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">' +
-          '<i class="bi bi-person-circle"></i>' + primeiroNome +
-        '</a>' +
-        '<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">' +
-          '<li><span class="dropdown-item-text text-muted small">' + user.email + '</span></li>' +
-          '<li><hr class="dropdown-divider"></li>' +
-          '<li><a class="dropdown-item" href="#" onclick="fazerLogout()">' +
-            '<i class="bi bi-box-arrow-right me-2"></i>Sair' +
-          '</a></li>' +
-        '</ul>' +
-      '</li>';
+      '<a class="nav-link dropdown-toggle d-flex align-items-center gap-1" href="#" ' +
+      'id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">' +
+      '<i class="bi bi-person-circle"></i>' +
+      primeiroNome +
+      "</a>" +
+      '<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">' +
+      '<li><span class="dropdown-item-text text-muted small">' +
+      user.email +
+      "</span></li>" +
+      '<li><hr class="dropdown-divider"></li>' +
+      '<li><a class="dropdown-item" href="#" onclick="fazerLogout()">' +
+      '<i class="bi bi-box-arrow-right me-2"></i>Sair' +
+      "</a></li>" +
+      "</ul>" +
+      "</li>";
   } else {
     navbarAuth.innerHTML =
       '<li class="nav-item">' +
-        '<a class="nav-link" href="login.html">' +
-          '<i class="bi bi-person me-1"></i>Entrar' +
-        '</a>' +
-      '</li>';
+      '<a class="nav-link" href="login.html">' +
+      '<i class="bi bi-person me-1"></i>Entrar' +
+      "</a>" +
+      "</li>";
   }
 }
 
