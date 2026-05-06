@@ -30,7 +30,7 @@ function showToast(gameName) {
 /** Adiciona jogo ao carrinho e mostra toast. */
 function addToCart(jogoId) {
   const ok = adicionarAoCarrinho(jogoId, 1); // função de carrinho.js
-  const jogo = getJogoPorId(jogoId);         // função de dados.js
+  const jogo = getJogoPorId(jogoId); // função de dados.js
   if (ok && jogo) showToast(jogo.nome);
 }
 
