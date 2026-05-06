@@ -1,5 +1,7 @@
 # GUIA DE WIREFRAMES - HAPPY GAMES
 
+Atualizado em: 05/05/2026
+
 ## Como usar este arquivo
 
 Este guia descreve exatamente o que deve aparecer em cada tela do wireframe,
@@ -279,3 +281,7 @@ Elementos obrigatorios no wireframe:
 - [ ] Wireframes exportados ou fotografados
 - [ ] Arquivos salvos em docs/wireframes/
 - [ ] Incluidos no PDF final
+
+Observacao de status:
+- Ate esta revisao, a pasta `docs/evidencias-ux/` esta vazia.
+- Caso os wireframes ainda nao tenham sido exportados, manter os itens acima como pendentes e registrar os arquivos finais antes da entrega.
