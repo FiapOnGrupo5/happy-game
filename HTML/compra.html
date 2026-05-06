@@ -54,7 +54,12 @@
             <li class="nav-item">
               <a class="nav-link" href="carrinho.html" id="cartLink">
                 <i class="bi bi-cart3 me-1"></i>Carrinho
-                <span class="badge cart-badge" id="cartBadge" style="display:none;">0</span>
+                <span
+                  class="badge cart-badge"
+                  id="cartBadge"
+                  style="display: none"
+                  >0</span
+                >
               </a>
             </li>
             <li class="nav-item">
@@ -188,16 +193,41 @@
             <div class="mb-4">
               <label class="form-label fw-semibold">Método de pagamento</label>
               <div class="d-flex gap-2 flex-wrap">
-                <input type="radio" class="btn-check" name="pagamento" id="pagCartao" value="cartao" checked />
-                <label class="btn btn-outline-primary payment-btn" for="pagCartao">
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="pagamento"
+                  id="pagCartao"
+                  value="cartao"
+                  checked
+                />
+                <label
+                  class="btn btn-outline-primary payment-btn"
+                  for="pagCartao"
+                >
                   <i class="bi bi-credit-card me-1"></i>Cartão
                 </label>
-                <input type="radio" class="btn-check" name="pagamento" id="pagPix" value="pix" />
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="pagamento"
+                  id="pagPix"
+                  value="pix"
+                />
                 <label class="btn btn-outline-success payment-btn" for="pagPix">
                   <i class="bi bi-qr-code me-1"></i>PIX
                 </label>
-                <input type="radio" class="btn-check" name="pagamento" id="pagBoleto" value="boleto" />
-                <label class="btn btn-outline-secondary payment-btn" for="pagBoleto">
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="pagamento"
+                  id="pagBoleto"
+                  value="boleto"
+                />
+                <label
+                  class="btn btn-outline-secondary payment-btn"
+                  for="pagBoleto"
+                >
                   <i class="bi bi-upc me-1"></i>Boleto
                 </label>
               </div>
@@ -208,7 +238,11 @@
               <!-- Parcelamento — função linear (1º grau): parcela = total / n (sem juros até 3x) -->
               <div class="mb-3">
                 <label class="form-label" for="parcelas">Parcelamento</label>
-                <select class="form-select" id="parcelas" onchange="atualizarParcelamento()">
+                <select
+                  class="form-select"
+                  id="parcelas"
+                  onchange="atualizarParcelamento()"
+                >
                   <!-- preenchido dinamicamente por atualizarParcelamento() em compra.js -->
                 </select>
                 <div id="parcelamentoInfo" class="form-text"></div>
@@ -249,19 +283,40 @@
             </div>
 
             <!-- PIX -->
-            <div id="secPix" class="pix-section text-center py-3" style="display:none;">
+            <div
+              id="secPix"
+              class="pix-section text-center py-3"
+              style="display: none"
+            >
               <i class="bi bi-qr-code pix-icon d-block mx-auto mb-3"></i>
-              <p class="fw-semibold mb-1">Chave PIX: <span class="text-success">happygames@pix.com.br</span></p>
-              <p class="text-muted small mb-1">Escaneie o QR code ou copie a chave com o app do seu banco.</p>
-              <p class="text-muted small">Confirmação em até <strong>1 minuto</strong> após a transferência.</p>
+              <p class="fw-semibold mb-1">
+                Chave PIX:
+                <span class="text-success">happygames@pix.com.br</span>
+              </p>
+              <p class="text-muted small mb-1">
+                Escaneie o QR code ou copie a chave com o app do seu banco.
+              </p>
+              <p class="text-muted small">
+                Confirmação em até <strong>1 minuto</strong> após a
+                transferência.
+              </p>
             </div>
 
             <!-- Boleto -->
-            <div id="secBoleto" class="boleto-section text-center py-3" style="display:none;">
+            <div
+              id="secBoleto"
+              class="boleto-section text-center py-3"
+              style="display: none"
+            >
               <i class="bi bi-upc boleto-icon d-block mx-auto mb-3"></i>
               <p class="fw-semibold small mb-2">Linha digitável:</p>
-              <code class="boleto-code d-block p-2 rounded mb-3 small">23790.00010 00000.000007 00000.000000 1 00000000000000</code>
-              <p class="text-muted small">Vencimento: <strong>3 dias úteis</strong>. Pague em qualquer banco, lotérica ou app bancário.</p>
+              <code class="boleto-code d-block p-2 rounded mb-3 small"
+                >23790.00010 00000.000007 00000.000000 1 00000000000000</code
+              >
+              <p class="text-muted small">
+                Vencimento: <strong>3 dias úteis</strong>. Pague em qualquer
+                banco, lotérica ou app bancário.
+              </p>
             </div>
 
             <div class="d-flex justify-content-between gap-2">
@@ -325,7 +380,7 @@
               <div class="resumo-item">
                 <span>Pagamento</span><span id="rPagamento">—</span>
               </div>
-              <div class="resumo-item" id="rParcelasRow" style="display:none;">
+              <div class="resumo-item" id="rParcelasRow" style="display: none">
                 <span>Parcelamento</span><span id="rParcelas">—</span>
               </div>
               <div class="resumo-item text-success">
