@@ -8,6 +8,7 @@ Autores: FiapOnGrupo5 · Branch: `main`
 ## Fase 3 — Funcionalidades avançadas · 29 abr 2026
 
 ### `1a7a7aa` · revert · 29/04/2026
+
 **Revert "fix(style): corrige cor do botao carrinho nos cards do catalogo"**
 
 - Desfeito o commit `94a83a8` que alterava o seletor CSS do botão "Carrinho" nos cards.
@@ -17,6 +18,7 @@ Autores: FiapOnGrupo5 · Branch: `main`
 ---
 
 ### `94a83a8` · fix · 29/04/2026
+
 **fix(style): corrige cor do botao carrinho nos cards do catalogo**
 
 - Tentativa de aumentar a especificidade do seletor para `.game-card .btn.btn-cart` a fim de sobrescrever o Bootstrap.
@@ -27,6 +29,7 @@ Autores: FiapOnGrupo5 · Branch: `main`
 ---
 
 ### `a185298` · feat · 29/04/2026
+
 **feat(login): confirmar email, força da senha e validação aprimorada**
 
 Melhorias na página de cadastro de usuário:
@@ -43,6 +46,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `5cb283b` · fix · 29/04/2026
+
 **fix(carrinho.html): exibe desconto por total de itens e remove desconto individual**
 
 - Cada item da lista do carrinho passou a exibir o **subtotal simples** (preço × quantidade), sem percentual de desconto individual.
@@ -53,6 +57,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `ef0c62b` · fix · 29/04/2026
+
 **fix(carrinho): desconto calculado sobre total de itens do carrinho**
 
 - **Problema anterior:** o desconto era calculado individualmente por produto (`calcularPedido(preco, qtd)` chamado para cada item), ignorando itens de outros produtos.
@@ -67,6 +72,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `00f4163` · feat · 29/04/2026
+
 **feat(navbar): adiciona carrinho e área de login em todas as páginas**
 
 - Em **todas as 5 páginas** (`index.html`, `catalogo.html`, `compra.html`, `sobre.html`, `obrigado.html`):
@@ -79,6 +85,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `4b75db2` · refactor · 29/04/2026
+
 **refactor(catalogo.js): botão adicionar ao carrinho nos cards**
 
 - Adicionada função `addToCart(jogoId)` que chama `adicionarAoCarrinho()` de `carrinho.js` e exibe toast de confirmação.
@@ -90,6 +97,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `61274e8` · refactor · 29/04/2026
+
 **refactor(compra.js): valida pagamento por método e exibe rPagamento**
 
 - Adicionada função `getMetodoPagamento()` que lê o radio selecionado (`cartao`, `pix` ou `boleto`).
@@ -101,6 +109,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `0900e82` · feat · 29/04/2026
+
 **feat(compra): adiciona métodos de pagamento PIX e boleto**
 
 - **`HTML/compra.html`** — Etapa 3 do formulário de compra reformulada:
@@ -117,6 +126,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `b5eae75` · style · 29/04/2026
+
 **style(carrinho): estilos da página do carrinho**
 
 - Criado `CSS/carrinho.css` com todos os estilos exclusivos da página do carrinho:
@@ -124,22 +134,24 @@ Melhorias na página de cadastro de usuário:
   - `.btn-qty`, `.qty-display`, `.cart-item-total`, `.btn-remove`
   - `.cart-summary`, `.pix-icon`, `.boleto-icon`, `.boleto-code`
   - `.payment-btn`, `.cart-badge`
-- **Arquivo:** `CSS/carrinho.css` *(novo)*
+- **Arquivo:** `CSS/carrinho.css` _(novo)_
 
 ---
 
 ### `a029532` · feat · 29/04/2026
+
 **feat(carrinho.html): página do carrinho com checkout completo**
 
 - Criada página completa do carrinho de compras com duas seções principais:
   - **Lista do carrinho** (`#carrinhoVazio` / `#carrinhoComItens`): exibe os itens, permite alterar quantidade e remover produtos. Resumo lateral com subtotal, desconto e total.
   - **Checkout** (`#checkoutArea`): formulário em 2 etapas — dados pessoais (nome, e-mail) e pagamento (cartão/PIX/boleto). Modal de confirmação e redirecionamento para `obrigado.html` após confirmar.
 - Toda a lógica é feita com JavaScript inline usando funções de `carrinho.js`, `dados.js` e `auth.js`.
-- **Arquivo:** `HTML/carrinho.html` *(novo)*
+- **Arquivo:** `HTML/carrinho.html` _(novo)_
 
 ---
 
 ### `1d42688` · style · 29/04/2026
+
 **style(login): estilos da página de login**
 
 - Criado `CSS/login.css` com estilos exclusivos da tela de autenticação:
@@ -148,11 +160,12 @@ Melhorias na página de cadastro de usuário:
   - `.login-header`: título e subtítulo da tela.
   - `.login-tabs`: estilização das abas Bootstrap (Entrar / Criar conta).
   - `.btn-login`: botão de submit com gradiente roxo.
-- **Arquivo:** `CSS/login.css` *(novo)*
+- **Arquivo:** `CSS/login.css` _(novo)_
 
 ---
 
 ### `89830e3` · feat · 29/04/2026
+
 **feat(login): página de login e cadastro de usuário**
 
 - Criada página `HTML/login.html` com sistema de autenticação via abas Bootstrap:
@@ -160,11 +173,12 @@ Melhorias na página de cadastro de usuário:
   - **Aba "Criar conta"**: campos de nome, e-mail e senha. Validações de nome (mín. 3 caracteres), e-mail (regex) e senha (mín. 6 caracteres). Confirmação de senha com verificação de igualdade.
   - Suporte ao parâmetro `?next=URL` para redirecionar após login.
   - Usuário já autenticado é redirecionado automaticamente ao acessar a página.
-- **Arquivo:** `HTML/login.html` *(novo)*
+- **Arquivo:** `HTML/login.html` _(novo)_
 
 ---
 
 ### `86f8305` · feat · 29/04/2026
+
 **feat(carrinho): lógica do carrinho de compras com localStorage**
 
 - Criado `JavaScript/carrinho.js` com todas as funções de gerenciamento do carrinho:
@@ -176,11 +190,12 @@ Melhorias na página de cadastro de usuário:
   - `contarItensCarrinho()`: retorna soma de todas as quantidades.
   - `totalCarrinho()`: retorna valor total com desconto.
   - `atualizarBadgeCarrinho()`: atualiza o badge `#cartBadge` na navbar.
-- **Arquivo:** `JavaScript/carrinho.js` *(novo)*
+- **Arquivo:** `JavaScript/carrinho.js` _(novo)_
 
 ---
 
 ### `d942abd` · feat · 29/04/2026
+
 **feat(auth): sistema de login e cadastro com localStorage**
 
 - Criado `JavaScript/auth.js` com o sistema completo de autenticação:
@@ -191,11 +206,12 @@ Melhorias na página de cadastro de usuário:
   - `fazerLogout()`: encerra sessão e redireciona para `index.html`.
   - `getUsuarioLogado()`: retorna dados do usuário da sessão ativa ou `null`.
   - `atualizarNavbarAuth()`: preenche `#navbarAuth` com link "Entrar" (quando deslogado) ou dropdown com nome do usuário e opção de logout (quando logado).
-- **Arquivo:** `JavaScript/auth.js` *(novo)*
+- **Arquivo:** `JavaScript/auth.js` _(novo)_
 
 ---
 
 ### `797f45f` · feat · 29/04/2026
+
 **feat(dados): adiciona getJogoPorId e funções matemáticas centralizadas**
 
 - Adicionada função `getJogoPorId(id)` para busca de jogo pelo `id` numérico (necessária para `carrinho.js`).
@@ -209,23 +225,26 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `50feec5` · docs · 29/04/2026
+
 **docs(esg): reflexão ESG aplicada a software factory no contexto do happy games**
 
 - Criado `docs/ESG.md` com reflexão acadêmica sobre os pilares ESG (Environmental, Social, Governance) aplicados ao desenvolvimento de software.
 - Aborda práticas sustentáveis em TI, inclusão digital, acessibilidade e governança em projetos de software.
-- **Arquivo:** `docs/ESG.md` *(novo)*
+- **Arquivo:** `docs/ESG.md` _(novo)_
 
 ---
 
 ### `617c4ea` · docs · 29/04/2026
+
 **docs(ia): reflexão sobre uso de IA generativa e aplicações em loja de jogos**
 
 - Criado `docs/REFLEXAO_IA.md` com análise crítica sobre o uso de Inteligência Artificial generativa no desenvolvimento do projeto e no contexto de lojas de jogos digitais.
-- **Arquivo:** `docs/REFLEXAO_IA.md` *(novo)*
+- **Arquivo:** `docs/REFLEXAO_IA.md` _(novo)_
 
 ---
 
 ### `2c334f9` · docs · 29/04/2026
+
 **docs(fase3): documenta melhorias UX, conceitos JS e funções matemáticas**
 
 - Criado `docs/FASE3_ATUALIZACOES.md` documentando todas as entregas da Fase 3:
@@ -233,11 +252,12 @@ Melhorias na página de cadastro de usuário:
   - Conceitos de JavaScript aplicados (arrays, laços, estruturas de controle).
   - Explicação das funções matemáticas de 1º e 2º grau utilizadas no cálculo de preços.
   - Comparativo entre JavaScript e Java.
-- **Arquivo:** `docs/FASE3_ATUALIZACOES.md` *(novo)*
+- **Arquivo:** `docs/FASE3_ATUALIZACOES.md` _(novo)_
 
 ---
 
 ### `8a7c208` · style · 29/04/2026
+
 **style(global): adiciona estilos preco-tag e price-summary para exibição de valores**
 
 - Adicionados ao `CSS/style.css` os estilos de exibição de preços e resumos de pedido:
@@ -250,6 +270,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `9eb469d` · feat · 29/04/2026
+
 **feat(compra.html): adiciona boxPreco para resumo dinâmico de preço e inclui dados.js**
 
 - Adicionado elemento `#boxPreco` no formulário de compra (etapa 2) para exibição do resumo de preço em tempo real.
@@ -259,6 +280,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `dbfeaf4` · refactor · 29/04/2026
+
 **refactor(catalogo.html): remove cards hardcoded e inclui dados.js para renderização dinâmica**
 
 - Removidos todos os cards de jogos escritos manualmente no HTML (215 linhas deletadas).
@@ -269,6 +291,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `39bbd37` · feat · 29/04/2026
+
 **feat(compra): adiciona cálculos 1º e 2º grau, resumo de preço em tempo real e total no modal**
 
 - Adicionadas funções matemáticas em `compra.js`:
@@ -281,6 +304,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `5ae9a0f` · refactor · 29/04/2026
+
 **refactor(catalogo): renderização dinâmica de cards via array JOGOS com for e forEach**
 
 - `catalogo.js` reescrito para gerar os cards dinamicamente:
@@ -292,59 +316,66 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `7eed3a9` · feat · 29/04/2026
+
 **feat(dados): adiciona array JOGOS centralizado com função getPrecoByNome**
 
 - Criado `JavaScript/dados.js` como fonte central de dados:
   - Array de objetos `JOGOS` com 6 jogos: The Last Of Us, GTA 6, Fortnite, EA Sports FC 26, Minecraft, God of War Ragnarök.
   - Cada objeto contém: `id`, `nome`, `genero`, `plataformas`, `preco`, `imagem`, `descricao`, `badgeClasse`, `badgeTexto`, `destaque`.
   - Função `getPrecoByNome(nome)` para busca linear por nome.
-- **Arquivo:** `JavaScript/dados.js` *(novo)*
+- **Arquivo:** `JavaScript/dados.js` _(novo)_
 
 ---
 
 ## Fase 2 — Documentação e estrutura · 29 abr 2026
 
 ### `5104158` · docs · 29/04/2026
+
 **docs: adicionar guia de wireframes com estrutura de cada tela**
 
 - Criado `docs/wireframes/GUIA_WIREFRAMES.md` descrevendo o layout e os componentes de cada tela do projeto (Home, Catálogo, Compra, Sobre, Obrigado).
-- **Arquivo:** `docs/wireframes/GUIA_WIREFRAMES.md` *(novo)*
+- **Arquivo:** `docs/wireframes/GUIA_WIREFRAMES.md` _(novo)_
 
 ---
 
 ### `b0b570b` · docs · 29/04/2026
+
 **docs: adicionar sitemap do projeto em formato SVG**
 
 - Criado `docs/sitemap.svg` com o mapa visual de navegação entre as páginas do site.
-- **Arquivo:** `docs/sitemap.svg` *(novo)*
+- **Arquivo:** `docs/sitemap.svg` _(novo)_
 
 ---
 
 ### `1b636f2` · docs · 29/04/2026
+
 **docs: adicionar fases de Design Thinking e limites do escopo do projeto**
 
 - Criado `docs/DESIGN_THINKING.md` documentando as 5 fases do Design Thinking aplicadas ao projeto (Empatia, Definição, Ideação, Prototipagem, Teste) e os limites de escopo definidos para o MVP.
-- **Arquivo:** `docs/DESIGN_THINKING.md` *(novo)*
+- **Arquivo:** `docs/DESIGN_THINKING.md` _(novo)_
 
 ---
 
 ### `e9c6c98` · docs · 29/04/2026
+
 **docs: adicionar reflexão sobre metodologia ágil Scrum vs Kanban**
 
 - Criado `docs/METODOLOGIA_AGIL.md` com comparativo entre Scrum e Kanban, justificando a metodologia escolhida para o desenvolvimento do projeto.
-- **Arquivo:** `docs/METODOLOGIA_AGIL.md` *(novo)*
+- **Arquivo:** `docs/METODOLOGIA_AGIL.md` _(novo)_
 
 ---
 
 ### `d8a05ae` · docs · 29/04/2026
+
 **docs: adicionar referências de componentes Bootstrap utilizados**
 
 - Criado `DOCUMENTACAO_BOOTSTRAP.txt` listando todos os componentes do Bootstrap 5 utilizados no projeto com descrição e página de referência.
-- **Arquivo:** `DOCUMENTACAO_BOOTSTRAP.txt` *(novo)*
+- **Arquivo:** `DOCUMENTACAO_BOOTSTRAP.txt` _(novo)_
 
 ---
 
 ### `1c1c9f5` · feat · 29/04/2026
+
 **feat: adicionar scripts JavaScript na pasta JavaScript/**
 
 - Adicionados os scripts iniciais do projeto:
@@ -358,6 +389,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `c43fecd` · refactor · 29/04/2026
+
 **refactor: mover imagens para a pasta Imagens/**
 
 - Imagens dos jogos movidas da raiz do projeto para `Imagens/`:
@@ -367,6 +399,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `3b14617` · style · 29/04/2026
+
 **style: centralizar CSS global e remover regras duplicadas de navbar**
 
 - Criada a pasta `CSS/` com arquivos CSS separados por escopo:
@@ -382,6 +415,7 @@ Melhorias na página de cadastro de usuário:
 ---
 
 ### `f70ce32` · refactor · 29/04/2026
+
 **refactor: mover páginas HTML para a pasta HTML/**
 
 - Todas as páginas movidas da raiz para `HTML/`:
@@ -394,6 +428,7 @@ Melhorias na página de cadastro de usuário:
 ## Fase 1 — Entrega inicial · 01 abr 2026
 
 ### `ddf2e6f` · feat · 01/04/2026
+
 **Fase 1**
 
 - Criação inicial do projeto com todas as páginas e estilos na raiz:
@@ -406,4 +441,4 @@ Melhorias na página de cadastro de usuário:
 
 ---
 
-*Gerado em 29/04/2026 · Happy Games Store — FiapOnGrupo5*
+_Gerado em 29/04/2026 · Happy Games Store — FiapOnGrupo5_
