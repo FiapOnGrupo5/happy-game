@@ -1,5 +1,8 @@
 # Reflexão sobre Inteligência Artificial — Projeto Happy Games
 
+Periodo analisado: Fases 2 e 3 (abril/2026)
+Ultima revisao: 05/05/2026
+
 ## Parte 4 — IA aplicada a uma loja de jogos digitais
 
 ### Contexto
@@ -12,13 +15,13 @@ O projeto Happy Games é um e-commerce estático de jogos digitais voltado ao ap
 
 Durante o desenvolvimento das Fases 2 e 3, a IA Generativa (GitHub Copilot / ChatGPT) foi utilizada como ferramenta de apoio para:
 
-| Uso | Descrição |
-|-----|-----------|
-| Revisão de código | Sugestão de refatorações e identificação de duplicações no CSS |
+| Uso                | Descrição                                                               |
+| ------------------ | ----------------------------------------------------------------------- |
+| Revisão de código  | Sugestão de refatorações e identificação de duplicações no CSS          |
 | Escrita de funções | Geração de `calcularTaxaDesconto`, `buildCardHTML`, `atualizarBoxPreco` |
-| Depuração | Análise de erros de escopo e referências DOM |
-| Documentação | Apoio na estruturação de docs como este arquivo |
-| Design Thinking | Geração de personas, cenários e insights de usuário |
+| Depuração          | Análise de erros de escopo e referências DOM                            |
+| Documentação       | Apoio na estruturação de docs como este arquivo                         |
+| Design Thinking    | Geração de personas, cenários e insights de usuário                     |
 
 > **Limitação observada**: a IA Generativa não conhece o estado atual do arquivo sem leitura explícita — ela gera código com base em padrões, mas pode sugerir soluções inconsistentes com a estrutura real do projeto. A supervisão humana foi essencial.
 
@@ -29,11 +32,13 @@ Durante o desenvolvimento das Fases 2 e 3, a IA Generativa (GitHub Copilot / Cha
 ### Sistema de Recomendação Personalizada
 
 Em uma loja real, um modelo de **filtragem colaborativa** (collaborative filtering) analisaria:
+
 - Histórico de jogos comprados por usuário
 - Ratings implícitos (tempo de permanência na página do produto)
 - Padrão de consumo por gênero e plataforma
 
 **Exemplo de lógica:**
+
 ```
 Se usuário comprou: The Last Of Us (sobrevivência, PS5)
 E usuário B (perfil similar) comprou: God of War Ragnarök
@@ -48,8 +53,8 @@ Ferramentas: **Amazon Personalize**, **TensorFlow Recommenders**, ou modelo simp
 
 A barra de busca atual do catálogo filtra apenas por correspondência exata de texto. Uma IA de NLP (Natural Language Processing) permitiria buscas como:
 
-- "jogo de luta mitológico" → retorna *God of War Ragnarök*
-- "multiplayer online grátis" → retorna *Fortnite*
+- "jogo de luta mitológico" → retorna _God of War Ragnarök_
+- "multiplayer online grátis" → retorna _Fortnite_
 
 **Tecnologia**: embeddings de texto com **OpenAI API** ou modelo local como **sentence-transformers**.
 
@@ -58,6 +63,7 @@ A barra de busca atual do catálogo filtra apenas por correspondência exata de 
 ### 4.4 Precificação Dinâmica com ML
 
 Modelos de Machine Learning podem ajustar preços dinamicamente com base em:
+
 - Sazonalidade (Black Friday, promoções de plataforma)
 - Demanda histórica por jogo/gênero
 - Preços praticados por concorrentes (web scraping + regressão)
@@ -92,3 +98,7 @@ Ao adotar IA em uma loja digital, é necessário observar:
 ## Conclusão
 
 A IA não substitui a lógica de negócios bem estruturada, mas potencializa a experiência do usuário e a eficiência operacional. O projeto Happy Games demonstra, em escala acadêmica, as bases de pensamento que sustentam essas aplicações: arrays bem estruturados (`JOGOS`), funções puras de cálculo (`calcularPedido`), e separação clara de responsabilidades entre dados, lógica e interface — princípios que também são a fundação de qualquer sistema de IA robusto.
+
+Status atual:
+- Implementado: uso de IA generativa como apoio de desenvolvimento e documentacao.
+- Planejado: recomendacao personalizada e mecanismos de deteccao de risco em arquitetura com backend.
