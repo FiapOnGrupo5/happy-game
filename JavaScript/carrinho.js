@@ -23,10 +23,15 @@ function adicionarAoCarrinho(jogoId, quantidade) {
   if (!jogo) return false;
 
   const carrinho = getCarrinho();
-  const idx = carrinho.findIndex(function (item) { return item.id === jogoId; });
+  const idx = carrinho.findIndex(function (item) {
+    return item.id === jogoId;
+  });
 
   if (idx >= 0) {
-    carrinho[idx].quantidade = Math.min(carrinho[idx].quantidade + quantidade, 10);
+    carrinho[idx].quantidade = Math.min(
+      carrinho[idx].quantidade + quantidade,
+      10,
+    );
   } else {
     carrinho.push({
       id: jogo.id,
@@ -41,13 +46,17 @@ function adicionarAoCarrinho(jogoId, quantidade) {
 }
 
 function removerDoCarrinho(jogoId) {
-  const carrinho = getCarrinho().filter(function (item) { return item.id !== jogoId; });
+  const carrinho = getCarrinho().filter(function (item) {
+    return item.id !== jogoId;
+  });
   salvarCarrinho(carrinho);
 }
 
 function atualizarQuantidadeCarrinho(jogoId, novaQtd) {
   const carrinho = getCarrinho();
-  const idx = carrinho.findIndex(function (item) { return item.id === jogoId; });
+  const idx = carrinho.findIndex(function (item) {
+    return item.id === jogoId;
+  });
   if (idx >= 0) {
     if (novaQtd < 1) {
       carrinho.splice(idx, 1);
@@ -68,7 +77,9 @@ function limparCarrinho() {
 // =============================================
 
 function contarItensCarrinho() {
-  return getCarrinho().reduce(function (acc, item) { return acc + item.quantidade; }, 0);
+  return getCarrinho().reduce(function (acc, item) {
+    return acc + item.quantidade;
+  }, 0);
 }
 
 /**
@@ -83,7 +94,7 @@ function calcularResumoCarrinho() {
     return a + it.preco * it.quantidade;
   }, 0);
   const totalQtd = contarItensCarrinho();
-  const taxa = calcularTaxaDesconto(totalQtd);   // dados.js — f(q) = 0.005*(q-1)²
+  const taxa = calcularTaxaDesconto(totalQtd); // dados.js — f(q) = 0.005*(q-1)²
   const desconto = subtotalBruto * taxa;
   const total = subtotalBruto - desconto;
   return { subtotalBruto, taxa, desconto, total };
