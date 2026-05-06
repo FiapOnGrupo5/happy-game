@@ -3,6 +3,8 @@
 > Explica **o quê**, **por quê** e **como** cada parte do código foi escrita.  
 > Destinada a quem quer entender cada decisão técnica do projeto.
 
+Versao da documentacao: Fase 3 (atualizada em 05/05/2026)
+
 ---
 
 ## Sumário
@@ -37,19 +39,20 @@ docs/          → documentação acadêmica
 ### Por que dividir os arquivos assim?
 
 **Problema anterior (Fase 1):** Todo CSS estava em dois arquivos (`style.css` e `desktop.css`) na raiz. Todo JS estava misturado nos próprios HTMLs. Isso causa:
+
 - Duplicação de código (mesma regra CSS escrita em 3 arquivos)
 - Dificuldade para encontrar e corrigir bugs
 - Impossibilidade de reusar funções entre páginas
 
 **Solução aplicada:** Separação por responsabilidade:
 
-| Arquivo JS | Responsabilidade |
-|---|---|
-| `dados.js` | Única fonte de verdade dos dados (jogos, preços, funções matemáticas) |
-| `auth.js` | Tudo sobre login, cadastro, sessão e navbar de usuário |
-| `carrinho.js` | Tudo sobre o carrinho (adicionar, remover, calcular, badge) |
-| `catalogo.js` | Renderização dos cards e filtros do catálogo |
-| `compra.js` | Formulário de compra individual com 3 etapas |
+| Arquivo JS    | Responsabilidade                                                      |
+| ------------- | --------------------------------------------------------------------- |
+| `dados.js`    | Única fonte de verdade dos dados (jogos, preços, funções matemáticas) |
+| `auth.js`     | Tudo sobre login, cadastro, sessão e navbar de usuário                |
+| `carrinho.js` | Tudo sobre o carrinho (adicionar, remover, calcular, badge)           |
+| `catalogo.js` | Renderização dos cards e filtros do catálogo                          |
+| `compra.js`   | Formulário de compra individual com 3 etapas                          |
 
 ---
 
@@ -63,6 +66,7 @@ docs/          → documentação acadêmica
 
 **O que é:** Ativa o modo estrito do JavaScript.  
 **Por que usar:** Proíbe comportamentos problemáticos:
+
 - Variáveis não declaradas causam erro (evita bugs de typo como `nomee = "João"`)
 - `this` não aponta para `window` globalmente
 - Proíbe nomes reservados como nome de variável
@@ -78,7 +82,7 @@ const JOGOS = [
     nome: "The Last Of Us",
     genero: "sobrevivência",
     plataformas: ["PS5"],
-    preco: 199.90,
+    preco: 199.9,
     imagem: "../Imagens/TLOU.jpg",
     descricao: "...",
     badgeClasse: "bg-danger",
@@ -162,6 +166,7 @@ function calcularSubtotal(preco, quantidade) {
 O resultado cresce de forma proporcional (linear) com a quantidade. Se o preço for R$ 100 e a quantidade 3, o subtotal é R$ 300.
 
 **Por que separar em função:** Mesmo sendo uma operação simples, isolá-la numa função:
+
 1. Dá um nome claro ao conceito matemático
 2. Permite reusar e testar isoladamente
 3. Facilita entender `calcularPedido()` que a chama
@@ -173,7 +178,7 @@ O resultado cresce de forma proporcional (linear) com a quantidade. Se o preço 
 ```javascript
 function calcularTaxaDesconto(quantidade) {
   const taxa = 0.005 * Math.pow(quantidade - 1, 2);
-  return Math.min(taxa, 0.20);
+  return Math.min(taxa, 0.2);
 }
 ```
 
@@ -188,13 +193,13 @@ Limita o desconto a no máximo 20%. Sem esse limite, com quantidades muito grand
 
 **Tabela de exemplos:**
 
-| Qtd | Cálculo | Taxa | Desconto |
-|-----|---------|------|----------|
-| 1 | 0,005 × 0² | 0% | sem desconto |
-| 2 | 0,005 × 1² | 0,5% | pequeno |
-| 5 | 0,005 × 4² | 8% | moderado |
-| 7 | 0,005 × 6² | 18% | grande |
-| 10 | 0,005 × 9² = 0,405 → cap | 20% | máximo |
+| Qtd | Cálculo                  | Taxa | Desconto     |
+| --- | ------------------------ | ---- | ------------ |
+| 1   | 0,005 × 0²               | 0%   | sem desconto |
+| 2   | 0,005 × 1²               | 0,5% | pequeno      |
+| 5   | 0,005 × 4²               | 8%   | moderado     |
+| 7   | 0,005 × 6²               | 18%  | grande       |
+| 10  | 0,005 × 9² = 0,405 → cap | 20%  | máximo       |
 
 ---
 
@@ -295,7 +300,7 @@ function fazerLogin(email, senha) {
   if (usuario) {
     sessionStorage.setItem(
       AUTH_SESSION_KEY,
-      JSON.stringify({ nome: usuario.nome, email: usuario.email })
+      JSON.stringify({ nome: usuario.nome, email: usuario.email }),
     );
     return { ok: true, usuario: usuario };
   }
@@ -322,14 +327,18 @@ Retornar um objeto permite comunicar mais informações além do resultado. Em c
 ```javascript
 function cadastrarUsuario(nome, email, senha) {
   const usuarios = getUsuarios();
-  if (usuarios.find(function (u) { return u.email === email; })) {
+  if (
+    usuarios.find(function (u) {
+      return u.email === email;
+    })
+  ) {
     return { ok: false, erro: "Já existe uma conta com este e-mail." };
   }
   usuarios.push({ nome: nome, email: email, senha: senha });
   salvarUsuarios(usuarios);
   sessionStorage.setItem(
     AUTH_SESSION_KEY,
-    JSON.stringify({ nome: nome, email: email })
+    JSON.stringify({ nome: nome, email: email }),
   );
   return { ok: true };
 }
@@ -386,10 +395,15 @@ function adicionarAoCarrinho(jogoId, quantidade) {
   if (!jogo) return false;
 
   const carrinho = getCarrinho();
-  const idx = carrinho.findIndex(function (item) { return item.id === jogoId; });
+  const idx = carrinho.findIndex(function (item) {
+    return item.id === jogoId;
+  });
 
   if (idx >= 0) {
-    carrinho[idx].quantidade = Math.min(carrinho[idx].quantidade + quantidade, 10);
+    carrinho[idx].quantidade = Math.min(
+      carrinho[idx].quantidade + quantidade,
+      10,
+    );
   } else {
     carrinho.push({
       id: jogo.id,
@@ -597,16 +611,20 @@ function validarEtapa3() {
 PIX e boleto não têm campos de formulário — o usuário apenas vê instruções. Não há o que validar. Tentar validar campos que não existem causaria erros ou `null` references.
 
 **Validação do número do cartão:**
+
 ```javascript
 const cartaoNumeros = cartao.value.replace(/\D/g, "");
 if (cartaoNumeros.length < 16) { ... }
 ```
+
 `/\D/g` é uma regex que corresponde a qualquer caractere **não-dígito** (`\D`), globalmente (`g`). O `.replace()` remove todos eles, deixando apenas os números. Isso permite que o usuário digite `1234 5678 9012 3456` (com espaços da máscara) e ainda assim o número seja validado corretamente.
 
 **Validação da validade:**
+
 ```javascript
 const validadeRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
 ```
+
 - `^` — início da string
 - `(0[1-9]|1[0-2])` — meses de 01 a 09, ou 10, 11, 12
 - `\/` — barra literal (precisa de escape porque `/` tem significado em regex)
@@ -646,10 +664,12 @@ Utiliza o mesmo mecanismo de redirect-after-login documentado na seção 7 — a
 
 ```javascript
 const usuarioSessao = getUsuarioLogado();
-const nomeFinal = document.getElementById("nome").value.trim()
-  || (usuarioSessao ? usuarioSessao.nome : "");
-const emailFinal = document.getElementById("email").value.trim()
-  || (usuarioSessao ? usuarioSessao.email : "");
+const nomeFinal =
+  document.getElementById("nome").value.trim() ||
+  (usuarioSessao ? usuarioSessao.nome : "");
+const emailFinal =
+  document.getElementById("email").value.trim() ||
+  (usuarioSessao ? usuarioSessao.email : "");
 ```
 
 **Por que `campo.value || user.nome`:**  
@@ -666,8 +686,14 @@ A validação de identidade (`validarIdentificacaoCheckout`) já garante que o m
 
 ```html
 <ul class="nav nav-tabs" id="loginTabs" role="tablist">
-  <li><button data-bs-toggle="tab" data-bs-target="#painel-entrar">Entrar</button></li>
-  <li><button data-bs-toggle="tab" data-bs-target="#painel-cadastro">Criar conta</button></li>
+  <li>
+    <button data-bs-toggle="tab" data-bs-target="#painel-entrar">Entrar</button>
+  </li>
+  <li>
+    <button data-bs-toggle="tab" data-bs-target="#painel-cadastro">
+      Criar conta
+    </button>
+  </li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane fade show active" id="painel-entrar">...</div>
@@ -689,7 +715,8 @@ O Bootstrap já tem toda a lógica de mostrar/esconder painéis com animação, 
 (function () {
   const user = getUsuarioLogado();
   if (user) {
-    const next = new URLSearchParams(window.location.search).get("next") || "index.html";
+    const next =
+      new URLSearchParams(window.location.search).get("next") || "index.html";
     window.location.href = next;
   }
 })();
@@ -708,14 +735,14 @@ Lê parâmetros da URL. Se o usuário tentou acessar `carrinho.html` sem estar l
 ```javascript
 function avaliarForcaSenha(senha) {
   let pontos = 0;
-  if (senha.length >= 8)            pontos++;
-  if (/[A-Z]/.test(senha))          pontos++;
-  if (/[a-z]/.test(senha))          pontos++;
-  if (/[0-9]/.test(senha))          pontos++;
-  if (/[^A-Za-z0-9]/.test(senha))   pontos++;
-  if (pontos <= 2) return 0;  // Fraca
-  if (pontos <= 3) return 1;  // Média
-  return 2;                   // Forte
+  if (senha.length >= 8) pontos++;
+  if (/[A-Z]/.test(senha)) pontos++;
+  if (/[a-z]/.test(senha)) pontos++;
+  if (/[0-9]/.test(senha)) pontos++;
+  if (/[^A-Za-z0-9]/.test(senha)) pontos++;
+  if (pontos <= 2) return 0; // Fraca
+  if (pontos <= 3) return 1; // Média
+  return 2; // Forte
 }
 ```
 
@@ -723,8 +750,9 @@ function avaliarForcaSenha(senha) {
 Cada critério contribui com 1 ponto. O total de pontos determina o nível. Isso é mais justo do que regras rígidas — uma senha com 12 caracteres mas só letras minúsculas pode ser considerada média, não necessariamente fraca.
 
 **As regexes de verificação:**
+
 - `/[A-Z]/` — alguma letra maiúscula
-- `/[a-z]/` — alguma letra minúscula  
+- `/[a-z]/` — alguma letra minúscula
 - `/[0-9]/` — algum número
 - `/[^A-Za-z0-9]/` — algum caractere que NÃO seja letra ou número (símbolos: `!@#$%...`)
 
@@ -758,9 +786,9 @@ O elemento `<div class="invalid-feedback">` está logo após o `<input>` no HTML
 ### Estrutura de seções condicionais
 
 ```html
-<div id="carrinhoVazio"  style="display:none;">...</div>
+<div id="carrinhoVazio" style="display:none;">...</div>
 <div id="carrinhoComItens" style="display:none;">...</div>
-<div id="checkoutArea"  style="display:none;">...</div>
+<div id="checkoutArea" style="display:none;">...</div>
 ```
 
 **Por que `style="display:none;"` inline:**  
@@ -776,16 +804,16 @@ Cada estado (vazio / com itens / checkout) tem layout completamente diferente. U
 ```javascript
 function iniciarCheckout() {
   const user = getUsuarioLogado();
-  const nomeEl  = document.getElementById("cNome");
+  const nomeEl = document.getElementById("cNome");
   const emailEl = document.getElementById("cEmail");
   if (user) {
-    nomeEl.value    = user.nome;
-    emailEl.value   = user.email;
-    nomeEl.readOnly  = true;
+    nomeEl.value = user.nome;
+    emailEl.value = user.email;
+    nomeEl.readOnly = true;
     emailEl.readOnly = true;
     // mostra aviso verde
   } else {
-    nomeEl.readOnly  = false;
+    nomeEl.readOnly = false;
     emailEl.readOnly = false;
     // mostra aviso azul com CTAs
   }
@@ -809,14 +837,21 @@ function validarIdentificacaoCheckout() {
   if (user && user.nome && emailRegex.test(user.email || "")) return true;
   // guest: valida cNome (>= 3 chars) e cEmail (regex válido)
   let ok = true;
-  if (cNome.value.trim().length < 3) { cNome.classList.add("is-invalid"); ok = false; }
-  if (!emailRegex.test(cEmail.value.trim())) { cEmail.classList.add("is-invalid"); ok = false; }
+  if (cNome.value.trim().length < 3) {
+    cNome.classList.add("is-invalid");
+    ok = false;
+  }
+  if (!emailRegex.test(cEmail.value.trim())) {
+    cEmail.classList.add("is-invalid");
+    ok = false;
+  }
   return ok;
 }
 ```
 
 **Por que um portão centralizado em vez de validação inline:**  
 A mesma verificação precisa ocorrer em três pontos distintos do fluxo:
+
 1. Ao tentar avançar do Step 1 para o Step 2 (`irParaCheckout(2)`)
 2. Ao clicar em "Revisar pedido" (antes de abrir o modal)
 3. Ao clicar em "Confirmar" dentro do modal
@@ -826,13 +861,17 @@ Centralizar em uma função evita que a lógica fique duplicada e que uma altera
 **Por que verificar o usuário da sessão primeiro:**  
 Se existe sessão válida, não há necessidade de validar os campos — os dados já foram verificados no momento do cadastro/login. Isso também evita falsos negativos quando os campos estão com `readOnly` e o conteúdo foi preenchido programaticamente.
 
-**Fallback de sessão no modal de confirmação:**  
+**Fallback de sessão no modal de confirmação:**
+
 ```javascript
-const nomeFinal  = document.getElementById("cNome").value.trim()
-  || (usuarioSessao ? usuarioSessao.nome  : "");
-const emailFinal = document.getElementById("cEmail").value.trim()
-  || (usuarioSessao ? usuarioSessao.email : "");
+const nomeFinal =
+  document.getElementById("cNome").value.trim() ||
+  (usuarioSessao ? usuarioSessao.nome : "");
+const emailFinal =
+  document.getElementById("cEmail").value.trim() ||
+  (usuarioSessao ? usuarioSessao.email : "");
 ```
+
 Mesmo padrão de `compra.js` — garante que o resumo sempre exibe o dado correto independentemente de como o campo foi preenchido.
 
 ---
@@ -872,7 +911,7 @@ Construímos a string HTML completa com um laço e depois atribuímos de uma vez
   --primary-dark: #764ba2;
   --accent: #ff9f43;
   --radius: 12px;
-  --shadow: 0 4px 15px rgba(0,0,0,0.1);
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 ```
 
@@ -891,8 +930,14 @@ Se precisarmos mudar a cor principal do site, alteramos `--primary` em um lugar 
   border-bottom: 1px solid #f0f0f0;
   font-size: 0.95rem;
 }
-.resumo-item span:last-child { text-align: right; white-space: nowrap; }
-.total-row { font-weight: 700; color: var(--primary-dark); }
+.resumo-item span:last-child {
+  text-align: right;
+  white-space: nowrap;
+}
+.total-row {
+  font-weight: 700;
+  color: var(--primary-dark);
+}
 ```
 
 O modal de confirmação do carrinho usa `<div class="resumo-item">` para cada linha do resumo (nome, e-mail, total, pontos). Sem essa classe definida, os dois `<span>` dentro de cada div ficam inline, com o texto do rótulo e o valor colados — ex.: `"Nomejoão"`. O `display: flex` com `justify-content: space-between` é o que posiciona rótulo à esquerda e valor à direita. O `white-space: nowrap` no último span evita que valores monetários quebrem linha.
@@ -901,14 +946,14 @@ O modal de confirmação do carrinho usa `<div class="resumo-item">` para cada l
 
 **Por que separar em múltiplos arquivos CSS:**
 
-| Arquivo | Escopo |
-|---------|--------|
-| `style.css` | Estilos globais: navbar, footer, variáveis, botões |
-| `catalogo.css` | Estilos exclusivos do catálogo e filtros |
-| `compra.css` | Estilos do formulário de compra |
-| `carrinho.css` | Estilos da página do carrinho |
-| `login.css` | Estilos da tela de login |
-| `desktop.css` | Media queries para telas grandes |
+| Arquivo        | Escopo                                             |
+| -------------- | -------------------------------------------------- |
+| `style.css`    | Estilos globais: navbar, footer, variáveis, botões |
+| `catalogo.css` | Estilos exclusivos do catálogo e filtros           |
+| `compra.css`   | Estilos do formulário de compra                    |
+| `carrinho.css` | Estilos da página do carrinho                      |
+| `login.css`    | Estilos da tela de login                           |
+| `desktop.css`  | Media queries para telas grandes                   |
 
 Cada página carrega apenas os arquivos que precisa. A página do catálogo não carrega `compra.css`. Isso reduz o tamanho total de CSS baixado pelo browser em cada página.
 
@@ -919,11 +964,16 @@ Cada página carrega apenas os arquivos que precisa. A página do catálogo não
 Em todas as páginas, a ordem das tags `<script>` é:
 
 ```html
-<script src="bootstrap.bundle.min.js"></script>  <!-- 1º -->
-<script src="../JavaScript/dados.js"></script>     <!-- 2º -->
-<script src="../JavaScript/auth.js"></script>      <!-- 3º -->
-<script src="../JavaScript/carrinho.js"></script>  <!-- 4º -->
-<script src="../JavaScript/[pagina].js"></script>  <!-- 5º -->
+<script src="bootstrap.bundle.min.js"></script>
+<!-- 1º -->
+<script src="../JavaScript/dados.js"></script>
+<!-- 2º -->
+<script src="../JavaScript/auth.js"></script>
+<!-- 3º -->
+<script src="../JavaScript/carrinho.js"></script>
+<!-- 4º -->
+<script src="../JavaScript/[pagina].js"></script>
+<!-- 5º -->
 ```
 
 **Por que essa ordem:**
@@ -941,11 +991,11 @@ Em todas as páginas, a ordem das tags `<script>` é:
 
 ## 11. localStorage vs sessionStorage — quando usar cada um
 
-| Critério | `localStorage` | `sessionStorage` |
-|---|---|---|
-| Duração | Permanente (até o usuário limpar) | Enquanto a aba estiver aberta |
-| Escopo | Todas as abas do mesmo domínio | Apenas a aba atual |
-| Uso no projeto | Lista de usuários, carrinho | Sessão do usuário logado |
+| Critério       | `localStorage`                    | `sessionStorage`              |
+| -------------- | --------------------------------- | ----------------------------- |
+| Duração        | Permanente (até o usuário limpar) | Enquanto a aba estiver aberta |
+| Escopo         | Todas as abas do mesmo domínio    | Apenas a aba atual            |
+| Uso no projeto | Lista de usuários, carrinho       | Sessão do usuário logado      |
 
 **Carrinho no `localStorage`:**  
 O usuário espera que o carrinho persista mesmo fechando e reabrindo o navegador. Seria frustrante adicionar 5 jogos e perder tudo ao fechar a aba.
@@ -972,6 +1022,7 @@ Onde `p` = preço unitário, `q` = quantidade.
 **Contexto:** Exibido no Step 2 de `compra.html` para cada produto selecionado.
 
 Características:
+
 - Cresce de forma **constante** (linha reta no gráfico)
 - Para cada unidade a mais, o subtotal aumenta exatamente `p`
 
@@ -985,13 +1036,13 @@ $$f(q) = 0{,}005 \cdot (q - 1)^2, \quad \text{cap: } 20\%$$
 
 **Justificativa do 2º grau:** O desconto cresce aceleradamente com a quantidade — incentiva comprar mais títulos. O deslocamento `(q−1)` garante desconto zero para 1 item. O cap de 20% protege a margem da loja.
 
-| Qtd | Taxa | Desconto sobre R$ 500 |
-|-----|------|-----------------------|
-| 1 | 0% | R$ 0 |
-| 3 | 2% | R$ 10 |
-| 5 | 8% | R$ 40 |
-| 7 | 18% | R$ 90 |
-| ≥10 | 20% (cap) | R$ 100 |
+| Qtd | Taxa      | Desconto sobre R$ 500 |
+| --- | --------- | --------------------- |
+| 1   | 0%        | R$ 0                  |
+| 3   | 2%        | R$ 10                 |
+| 5   | 8%        | R$ 40                 |
+| 7   | 18%       | R$ 90                 |
+| ≥10 | 20% (cap) | R$ 100                |
 
 ---
 
@@ -1013,12 +1064,12 @@ $$\text{parcela}(C, n) = \frac{C \cdot (1 + 0{,}0199 \cdot n)}{n}$$
 
 Tabela de exemplo para R$ 300,00:
 
-| Parcelas | Tipo | Parcela | Total final |
-|----------|------|---------|-------------|
-| 1x | sem juros | R$ 300,00 | R$ 300,00 |
-| 3x | sem juros | R$ 100,00 | R$ 300,00 |
-| 6x | 1,99%/mês | R$ 55,85 | R$ 335,10 |
-| 12x | 1,99%/mês | R$ 34,93 | R$ 419,10 |
+| Parcelas | Tipo      | Parcela   | Total final |
+| -------- | --------- | --------- | ----------- |
+| 1x       | sem juros | R$ 300,00 | R$ 300,00   |
+| 3x       | sem juros | R$ 100,00 | R$ 300,00   |
+| 6x       | 1,99%/mês | R$ 55,85  | R$ 335,10   |
+| 12x      | 1,99%/mês | R$ 34,93  | R$ 419,10   |
 
 ---
 
@@ -1038,12 +1089,12 @@ A loja quer incentivar não apenas gastar mais dinheiro (o que a função linear
 Exemplos:
 
 | Total (R$) | Qtd itens | Pts base | Bônus | Total pts |
-|------------|-----------|----------|-------|-----------|
-| R$ 200 | 1 | 20 | 0 | **20** |
-| R$ 400 | 2 | 40 | 0 | **40** |
-| R$ 600 | 3 | 60 | 2 | **62** |
-| R$ 800 | 5 | 80 | 8 | **88** |
-| R$ 1.000 | 10 | 100 | 40 | **140** |
+| ---------- | --------- | -------- | ----- | --------- |
+| R$ 200     | 1         | 20       | 0     | **20**    |
+| R$ 400     | 2         | 40       | 0     | **40**    |
+| R$ 600     | 3         | 60       | 2     | **62**    |
+| R$ 800     | 5         | 80       | 8     | **88**    |
+| R$ 1.000   | 10        | 100      | 40    | **140**   |
 
 Com 10 itens e R$ 1.000, o bônus quadrático representa +40% de pontos extras sobre o linear — clara vantagem competitiva para carrinho diversificado.
 
@@ -1051,13 +1102,13 @@ Com 10 itens e R$ 1.000, o bônus quadrático representa +40% de pontos extras s
 
 ### Resumo das funções matemáticas no projeto
 
-| Função | Grau | Onde aparece | Por que esse grau |
-|--------|------|--------------|-------------------|
-| `calcularSubtotal` | 1º | Step 2 compra | Proporcionalidade direta entre qtd e preço |
-| `calcularTaxaDesconto` | 2º | Carrinho + compra | Desconto que acelera — incentiva volume |
-| `calcularParcelas` | 1º | Step 3 compra (cartão) | Parcela proporcional ao total e ao nº de vezes |
-| `calcularPontosFidelidade` | 2º (bônus) | Carrinho + compra | Bônus que acelera — incentiva diversificação |
+| Função                     | Grau       | Onde aparece           | Por que esse grau                              |
+| -------------------------- | ---------- | ---------------------- | ---------------------------------------------- |
+| `calcularSubtotal`         | 1º         | Step 2 compra          | Proporcionalidade direta entre qtd e preço     |
+| `calcularTaxaDesconto`     | 2º         | Carrinho + compra      | Desconto que acelera — incentiva volume        |
+| `calcularParcelas`         | 1º         | Step 3 compra (cartão) | Parcela proporcional ao total e ao nº de vezes |
+| `calcularPontosFidelidade` | 2º (bônus) | Carrinho + compra      | Bônus que acelera — incentiva diversificação   |
 
 ---
 
-*Documentação gerada em 29/04/2026 · Happy Games Store — FiapOnGrupo5*
+_Documentação gerada em 29/04/2026 · Happy Games Store — FiapOnGrupo5_
