@@ -15,7 +15,10 @@ function atualizarBoxPreco() {
   if (!boxPreco) return;
 
   const jogoSelect = document.getElementById("jogo");
-  const quantidade = Math.max(1, parseInt(document.getElementById("quantidade").value, 10) || 1);
+  const quantidade = Math.max(
+    1,
+    parseInt(document.getElementById("quantidade").value, 10) || 1,
+  );
   const preco = getPrecoByNome(jogoSelect.value); // função de dados.js
 
   const r = calcularPedido(preco, quantidade);
@@ -31,9 +34,10 @@ function atualizarBoxPreco() {
 
   // Pontos de fidelidade — função quadrática (2º grau)
   const pontos = calcularPontosFidelidade(r.total, quantidade);
-  const pontosTexto = pontos.bonus > 0
-    ? `${pontos.total} pts <span class="text-muted small">(${pontos.pontosBase} base + ${pontos.bonus} bônus volume)</span>`
-    : `${pontos.total} pts`;
+  const pontosTexto =
+    pontos.bonus > 0
+      ? `${pontos.total} pts <span class="text-muted small">(${pontos.pontosBase} base + ${pontos.bonus} bônus volume)</span>`
+      : `${pontos.total} pts`;
 
   boxPreco.innerHTML = `
     <div class="resumo-item">
@@ -206,14 +210,17 @@ function validarEtapa3() {
  */
 function atualizarParcelamento() {
   const select = document.getElementById("parcelas");
-  const info   = document.getElementById("parcelamentoInfo");
+  const info = document.getElementById("parcelamentoInfo");
   if (!select) return;
 
   const jogoSelect = document.getElementById("jogo");
-  const quantidade = Math.max(1, parseInt(document.getElementById("quantidade").value, 10) || 1);
-  const preco      = getPrecoByNome(jogoSelect.value);
-  const r          = calcularPedido(preco, quantidade);
-  const total      = r.total;
+  const quantidade = Math.max(
+    1,
+    parseInt(document.getElementById("quantidade").value, 10) || 1,
+  );
+  const preco = getPrecoByNome(jogoSelect.value);
+  const r = calcularPedido(preco, quantidade);
+  const total = r.total;
 
   const nAtual = parseInt(select.value, 10) || 1;
 
@@ -275,17 +282,18 @@ function irPara(step) {
 function atualizarResumo() {
   const user = getUsuarioLogado();
   const jogoSelect = document.getElementById("jogo");
-  const quantidade = parseInt(document.getElementById("quantidade").value, 10) || 1;
+  const quantidade =
+    parseInt(document.getElementById("quantidade").value, 10) || 1;
   const preco = getPrecoByNome(jogoSelect.value);
   const r = calcularPedido(preco, quantidade);
 
-  const nomeFinal = document.getElementById("nome").value.trim() || (user ? user.nome : "");
-  const emailFinal = document.getElementById("email").value.trim() || (user ? user.email : "");
+  const nomeFinal =
+    document.getElementById("nome").value.trim() || (user ? user.nome : "");
+  const emailFinal =
+    document.getElementById("email").value.trim() || (user ? user.email : "");
 
-  document.getElementById("rNome").textContent =
-    nomeFinal || "\u2014";
-  document.getElementById("rEmail").textContent =
-    emailFinal || "\u2014";
+  document.getElementById("rNome").textContent = nomeFinal || "\u2014";
+  document.getElementById("rEmail").textContent = emailFinal || "\u2014";
   document.getElementById("rJogo").textContent = jogoSelect.value;
   document.getElementById("rQtd").textContent = quantidade;
 
@@ -298,13 +306,19 @@ function atualizarResumo() {
 
   // Pagamento
   const metodo = getMetodoPagamento();
-  const metodoTextos = { cartao: "Cartão de crédito", pix: "PIX", boleto: "Boleto bancário" };
-  document.getElementById("rPagamento").textContent = metodoTextos[metodo] || metodo;
+  const metodoTextos = {
+    cartao: "Cartão de crédito",
+    pix: "PIX",
+    boleto: "Boleto bancário",
+  };
+  document.getElementById("rPagamento").textContent =
+    metodoTextos[metodo] || metodo;
 
   // Parcelamento — função linear: mostra apenas quando cartão
   const rParcelasRow = document.getElementById("rParcelasRow");
   if (metodo === "cartao" && rParcelasRow) {
-    const nParcelas = parseInt(document.getElementById("parcelas").value, 10) || 1;
+    const nParcelas =
+      parseInt(document.getElementById("parcelas").value, 10) || 1;
     const p = calcularParcelas(r.total, nParcelas);
     const labelParcela = p.temJuros
       ? `${nParcelas}x de ${formatarReais(p.parcela)} (total ${formatarReais(p.totalFinal)})`
@@ -486,13 +500,18 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Troca do método de pagamento: mostra/oculta seções
-  document.querySelectorAll('input[name="pagamento"]').forEach(function (radio) {
-    radio.addEventListener("change", function () {
-      document.getElementById("secCartao").style.display = this.value === "cartao" ? "block" : "none";
-      document.getElementById("secPix").style.display = this.value === "pix" ? "block" : "none";
-      document.getElementById("secBoleto").style.display = this.value === "boleto" ? "block" : "none";
+  document
+    .querySelectorAll('input[name="pagamento"]')
+    .forEach(function (radio) {
+      radio.addEventListener("change", function () {
+        document.getElementById("secCartao").style.display =
+          this.value === "cartao" ? "block" : "none";
+        document.getElementById("secPix").style.display =
+          this.value === "pix" ? "block" : "none";
+        document.getElementById("secBoleto").style.display =
+          this.value === "boleto" ? "block" : "none";
+      });
     });
-  });
 
   // Validacao em tempo real - Quantidade (change)
   document.getElementById("quantidade").addEventListener("change", function () {
@@ -517,37 +536,41 @@ document.addEventListener("DOMContentLoaded", function () {
   // Pré-preenche dados do usuário logado e exibe aviso de autenticação
   (function inicializarFormularioCompra() {
     const user = getUsuarioLogado();
-    const nomeEl  = document.getElementById("nome");
+    const nomeEl = document.getElementById("nome");
     const emailEl = document.getElementById("email");
-    const notice  = document.getElementById("authNotice");
+    const notice = document.getElementById("authNotice");
     if (!notice) return;
 
     if (user) {
       // Usuário logado: pré-preenche e mostra aviso verde
-      if (nomeEl)  nomeEl.value  = user.nome;
+      if (nomeEl) nomeEl.value = user.nome;
       if (emailEl) emailEl.value = user.email;
       notice.innerHTML =
         '<div class="alert alert-success d-flex align-items-center gap-2 py-2 mb-0">' +
-          '<i class="bi bi-person-check-fill fs-5 flex-shrink-0"></i>' +
-          '<span>Comprando como <strong>' + user.nome + '</strong> (' + user.email + '). ' +
-            '<a href="#" class="alert-link" onclick="fazerLogout();return false;">Sair</a>' +
-          '</span>' +
-        '</div>';
+        '<i class="bi bi-person-check-fill fs-5 flex-shrink-0"></i>' +
+        "<span>Comprando como <strong>" +
+        user.nome +
+        "</strong> (" +
+        user.email +
+        "). " +
+        '<a href="#" class="alert-link" onclick="fazerLogout();return false;">Sair</a>' +
+        "</span>" +
+        "</div>";
     } else {
       // Convidado: instrução de preencher e-mail válido ou fazer login
       notice.innerHTML =
         '<div class="alert alert-info py-2 mb-0">' +
-          '<div class="d-flex align-items-start gap-2">' +
-            '<i class="bi bi-info-circle-fill fs-5 flex-shrink-0 mt-1"></i>' +
-            '<div>' +
-              '<div class="mb-2">Para concluir o pedido, <strong>entre na sua conta</strong> ou continue como convidado informando nome e e-mail válidos.</div>' +
-              '<div class="d-flex gap-2 flex-wrap">' +
-                '<a href="login.html?next=compra.html" class="btn btn-sm btn-primary">Entrar e continuar</a>' +
-                '<button type="button" class="btn btn-sm btn-outline-primary" onclick="document.getElementById(\'nome\').focus()">Continuar como convidado</button>' +
-              '</div>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
+        '<div class="d-flex align-items-start gap-2">' +
+        '<i class="bi bi-info-circle-fill fs-5 flex-shrink-0 mt-1"></i>' +
+        "<div>" +
+        '<div class="mb-2">Para concluir o pedido, <strong>entre na sua conta</strong> ou continue como convidado informando nome e e-mail válidos.</div>' +
+        '<div class="d-flex gap-2 flex-wrap">' +
+        '<a href="login.html?next=compra.html" class="btn btn-sm btn-primary">Entrar e continuar</a>' +
+        '<button type="button" class="btn btn-sm btn-outline-primary" onclick="document.getElementById(\'nome\').focus()">Continuar como convidado</button>' +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>";
     }
   })();
 
